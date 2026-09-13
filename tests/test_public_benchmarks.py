@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
 from scripts.eval.aloi import occlude
-from scripts.eval.lighting import labels as lasiesta_labels, confusion
+from scripts.data.lasiesta import labels as lasiesta_labels
+from scripts.eval.lighting import confusion
 
 
 def test_occlusion_counts_object_area_not_rectangle_area():

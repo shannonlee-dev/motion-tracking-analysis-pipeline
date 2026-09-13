@@ -1,27 +1,13 @@
 """CAVIAR and controlled tracking evaluation; no dataset downloads or report imports."""
-import xml.etree.ElementTree as ET
 import cv2
 import numpy as np
 from motion_tracking.display import draw_overlay
 from motion_tracking.evaluation import assign_ground_truth, count_events, count_post_overlap_switches, iou
 from scripts.common import ROOT, RESULTS, write_csv
-from scripts.eval.synthetic import FPS, FRAMES, CONDITIONS, synthetic_frame
+from scripts.data.caviar import load_caviar
+from scripts.data.synthetic import FPS, FRAMES, CONDITIONS, synthetic_frame
 from motion_tracking.tracker import Tracker
 from motion_tracking.vision import MotionDetector
-
-def load_caviar(path):
-    result = {}
-    for frame in ET.parse(path).getroot().findall('frame'):
-        objects = {}
-        for obj in frame.findall('./objectlist/object'):
-            box = obj.find('box')
-            if box is None:
-                continue
-            xc,yc,w,h = [float(box.get(k)) for k in ('xc','yc','w','h')]
-            objects[int(obj.get('id'))] = (xc-w/2,yc-h/2,w,h)
-        result[int(frame.get('number'))] = objects
-    return result
-
 
 def match_eligible(truth, tracks, excluded):
     eligible = {tid: box for tid, box in truth.items() if not excluded.get(tid, False)}

@@ -11,7 +11,7 @@ from motion_tracking.tracker import Tracker
 from motion_tracking.vision import MotionDetector
 from motion_tracking.evaluation import assign_ground_truth, count_events
 from scripts.common import ROOT, RESULTS, write_csv
-from scripts.eval.lighting import labels, sequence_paths
+from scripts.data.lasiesta import labels, sequence_paths
 
 SEQUENCES = ('I_OC_01', 'I_OC_02', 'I_CA_01')
 

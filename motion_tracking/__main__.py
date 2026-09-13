@@ -1,4 +1,4 @@
-"""Run file/webcam motion analysis."""
+"""Run motion analysis with python -m motion_tracking."""
 from motion_tracking.cli import main
 
 

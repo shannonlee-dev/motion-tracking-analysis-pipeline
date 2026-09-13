@@ -1,7 +1,12 @@
 import csv
+import json
+import subprocess
+import sys
 import cv2
 import numpy as np
-from app import run, Controls
+import pytest
+from motion_tracking.runner import run
+from motion_tracking.display import Controls
 from motion_tracking.config import Config
 from motion_tracking.evaluation import count_events
 
@@ -33,7 +38,8 @@ def test_controls_pause_resume_snapshot_quit(tmp_path):
     assert not controls.handle(ord('q'), frame, tmp_path, 3)
 
 
-def test_headless_video_roundtrip(tmp_path):
+@pytest.mark.parametrize('entrypoint', [None, ['app.py'], ['-m', 'motion_tracking']])
+def test_headless_video_roundtrip(tmp_path, entrypoint):
     source, output, trace = tmp_path/'input.avi', tmp_path/'output.mp4', tmp_path/'trace.csv'
     writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*'MJPG'), 10, (160, 120))
     assert writer.isOpened()
@@ -43,8 +49,16 @@ def test_headless_video_roundtrip(tmp_path):
             image[40:70, f*2:f*2+20] = 255
         writer.write(image)
     writer.release()
-    stats = run(str(source), Config(warmup_frames=5, min_area=30), headless=True,
-                output=output, csv_path=trace)
+    if entrypoint is None:
+        stats = run(str(source), Config(warmup_frames=5, min_area=30), headless=True,
+                    output=output, csv_path=trace)
+    else:
+        result = subprocess.run(
+            [sys.executable, *entrypoint, '--source', str(source), '--headless',
+             '--warmup-frames', '5', '--min-area', '30',
+             '--output', str(output), '--csv', str(trace)],
+            text=True, capture_output=True, check=True)
+        stats = json.loads(result.stdout)
     assert stats['frames'] == 30 and stats['fps'] > 0
     cap = cv2.VideoCapture(str(output))
     assert cap.isOpened() and int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) == 30
@@ -56,7 +70,6 @@ def test_headless_video_roundtrip(tmp_path):
 
 
 def test_export_paths_cannot_destroy_inputs_or_each_other(tmp_path):
-    import pytest
     source = tmp_path/'source.avi'
     source.write_bytes(b'original source')
     target = tmp_path/'target.png'
@@ -69,10 +82,9 @@ def test_export_paths_cannot_destroy_inputs_or_each_other(tmp_path):
     assert target.read_bytes() == b'original target'
 
 
-def test_invalid_cli_config_returns_clean_error():
-    import subprocess
-    import sys
-    result = subprocess.run([sys.executable, 'app.py', '--headless', '--learning-rate', '2'],
+@pytest.mark.parametrize('entrypoint', [['app.py'], ['-m', 'motion_tracking']])
+def test_invalid_cli_config_returns_clean_error(entrypoint):
+    result = subprocess.run([sys.executable, *entrypoint, '--headless', '--learning-rate', '2'],
                             text=True, capture_output=True)
     assert result.returncode == 2
     assert 'learning_rate' in result.stderr

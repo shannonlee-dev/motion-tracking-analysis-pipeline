@@ -9,7 +9,8 @@ import numpy as np
 from motion_tracking.config import Config
 from scripts.common import RESULTS, write_csv
 from scripts.eval.tracking import evaluate_synthetic, evaluate_real
-from scripts.eval.synthetic import CONDITIONS, feature_experiment, background_experiment
+from scripts.data.synthetic import CONDITIONS
+from scripts.eval.synthetic import feature_experiment, background_experiment
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

@@ -2,24 +2,22 @@ import csv
 import cv2
 import numpy as np
 import pytest
-from scripts.eval import lighting as evaluate_lighting
+from scripts.data.lasiesta import sequence_paths
 
 
 def test_sequence_discovery_rejects_missing_middle_frame_and_missing_gt(tmp_path):
-    discover = getattr(evaluate_lighting, 'sequence_paths', None)
-    assert callable(discover), 'Complete sequence validation is missing'
     (tmp_path/'S').mkdir()
     (tmp_path/'S-GT').mkdir()
     for frame in (1, 3):
         (tmp_path/'S'/f'S-{frame}.bmp').touch()
         (tmp_path/'S-GT'/f'S-GT_{frame}.png').touch()
     with pytest.raises(ValueError):
-        discover(tmp_path, 'S')
+        sequence_paths(tmp_path, 'S')
     (tmp_path/'S'/'S-2.bmp').touch()
     with pytest.raises(ValueError):
-        discover(tmp_path, 'S')
+        sequence_paths(tmp_path, 'S')
     (tmp_path/'S-GT'/'S-GT_2.png').touch()
-    pairs = discover(tmp_path, 'S')
+    pairs = sequence_paths(tmp_path, 'S')
     assert len(pairs) == 3
     assert pairs[1][0].name == 'S-2.bmp'
 

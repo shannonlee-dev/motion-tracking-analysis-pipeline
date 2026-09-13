@@ -1,5 +1,5 @@
-from scripts.eval.synthetic import synthetic_frame
-from scripts.eval.tracking import load_caviar
+from scripts.data.synthetic import synthetic_frame
+from scripts.data.caviar import load_caviar
 from motion_tracking.evaluation import assign_ground_truth
 from motion_tracking.tracker import Tracker
 
