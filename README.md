@@ -105,6 +105,8 @@ python -m pytest -q
 ```
 
 RAR 해제에는 OS libarchive와 `python -m pip install libarchive-c`가 필요합니다. ALOI 1,000개 전수평가는 제외합니다.
+LASIESTA는 원본 RAR만 Git에 보관합니다. 새로 복제한 뒤 위 `scripts.data.prepare` 명령을 실행하면
+평가에 필요한 프레임·GT·XML이 Git에서 제외된 `data/lasiesta/extracted/`에 생성됩니다.
 `run`·`natural_events`에 `--export-videos`를 추가하면 관찰 영상도 저장합니다.
 
 | 결과 위치 | 내용 |

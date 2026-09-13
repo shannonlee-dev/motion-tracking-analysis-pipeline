@@ -19,7 +19,7 @@ CAVIAR 오버레이 영상·`results/current/captures/caviar_*.jpg`에도 출처
 ## 공개 범위
 
 소스·작성 문서·합성 영상·측정 CSV·로그와 재배포 허용 데이터·가공물을 공개합니다.
-`data/`·`results/`를 일괄 제외하지 않으며 가상환경·캐시·비밀 설정·아래 허가 미확인 자료만 `.gitignore`로 제외합니다.
+`data/`·`results/`를 일괄 제외하지 않으며 가상환경·캐시·비밀 설정·재생성 가능한 LASIESTA 해제본·아래 허가 미확인 자료를 `.gitignore`로 제외합니다.
 
 ## LASIESTA
 
@@ -29,8 +29,10 @@ CAVIAR 오버레이 영상·`results/current/captures/caviar_*.jpg`에도 출처
 [라이선스 조건](https://creativecommons.org/licenses/by-sa/4.0/)에 따라
 출처·변경 내용을 표시하고 가공물에도 같은 라이선스를 유지한다.
 
-I_IL_01·I_IL_02·I_OC_01·I_OC_02·I_CA_01의 원본 RAR, 추출 프레임·GT·XML과
+I_IL_01·I_IL_02·I_OC_01·I_OC_02·I_CA_01의 원본 RAR과
 평가 영상·`results/current/captures/I_*.jpg`를 포함합니다. 가공물은 프레임 합성·분석 표시를 추가했으며 CC BY-SA 4.0을 유지합니다.
+추출 프레임·GT·XML은 원본과 중복되므로 Git에서 제외합니다.
+`python -m scripts.data.prepare`로 `data/lasiesta/extracted/`에 재생성하며 로컬 평가에 사용합니다.
 논문 출처와 원본·가공물 구분은 [LASIESTA 안내](lasiesta/NOTICE.md)에 있습니다.
 
 ## 재배포 허가 미확인 자료

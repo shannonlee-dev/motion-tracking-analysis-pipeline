@@ -25,3 +25,6 @@ Thumbs.db
 # Keep notices, source manifests and numeric evaluation results public.
 /data/download/aloi_*
 /data/aloi/raw/
+
+# Recreated from the tracked LASIESTA archives by scripts.data.prepare.
+/data/lasiesta/extracted/
