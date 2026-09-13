@@ -1,0 +1,26 @@
+{
+  "python": "3.12.3",
+  "opencv": "4.13.0",
+  "numpy": "2.4.3",
+  "config": {
+    "learning_rate": 0.01,
+    "history": 500,
+    "var_threshold": 16,
+    "min_area": 80,
+    "max_area_fraction": 0.5,
+    "kernel_size": 3,
+    "max_distance": 50,
+    "max_missing": 15,
+    "trail_length": 80,
+    "warmup_frames": 25,
+    "predict_velocity": false
+  },
+  "seed": 42,
+  "threads": 1,
+  "elapsed_seconds": 331.93630968400066,
+  "target_demo": {
+    "frames": 625,
+    "fps": 53.41251888355967,
+    "target_frames": 525
+  }
+}

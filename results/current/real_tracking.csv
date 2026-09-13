@@ -1,0 +1,4 @@
+video,condition,frame_start,frame_end,id_switches,failures,missing_frames,eligible_frames,excluded_frames,failure_event,switch_event,miss_rate,note
+walking,real,17,610,3,11,1202,1551,542,1,1,0.774984,"CAVIAR MPEG frame-index join; occlusion not annotated: raw counts, not mission-adjusted"
+meeting,real,0,622,3,22,1322,1714,2531,1,1,0.771295,"CAVIAR MPEG frame-index join; occlusion not annotated: raw counts, not mission-adjusted"
+stopping,real,4,724,18,18,1255,1693,21,1,1,0.741288,"CAVIAR MPEG frame-index join; occlusion not annotated: raw counts, not mission-adjusted"

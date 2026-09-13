@@ -1,0 +1,21 @@
+{
+  "backend": "real OpenCV Qt window on Xvfb; xdotool X11 events",
+  "paused_frames": [
+    79,
+    79
+  ],
+  "resumed_frame": 98,
+  "exit_code": 0,
+  "decoded_output_frames": 103,
+  "csv_last_frame": 102,
+  "pause_verified": true,
+  "resume_verified": true,
+  "snapshot_verified": true,
+  "quit_verified": true,
+  "stats": {
+    "frames": 103,
+    "fps": 62.87574764244986,
+    "target_frames": 53
+  },
+  "stderr": "QFontDatabase: Cannot find font directory /home/shannon/__dev/cody/motion-tracking-analysis-pipeline/.venv/lib/python3.12/site-packages/cv2/qt/fonts.\nNote that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.\nQFontDatabase: Cannot find font directory /home/shannon/__dev/cody/motion-tracking-analysis-pipeline/.venv/lib/python3.12/site-packages/cv2/qt/fonts.\nNote that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.\nQFontDatabase: Cannot find font directory /home/shannon/__dev/cody/motion-tracking-analysis-pipeline/.venv/lib/python3.12/site-packages/cv2/qt/fonts.\nNote that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.\nQFontDatabase: Cannot find font directory /home/shannon/__dev/cody/motion-tracking-analysis-pipeline/.venv/lib/python3.12/site-packages/cv2/qt/fonts.\nNote that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.\nQFontDatabase: Cannot find font directory /home/shannon/__dev/cody/motion-tracking-analysis-pipeline/.venv/lib/python3.12/site-packages/cv2/qt/fonts.\nNote that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.\n"
+}

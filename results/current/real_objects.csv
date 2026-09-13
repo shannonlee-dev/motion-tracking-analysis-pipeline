@@ -1,0 +1,17 @@
+video,condition,gt_id,frame_start,frame_end,id_switches,failures,missing_frames,eligible_frames,excluded_frames
+walking,real,0,17,179,2,1,26,155,440
+walking,real,4,39,610,1,4,517,572,1
+walking,real,5,63,610,0,4,513,548,1
+walking,real,1,236,511,0,2,146,276,100
+meeting,real,0,0,27,0,0,1,3,621
+meeting,real,1,0,403,1,6,238,379,245
+meeting,real,2,1,135,0,2,109,111,512
+meeting,real,3,68,433,1,4,271,366,190
+meeting,real,4,102,205,0,1,104,104,418
+meeting,real,5,130,327,0,2,191,198,296
+meeting,real,6,156,376,0,3,194,221,247
+meeting,real,7,303,622,1,3,202,320,1
+meeting,real,8,611,622,0,1,12,12,1
+stopping,real,0,4,724,0,1,696,700,21
+stopping,real,1,61,724,14,10,349,664,0
+stopping,real,2,396,724,4,7,210,329,0
