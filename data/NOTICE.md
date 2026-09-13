@@ -1,10 +1,7 @@
 # 데이터 출처 및 이용 조건
 
-실제 영상과 XML은 에든버러대학교가 제공하는
-[CAVIAR Test Case Scenarios](https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/)에서 확보했습니다.
-공식 페이지는 공개 다운로드, Creative Commons BY-SA 이용 조건 및 결과 발표 시
-**EC Funded CAVIAR project/IST 2001 37540** 출처 표기를 안내합니다.
-페이지에 라이선스 버전 번호가 명시되어 있지 않으므로 임의의 버전을 붙이지 않았습니다.
+에든버러대학교의 영상·XML을 [CAVIAR Test Case Scenarios](https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/)에서 확보했습니다.
+Creative Commons BY-SA(버전 미명시) 조건과 **EC Funded CAVIAR project/IST 2001 37540** 출처 표기를 유지합니다.
 
 | 로컬 파일 | 원본 시나리오 | 사용 목적 |
 | --- | --- | --- |
@@ -12,27 +9,17 @@
 | `raw/walking.mpg` | Walk1 | 단일 대상 구간 관찰; 전체 영상에는 여러 사람 등장 |
 | `raw/stopping.mpg` | OneStopNoEnter1cor | 보행 후 정지·재이동 |
 
-다운로드한 파일별 주소·바이트 수·SHA-256은 `sources.json`에 있습니다.
-다운로드·평가 범위는 `meeting`·`walking`·`stopping` 3개입니다.
-`raw/`의 MPEG 영상 3개와 정답 XML 3개는 원본 내용의 변경 없이 이 저장소에 재배포합니다.
-해당 데이터는 배포처가 명시한 Creative Commons BY-SA 조건을 유지합니다.
-이를 바탕으로 만든 CAVIAR 오버레이 영상과
-`results/current/captures/caviar_*.jpg`도 원본의 출처와 BY-SA 조건을 유지합니다.
-미디어와 다운로드 주소는 실행 파일이 아닙니다.
+파일별 주소·크기·SHA-256은 `sources.json`에 있습니다. 위 3개 MPEG·XML은 원본 그대로 재배포하며,
+CAVIAR 오버레이 영상·`results/current/captures/caviar_*.jpg`에도 출처와 BY-SA 조건을 유지합니다.
 
-`target.png` 및 `clips/single_*`, `crossing_*`, `stopping_*`, `lighting_*`, `target_demo.mp4`는
-이 프로젝트의 `scripts/eval/run.py`가 생성한 통제 실험 자료입니다.
-실제 사람의 촬영이나 독립적인 현장 시험으로 해석하면 안 됩니다.
-
-추가 자료는 [LASIESTA](lasiesta/NOTICE.md), [ALOI](aloi/NOTICE.md)의
-개별 이용 조건과 재현 방법을 따릅니다.
+`target.png`, `clips/single_*`·`crossing_*`·`stopping_*`·`lighting_*`·`target_demo.mp4`는
+`scripts/eval/run.py`가 생성한 통제 자료로, 실제 촬영·독립 현장 시험이 아닙니다.
+추가 자료의 출처·재현 방법은 [LASIESTA](lasiesta/NOTICE.md)와 [ALOI](aloi/NOTICE.md)를 참조합니다.
 
 ## 공개 범위
 
-소스, 직접 작성한 문서, 합성 영상, 측정 CSV, 추적 로그와 재배포가 허용된
-데이터·분석 영상·캡처를 공개 대상으로 둔다. 재생성 가능 여부나 확장자만으로
-`data/` 또는 `results/`를 일괄 제외하지 않는다.
-가상환경·캐시·로컬 비밀 설정과 아래 허가 미확인 자료만 `.gitignore`로 제외한다.
+소스·작성 문서·합성 영상·측정 CSV·로그와 재배포 허용 데이터·가공물을 공개합니다.
+`data/`·`results/`를 일괄 제외하지 않으며 가상환경·캐시·비밀 설정·아래 허가 미확인 자료만 `.gitignore`로 제외합니다.
 
 ## LASIESTA
 
@@ -42,16 +29,9 @@
 [라이선스 조건](https://creativecommons.org/licenses/by-sa/4.0/)에 따라
 출처·변경 내용을 표시하고 가공물에도 같은 라이선스를 유지한다.
 
-출처: C. Cuevas, E. M. Yáñez, N. García,
-“Labeled dataset for integral evaluation of moving object detection algorithms: LASIESTA”,
-Computer Vision and Image Understanding, 152, 103–117, 2016.
-DOI: 10.1016/j.cviu.2016.08.005.
-
-`data/lasiesta/*.rar`는 내려받은 압축 자료,
-`data/lasiesta/extracted/`는 추출한 프레임·정답·XML이다.
-LASIESTA에서 만든 평가 영상과 `results/current/captures/I_*.jpg`는
-프레임 추출·합성 또는 분석 표시가 추가된 가공물로 CC BY-SA 4.0으로 제공한다.
-대상 시퀀스는 I_IL_01, I_IL_02, I_OC_01, I_OC_02, I_CA_01이다.
+I_IL_01·I_IL_02·I_OC_01·I_OC_02·I_CA_01의 원본 RAR, 추출 프레임·GT·XML과
+평가 영상·`results/current/captures/I_*.jpg`를 포함합니다. 가공물은 프레임 합성·분석 표시를 추가했으며 CC BY-SA 4.0을 유지합니다.
+논문 출처와 원본·가공물 구분은 [LASIESTA 안내](lasiesta/NOTICE.md)에 있습니다.
 
 ## 재배포 허가 미확인 자료
 
