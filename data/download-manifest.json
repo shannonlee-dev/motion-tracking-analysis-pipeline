@@ -1,0 +1,20 @@
+[
+  {
+    "file": "data/download/aloi_illumination_direction_192x144.tar",
+    "bytes": 660487168,
+    "sha256": "f66504755dd99e6be372d0e1fc7a3c287217491effd97e8228ba128f7f876771",
+    "provenance": "user supplied local archive"
+  },
+  {
+    "file": "data/download/aloi_object_masks_192x144.tar",
+    "bytes": 79005696,
+    "sha256": "995ddab85edd2e2132cea8fefbac229ea247c95e403a6ae5e9814d39cc5edd4f",
+    "provenance": "user supplied local archive"
+  },
+  {
+    "file": "data/download/aloi_red4_view.tar",
+    "bytes": 1913379328,
+    "sha256": "4439e76259179587935e7b124b89e83ef703fb4b5d74fe040bd7f097975cc34f",
+    "provenance": "user supplied local archive"
+  }
+]

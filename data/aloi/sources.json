@@ -1,0 +1,58 @@
+[
+  {
+    "file": "1_r0.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_r0.png",
+    "bytes": 549396,
+    "sha256": "4224902cc1ba21eb06ca98dfca7ff4496d520bb28edf6c5989015275b6a439a4"
+  },
+  {
+    "file": "1_r30.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_r30.png",
+    "bytes": 558482,
+    "sha256": "fecc35dcc164f34643c2c4f605b670fddeca001518d5e37d44dd8aca07c02781"
+  },
+  {
+    "file": "1_r60.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_r60.png",
+    "bytes": 571651,
+    "sha256": "da3dbdc59ea58c4d91b53d988c48cf500985289a42e8a7b2b5130f76647cb306"
+  },
+  {
+    "file": "1_l1c1.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_l1c1.png",
+    "bytes": 569689,
+    "sha256": "2140e30781bb3bbe90c54a93289acaf2a2ed7fd6b7c5e0570e3b027916d2eb5c"
+  },
+  {
+    "file": "1_l8c1.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_l8c1.png",
+    "bytes": 557883,
+    "sha256": "0094514a639ee9caa1f32d519fbc6af748d7307a97d793d3281568a557233789"
+  },
+  {
+    "file": "1_i110.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_i110.png",
+    "bytes": 550541,
+    "sha256": "167e94397a1ec5e4bdae590bc3e05eb63f56c0cd5c04eb803d31f3c3e5548970"
+  },
+  {
+    "file": "1_i250.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/png/1.tar",
+    "archive_member": "png/1/1_i250.png",
+    "bytes": 549713,
+    "sha256": "e5d14db6a85a4ba51479a74e0a9a3a02deccef88218c1fa8c4c4d254d10c7a12"
+  },
+  {
+    "file": "mask.png",
+    "archive_url": "https://aloi.science.uva.nl/tars/aloi_mask.tar",
+    "archive_member": "mask/1/1_c1.png",
+    "bytes": 1500,
+    "sha256": "b128957454d64772566b99e3379821e1456a9e6257ad613aa0a35b9ebd68d375"
+  }
+]

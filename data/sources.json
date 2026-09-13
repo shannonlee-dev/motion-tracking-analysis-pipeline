@@ -1,0 +1,38 @@
+[
+  {
+    "file": "meeting.mpg",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Meet_WalkSplit/Meet_WalkSplit.mpg",
+    "bytes": 7333343,
+    "sha256": "91a5b5c2a3060a02ebd1ee4264ab78ae7681e02d17d16c2546fcc7751c91805e"
+  },
+  {
+    "file": "meeting.xml",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Meet_WalkSplit/mws1gt.xml",
+    "bytes": 2714967,
+    "sha256": "a3f76c5f9539d9bff4730863d503ce979c5dfe5e9595689578eedd4d6bbd790b"
+  },
+  {
+    "file": "walking.mpg",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Walk1/Walk1.mpg",
+    "bytes": 7208095,
+    "sha256": "a5d6dc7d7def01c1bdaeea8ff620195c148b366e1a52589bf4e46f15b6daa0c2"
+  },
+  {
+    "file": "walking.xml",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Walk1/wk1gt.xml",
+    "bytes": 1490491,
+    "sha256": "dfcb8135fe46e7fbbcb7616d93f4f16aee040570185227ecd8c81aaa87de06cd"
+  },
+  {
+    "file": "stopping.mpg",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA2/OneStopNoEnter1cor/OneStopNoEnter1cor.mpg",
+    "bytes": 4230601,
+    "sha256": "8f9e99b59aaa78f639dadc0d6b2d0b4c58d83bc967efc5e2c8368cec19498698"
+  },
+  {
+    "file": "stopping.xml",
+    "url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA2/OneStopNoEnter1cor/cosne1gt.xml",
+    "bytes": 1207302,
+    "sha256": "fc1990c576b262e20b9a30f3885894e93c299a3614639ac9702253f70f88e351"
+  }
+]
