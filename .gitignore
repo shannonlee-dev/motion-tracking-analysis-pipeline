@@ -1,0 +1,27 @@
+# Publish source, docs, synthetic clips, measurements, traces and licensed media.
+# Do not ignore data/ or results/ wholesale. See data/NOTICE.md for terms.
+
+# Local Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local credentials (keep shareable configuration examples)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# ALOI: redistribution permission has not been established.
+# Keep notices, source manifests and numeric evaluation results public.
+/data/download/aloi_*
+/data/aloi/raw/
