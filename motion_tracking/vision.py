@@ -28,11 +28,10 @@ class MotionDetector:
         self.frame_count = 0
 
     def detect(self, frame: np.ndarray) -> tuple[list[BBox], np.ndarray]:
-        raw = self.model.apply(frame, learningRate=self.config.learning_rate)
-        # MOG2 labels shadows 127; only definite foreground survives.
-        mask = cv2.threshold(raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY)[1]
-        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, self.kernel)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, self.kernel)
+        raw = self.model.apply(frame, learningRate=self.config.learning_rate) # one channel mask, 0=background, 127=shadow, 255=foreground
+        mask = cv2.threshold(raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY)[1] # binary mask
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, self.kernel) #remove white noise, opening = erosion + dilation
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, self.kernel) # opening
         self.frame_count += 1
         if self.frame_count <= self.config.warmup_frames:
             return [], mask
