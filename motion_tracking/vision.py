@@ -2,12 +2,24 @@
 from dataclasses import dataclass
 import cv2
 import numpy as np
-from motion_tracking.config import Config
+from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.constants import MASK_MAX_VALUE
+from motion_tracking.features import (
+    FEATURE_COUNT, MATCH_RATIO, KNN_NEIGHBORS, RANSAC_REPROJECTION_THRESHOLD,
+    unique_ratio_matches,
+)
+
+FOREGROUND_THRESHOLD = 200  # Discard the MOG2 shadow label (127).
+MIN_TARGET_INLIERS = 8
+MIN_TARGET_INLIER_RATIO = 0.5
+MIN_TARGET_AREA = 100
+MAX_TARGET_AREA_FRACTION = 0.95
+TARGET_BOUNDARY_MARGIN = 1  # Permit one frame's width/height outside each edge.
 
 
 class MotionDetector:
     def __init__(self, config=None):
-        self.config = config or Config()
+        self.config = config or DEFAULT_CONFIG
         self.model = cv2.createBackgroundSubtractorMOG2(
             history=self.config.history, varThreshold=self.config.var_threshold, detectShadows=True)
         self.kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,
@@ -17,7 +29,7 @@ class MotionDetector:
     def detect(self, frame):
         raw = self.model.apply(frame, learningRate=self.config.learning_rate)
         # MOG2 labels shadows 127; only definite foreground survives.
-        mask = cv2.threshold(raw, 200, 255, cv2.THRESH_BINARY)[1]
+        mask = cv2.threshold(raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY)[1]
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, self.kernel)
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, self.kernel)
         self.frame_count += 1
@@ -40,7 +52,7 @@ class MatchResult:
 
 
 class TargetMatcher:
-    def __init__(self, target, nfeatures=1500, ratio=0.75, min_inliers=8):
+    def __init__(self, target, nfeatures=FEATURE_COUNT, ratio=MATCH_RATIO, min_inliers=MIN_TARGET_INLIERS):
         if target is None or target.size == 0:
             raise ValueError('Cannot read target image')
         self.orb = cv2.ORB_create(nfeatures=nfeatures)
@@ -54,21 +66,15 @@ class TargetMatcher:
     def match(self, frame):
         kp, desc = self.orb.detectAndCompute(frame, None)
         result = MatchResult(keypoints=len(kp))
-        if desc is None or len(desc) < 2:
+        if desc is None or len(desc) < KNN_NEIGHBORS:
             return result
-        pairs = self.matcher.knnMatch(self.target_desc, desc, k=2)
-        good = [pair[0] for pair in pairs if len(pair) == 2 and pair[0].distance < self.ratio*pair[1].distance]
-        # Each scene feature can support at most one target correspondence.
-        unique = {}
-        for match in sorted(good, key=lambda m: m.distance):
-            unique.setdefault(match.trainIdx, match)
-        good = list(unique.values())
+        good = unique_ratio_matches(self.matcher, self.target_desc, desc, self.ratio)
         result.matches = len(good)
         if len(good) < self.min_inliers:
             return result
         src = np.float32([self.target_kp[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
         dst = np.float32([kp[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
-        h, inlier_mask = cv2.findHomography(src, dst, cv2.RANSAC, 3.0)
+        h, inlier_mask = cv2.findHomography(src, dst, cv2.RANSAC, RANSAC_REPROJECTION_THRESHOLD)
         if h is None or inlier_mask is None:
             return result
         result.inliers = int(inlier_mask.sum())
@@ -78,10 +84,10 @@ class TargetMatcher:
             return result
         area = abs(cv2.contourArea(polygon))
         height, width = frame.shape[:2]
-        inside = ((polygon[:, :, 0] >= -width) & (polygon[:, :, 0] <= 2*width) &
-                  (polygon[:, :, 1] >= -height) & (polygon[:, :, 1] <= 2*height)).all()
-        result.found = bool(result.inliers >= self.min_inliers and result.inliers/len(good) >= .5
-                            and 100 <= area <= width*height*.95 and inside and cv2.isContourConvex(polygon))
+        inside = ((polygon[:, :, 0] >= -TARGET_BOUNDARY_MARGIN*width) & (polygon[:, :, 0] <= (1+TARGET_BOUNDARY_MARGIN)*width) &
+                  (polygon[:, :, 1] >= -TARGET_BOUNDARY_MARGIN*height) & (polygon[:, :, 1] <= (1+TARGET_BOUNDARY_MARGIN)*height)).all()
+        result.found = bool(result.inliers >= self.min_inliers and result.inliers/len(good) >= MIN_TARGET_INLIER_RATIO
+                            and MIN_TARGET_AREA <= area <= width*height*MAX_TARGET_AREA_FRACTION and inside and cv2.isContourConvex(polygon))
         if result.found:
             result.polygon = polygon.astype(np.int32)
         return result

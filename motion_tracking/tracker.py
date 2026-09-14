@@ -2,6 +2,7 @@
 from collections import deque
 from dataclasses import dataclass
 import numpy as np
+from motion_tracking.config import DEFAULT_CONFIG
 
 
 @dataclass
@@ -14,7 +15,9 @@ class Track:
 
 
 class Tracker:
-    def __init__(self, max_distance=50, max_missing=15, trail_length=80, predict_velocity=False):
+    def __init__(self, max_distance=DEFAULT_CONFIG.max_distance,
+                 max_missing=DEFAULT_CONFIG.max_missing, trail_length=DEFAULT_CONFIG.trail_length,
+                 predict_velocity=DEFAULT_CONFIG.predict_velocity):
         if max_distance <= 0 or max_missing < 0 or trail_length < 1:
             raise ValueError('Invalid tracker limits')
         self.max_distance = max_distance

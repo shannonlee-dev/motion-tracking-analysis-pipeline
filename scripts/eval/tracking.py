@@ -1,13 +1,21 @@
 """CAVIAR and controlled tracking evaluation; no dataset downloads or report imports."""
+from scripts.constants import (
+    CURRENT_RESULTS_DIR, CAVIAR_RAW_DIR, CAVIAR_FPS, CAVIAR_FRAME_SIZE, CAVIAR_SEQUENCES, CLIPS_DIR,
+)
+from motion_tracking.constants import VIDEO_CODEC
 import cv2
 import numpy as np
 from motion_tracking.display import draw_overlay
 from motion_tracking.evaluation import assign_ground_truth, count_events, count_post_overlap_switches, iou
 from scripts.common import ROOT, RESULTS, write_csv
 from scripts.data.caviar import load_caviar
-from scripts.data.synthetic import FPS, FRAMES, CONDITIONS, synthetic_frame
+from scripts.data.synthetic import FPS, FRAMES, CONDITIONS, FRAME_SIZE, synthetic_frame
 from motion_tracking.tracker import Tracker
 from motion_tracking.vision import MotionDetector
+
+SYNTHETIC_REVIEW_FRAMES = (100, 250, 290, 300, 320, 380, 450)
+CAVIAR_REVIEW_FRAMES = (50, 100, 150, 175, 200, 250, 300, 400, 500, 600)
+
 
 def match_eligible(truth, tracks, excluded):
     eligible = {tid: box for tid, box in truth.items() if not excluded.get(tid, False)}
@@ -43,12 +51,12 @@ def evaluate_synthetic(config, variant, export=False, export_videos=False):
             writer = overlay_writer = None
             panels = []
             if export and export_videos:
-                (ROOT/'data/clips').mkdir(parents=True, exist_ok=True)
+                (ROOT/CLIPS_DIR).mkdir(parents=True, exist_ok=True)
                 (RESULTS/'videos').mkdir(parents=True, exist_ok=True)
-                writer = cv2.VideoWriter(str(ROOT/f'data/clips/{video}.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),FPS,(320,240))
+                writer = cv2.VideoWriter(str(ROOT/CLIPS_DIR/f'{video}.mp4'),cv2.VideoWriter_fourcc(*VIDEO_CODEC),FPS,FRAME_SIZE)
                 if not writer.isOpened():
                     raise OSError('Cannot open synthetic video writer')
-                overlay_writer = cv2.VideoWriter(str(RESULTS/f'videos/{video}.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),FPS,(320,240))
+                overlay_writer = cv2.VideoWriter(str(RESULTS/f'videos/{video}.mp4'),cv2.VideoWriter_fourcc(*VIDEO_CODEC),FPS,FRAME_SIZE)
                 if not overlay_writer.isOpened():
                     writer.release()
                     raise OSError('Cannot open overlay writer')
@@ -73,7 +81,7 @@ def evaluate_synthetic(config, variant, export=False, export_videos=False):
                     overlay = draw_overlay(frame,tracks,0,f)
                     if overlay_writer:
                         overlay_writer.write(overlay)
-                    if f in (100,250,290,300,320,380,450):
+                    if f in SYNTHETIC_REVIEW_FRAMES:
                         panels.append(overlay)
             if writer:
                 writer.release()
@@ -107,19 +115,19 @@ def evaluate_synthetic(config, variant, export=False, export_videos=False):
 
 
 def evaluate_real(config, export_videos=False):
-    results = RESULTS/'current'
+    results = RESULTS/CURRENT_RESULTS_DIR
     (results/'captures').mkdir(parents=True, exist_ok=True)
     rows, allobjects, metadata = [], [], []
-    for name in ('walking', 'meeting', 'stopping'):
-        truth_frames = load_caviar(ROOT/f'data/raw/{name}.xml')
-        cap = cv2.VideoCapture(str(ROOT/f'data/raw/{name}.mpg'))
+    for name in CAVIAR_SEQUENCES:
+        truth_frames = load_caviar(ROOT/CAVIAR_RAW_DIR/f'{name}.xml')
+        cap = cv2.VideoCapture(str(ROOT/CAVIAR_RAW_DIR/f'{name}.mpg'))
         detector = MotionDetector(config)
         tracker = Tracker(config.max_distance,config.max_missing,config.trail_length)
         assignments, exclusions, first_last, traces, panels = {}, {}, {}, [], []
         writer = None
         if export_videos:
             (results/'videos').mkdir(parents=True, exist_ok=True)
-            writer = cv2.VideoWriter(str(results/f'videos/caviar_{name}.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),FPS,(384,288))
+            writer = cv2.VideoWriter(str(results/f'videos/caviar_{name}.mp4'),cv2.VideoWriter_fourcc(*VIDEO_CODEC),CAVIAR_FPS,CAVIAR_FRAME_SIZE)
         if not cap.isOpened() or (writer is not None and not writer.isOpened()):
             raise OSError('Cannot open CAVIAR video/writer')
         f=0
@@ -144,7 +152,7 @@ def evaluate_real(config, export_videos=False):
             overlay=draw_overlay(frame,tracks,0,f)
             if writer is not None:
                 writer.write(overlay)
-            if f in (50,100,150,175,200,250,300,400,500,600):
+            if f in CAVIAR_REVIEW_FRAMES:
                 for tid,(x,y,w,h) in truth.items():
                     cv2.rectangle(overlay,(int(x),int(y)),(int(x+w),int(y+h)),(255,255,255),1)
                     cv2.putText(overlay,f'GT{tid}',(int(x),int(y+h)+10),0,.35,(255,255,255),1)
@@ -158,7 +166,7 @@ def evaluate_real(config, export_videos=False):
         row,objects=summarize(name,'real',assignments,exclusions,first_last,
                               'CAVIAR MPEG frame-index join; occlusion not annotated: raw counts, not mission-adjusted')
         rows.append(row); allobjects.extend(objects)
-        metadata.append(dict(video=name,decoded_frames=f,xml_frames=len(truth_frames),seconds=f/FPS))
+        metadata.append(dict(video=name,decoded_frames=f,xml_frames=len(truth_frames),seconds=f/CAVIAR_FPS))
         write_csv(results/f'traces/caviar_{name}.csv',traces)
         if name == 'meeting':
             cv2.imwrite(str(results/f'captures/caviar_{name}.jpg'),np.concatenate(panels,axis=1))

@@ -1,14 +1,21 @@
 """LASIESTA frame/annotation pairing and foreground labels."""
 import numpy as np
 
+BACKGROUND_LABEL = 0
+UNCERTAIN_LABEL = 128
+MOVING_PERSON_LABEL = (0, 0, 255)
+STATIC_PERSON_LABEL = (255, 255, 255)
+SINGLE_PERSON_LABELS = (MOVING_PERSON_LABEL, STATIC_PERSON_LABEL)
+FOREGROUND_LABELS = (MOVING_PERSON_LABEL, (0, 255, 0), (0, 255, 255), STATIC_PERSON_LABEL)
+
 
 def labels(gt):
     """OpenCV BGR: include temporarily static objects, ignore uncertain pixels."""
-    bg = np.all(gt == 0, axis=2)
-    uncertain = np.all(gt == 128, axis=2)
+    bg = np.all(gt == BACKGROUND_LABEL, axis=2)
+    uncertain = np.all(gt == UNCERTAIN_LABEL, axis=2)
     allowed = bg | uncertain
     fg = np.zeros(gt.shape[:2], dtype=bool)
-    for color in ((0, 0, 255), (0, 255, 0), (0, 255, 255), (255, 255, 255)):
+    for color in FOREGROUND_LABELS:
         fg |= np.all(gt == color, axis=2)
     if not np.all(allowed | fg):
         raise ValueError('Unknown LASIESTA label')

@@ -3,28 +3,41 @@ from pathlib import Path
 import tempfile
 import cv2
 import numpy as np
+from scripts.constants import (
+    LEARNING_RATES, BASELINE_LEARNING_RATE, KERNEL_SIZES, FEATURE_TRIALS, CLIPS_DIR,
+)
 from motion_tracking.runner import run
 from motion_tracking.config import Config
 from scripts.common import ROOT, RESULTS
-from scripts.data.synthetic import FRAMES, synthetic_frame, make_target, make_target_demo
-
+from scripts.data.synthetic import (
+    FRAMES, synthetic_frame, make_target, make_target_demo, TARGET_SIZE,
+    TARGET_CANVAS_SIZE, TARGET_BACKGROUND, TARGET_OFFSET, TARGET_END, TARGET_CENTER,
+    LIGHTING_CHANGE_FRAME,
+)
 from motion_tracking.vision import MotionDetector, TargetMatcher
+
+FEATURE_CONDITIONS = (
+    ('front', 0, 0), ('rotate30', 30, 0), ('rotate60', 60, 0),
+    ('occlusion30', 0, .3), ('occlusion50', 0, .5),
+)
+BACKGROUND_WINDOW_FRAMES = 100
+BACKGROUND_CAPTURE_FRAME = LIGHTING_CHANGE_FRAME+10
+
 
 def feature_experiment(export_videos=False):
     target=make_target()
     matcher=TargetMatcher(target)
     rows,panels=[],[]
-    conditions=[('front',0,0),('rotate30',30,0),('rotate60',60,0),('occlusion30',0,.3),('occlusion50',0,.5)]
-    canvas=np.full((320,320,3),55,np.uint8)
-    canvas[70:250,70:250]=target
-    for label,angle,occlusion in conditions:
-        for trial in range(10):
-            matrix=cv2.getRotationMatrix2D((160,160),angle,1)
+    canvas=np.full((TARGET_CANVAS_SIZE,TARGET_CANVAS_SIZE,3),TARGET_BACKGROUND,np.uint8)
+    canvas[TARGET_OFFSET:TARGET_END,TARGET_OFFSET:TARGET_END]=target
+    for label,angle,occlusion in FEATURE_CONDITIONS:
+        for trial in range(FEATURE_TRIALS):
+            matrix=cv2.getRotationMatrix2D(TARGET_CENTER,angle,1)
             matrix[:,2]+=np.array([trial%5-2,trial//5-1])
-            frame=cv2.warpAffine(canvas,matrix,(320,320),borderValue=(55,55,55))
+            frame=cv2.warpAffine(canvas,matrix,(TARGET_CANVAS_SIZE,TARGET_CANVAS_SIZE),borderValue=(TARGET_BACKGROUND,)*3)
             if occlusion:
-                x=70+trial%5-2; y=70+trial//5-1
-                frame[y:y+180,x:x+round(180*occlusion)]=55
+                x=TARGET_OFFSET+trial%5-2; y=TARGET_OFFSET+trial//5-1
+                frame[y:y+TARGET_SIZE,x:x+round(TARGET_SIZE*occlusion)]=TARGET_BACKGROUND
             result=matcher.match(frame)
             rows.append(dict(condition=label,trial=trial+1,reference_keypoints=len(matcher.target_kp),
                              scene_keypoints=result.keypoints,matches=result.matches,inliers=result.inliers,
@@ -38,7 +51,7 @@ def feature_experiment(export_videos=False):
     cv2.imwrite(str(RESULTS/'captures/features.jpg'),np.concatenate(panels,axis=1))
     # Test file input with a disposable video; keep it only when explicitly requested.
     with tempfile.TemporaryDirectory(prefix='motion-target-') as temporary:
-        destination = ROOT/'data/clips' if export_videos else Path(temporary)
+        destination = ROOT/CLIPS_DIR if export_videos else Path(temporary)
         destination.mkdir(parents=True, exist_ok=True)
         path, target_path = destination/'target_demo.mp4', destination/'target.png'
         cv2.imwrite(str(target_path), target)
@@ -51,17 +64,17 @@ def feature_experiment(export_videos=False):
 
 def background_experiment():
     rows=[]
-    for rate in (.001,.01,.1):
-        for kernel in (1,3,7):
+    for rate in LEARNING_RATES:
+        for kernel in KERNEL_SIZES:
             for condition in ('stopping','lighting'):
                 detector=MotionDetector(Config(learning_rate=rate,kernel_size=kernel))
                 fractions=[]
                 for f in range(FRAMES):
                     frame,truth,_=synthetic_frame(condition,0,f)
                     _,mask=detector.detect(frame)
-                    if 300<=f<400:
+                    if LIGHTING_CHANGE_FRAME<=f<LIGHTING_CHANGE_FRAME+BACKGROUND_WINDOW_FRAMES:
                         fractions.append(float(np.count_nonzero(mask)/mask.size))
-                    if kernel == 3 and condition == 'lighting' and rate in (.001, .1) and f == 310:
+                    if kernel == 3 and condition == 'lighting' and rate != BASELINE_LEARNING_RATE and f == BACKGROUND_CAPTURE_FRAME:
                         pair=np.concatenate([frame,cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)],axis=1)
                         cv2.imwrite(str(RESULTS/f'captures/mask_{condition}_{rate}_{f}.jpg'),pair)
                 rows.append(dict(condition=condition,learning_rate=rate,kernel=kernel,

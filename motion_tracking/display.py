@@ -4,17 +4,38 @@ import time
 import cv2
 import numpy as np
 
+KEY_QUIT = ord('q')
+KEY_PAUSE = ord('p')
+KEY_SNAPSHOT = ord('s')
+FONT = cv2.FONT_HERSHEY_SIMPLEX
+TEXT_SCALE = 0.45
+TARGET_TEXT_SCALE = 0.6
+LINE_THICKNESS = 2
+TEXT_THICKNESS = 1
+CENTER_RADIUS = 3
+TRACK_COLOR_BASE = 60
+TRACK_COLOR_RANGE = 190
+TRACK_COLOR_FACTORS = (73, 37, 109)
+STATUS_SIZE = (400, 24)
+STATUS_BACKGROUND = (25, 25, 25)
+STATUS_TEXT_COLOR = (255, 255, 255)
+TARGET_COLOR = (0, 255, 255)
+STATUS_TEXT_ORIGIN = (7, 17)
+TARGET_TEXT_ORIGIN = (7, 45)
+LABEL_OFFSET = 5
+LABEL_MIN_Y = 15
+
 
 class Controls:
     def __init__(self):
         self.paused = False
 
     def handle(self, key, frame, snapshot_dir, frame_number):
-        if key == ord('q'):
+        if key == KEY_QUIT:
             return False
-        if key == ord('p'):
+        if key == KEY_PAUSE:
             self.paused = not self.paused
-        if key == ord('s') and frame is not None:
+        if key == KEY_SNAPSHOT and frame is not None:
             directory = Path(snapshot_dir)
             directory.mkdir(parents=True, exist_ok=True)
             path = directory / f'frame_{frame_number:06d}_{time.time_ns()}.png'
@@ -28,17 +49,17 @@ def draw_overlay(frame, tracks, fps, frame_number, match=None):
     for tid, track in tracks.items():
         if track.missing:
             continue  # Retained state is not an observed detection.
-        color = (60+(tid*73)%190, 60+(tid*37)%190, 60+(tid*109)%190)
+        color = tuple(TRACK_COLOR_BASE+(tid*factor)%TRACK_COLOR_RANGE for factor in TRACK_COLOR_FACTORS)
         x, y, w, h = track.bbox
-        cv2.rectangle(image, (x, y), (x+w, y+h), color, 2)
-        cv2.putText(image, f'ID:{tid}', (x, max(y-5, 15)), cv2.FONT_HERSHEY_SIMPLEX, .45, color, 1)
-        cv2.circle(image, tuple(map(int, track.center)), 3, color, -1)
+        cv2.rectangle(image, (x, y), (x+w, y+h), color, LINE_THICKNESS)
+        cv2.putText(image, f'ID:{tid}', (x, max(y-LABEL_OFFSET, LABEL_MIN_Y)), FONT, TEXT_SCALE, color, TEXT_THICKNESS)
+        cv2.circle(image, tuple(map(int, track.center)), CENTER_RADIUS, color, -1)
         if len(track.trail) > 1:
-            cv2.polylines(image, [np.array(track.trail, np.int32)], False, color, 2)
-    cv2.rectangle(image, (0, 0), (min(image.shape[1], 400), 24), (25, 25, 25), -1)
-    cv2.putText(image, f'FPS: {fps:.1f} | frame {frame_number}', (7, 17),
-                cv2.FONT_HERSHEY_SIMPLEX, .45, (255, 255, 255), 1)
+            cv2.polylines(image, [np.array(track.trail, np.int32)], False, color, LINE_THICKNESS)
+    cv2.rectangle(image, (0, 0), (min(image.shape[1], STATUS_SIZE[0]), STATUS_SIZE[1]), STATUS_BACKGROUND, -1)
+    cv2.putText(image, f'FPS: {fps:.1f} | frame {frame_number}', STATUS_TEXT_ORIGIN,
+                FONT, TEXT_SCALE, STATUS_TEXT_COLOR, TEXT_THICKNESS)
     if match is not None and match.found:
-        cv2.polylines(image, [match.polygon], True, (0, 255, 255), 2)
-        cv2.putText(image, 'TARGET DETECTED', (7, 45), cv2.FONT_HERSHEY_SIMPLEX, .6, (0, 255, 255), 2)
+        cv2.polylines(image, [match.polygon], True, TARGET_COLOR, LINE_THICKNESS)
+        cv2.putText(image, 'TARGET DETECTED', TARGET_TEXT_ORIGIN, FONT, TARGET_TEXT_SCALE, TARGET_COLOR, LINE_THICKNESS)
     return image

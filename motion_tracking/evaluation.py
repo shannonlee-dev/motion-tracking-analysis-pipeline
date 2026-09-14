@@ -1,5 +1,11 @@
 """Event metrics, independent of tracker identity and prediction internals."""
 import numpy as np
+from motion_tracking.geometry import iou  # Re-export for existing callers.
+
+IDENTITY_CONFIRMATION_FRAMES = 5
+MISSING_FAILURE_FRAMES = 10
+DEFAULT_MIN_IOU = 0.1
+OCCLUSION_EXCLUSION_FRACTION = 0.5
 
 
 def count_post_overlap_switches(assignments, excluded, start, end):
@@ -37,7 +43,7 @@ def count_events(assignments, excluded):
             missing_frames += 1
             miss_length += 1
             pending, pending_length = None, 0
-            if miss_length == 10:
+            if miss_length == MISSING_FAILURE_FRAMES:
                 failures += 1
             continue
         miss_length = 0
@@ -46,7 +52,7 @@ def count_events(assignments, excluded):
         else:
             pending_length = pending_length+1 if identity == pending else 1
             pending = identity
-            if pending_length == 5:
+            if pending_length == IDENTITY_CONFIRMATION_FRAMES:
                 switches += int(stable is not None)
                 stable = identity
                 pending, pending_length = None, 0
@@ -54,14 +60,7 @@ def count_events(assignments, excluded):
                 eligible_frames=eligible, excluded_frames=sum(excluded))
 
 
-def iou(a, b):
-    ax, ay, aw, ah = a
-    bx, by, bw, bh = b
-    overlap = max(0, min(ax+aw, bx+bw)-max(ax, bx))*max(0, min(ay+ah, by+bh)-max(ay, by))
-    return overlap/max(aw*ah+bw*bh-overlap, 1)
-
-
-def assign_ground_truth(truth, tracks, min_iou=.1):
+def assign_ground_truth(truth, tracks, min_iou=DEFAULT_MIN_IOU):
     """One-to-one IoU matching of observed boxes; stale tracks cannot mask loss."""
     ids = list(truth)
     observed = [(tid, t) for tid, t in tracks.items() if t.missing == 0]

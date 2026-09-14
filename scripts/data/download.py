@@ -4,6 +4,9 @@ import json
 import urllib.request
 
 from scripts.common import ROOT
+from scripts.constants import CAVIAR_RAW_DIR, CAVIAR_MANIFEST
+
+DOWNLOAD_TIMEOUT_SECONDS = 90
 BASE = 'https://homepages.inf.ed.ac.uk/rbf/'
 SOURCES = {
     'meeting.mpg': 'CAVIARDATA1/Meet_WalkSplit/Meet_WalkSplit.mpg',
@@ -15,16 +18,16 @@ SOURCES = {
 }
 
 def main():
-    dest = ROOT / 'data/raw'
+    dest = ROOT / CAVIAR_RAW_DIR
     dest.mkdir(parents=True, exist_ok=True)
-    manifest = ROOT/'data/sources.json'
+    manifest = ROOT/CAVIAR_MANIFEST
     records = {r['file']: r for r in json.loads(manifest.read_text())} if manifest.exists() else {}
     for name, suffix in SOURCES.items():
         path = dest / name
         url = BASE + suffix
         if not path.exists():
             print('Downloading', name, flush=True)
-            with urllib.request.urlopen(url, timeout=90) as response:
+            with urllib.request.urlopen(url, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
                 content = response.read()
             temp = path.with_suffix('.part')
             temp.write_bytes(content)
