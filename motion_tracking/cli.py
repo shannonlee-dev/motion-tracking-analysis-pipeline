@@ -7,7 +7,7 @@ from motion_tracking.constants import DEFAULT_SNAPSHOT_DIR
 from motion_tracking.runner import run
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', default='0', help='video path or numeric webcam index')
     parser.add_argument('--target')

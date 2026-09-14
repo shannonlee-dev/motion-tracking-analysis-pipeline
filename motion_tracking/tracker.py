@@ -1,33 +1,35 @@
 """Greedy global nearest-centroid tracking. No appearance or learned features."""
 from collections import deque
+from collections.abc import Iterable
 from dataclasses import dataclass
 import numpy as np
 from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.geometry import BBox
 
 
 @dataclass
 class Track:
-    bbox: tuple
+    bbox: BBox
     center: np.ndarray
-    trail: deque
+    trail: deque[tuple[int, int]]
     missing: int = 0
-    velocity: object = None
+    velocity: np.ndarray | None = None
 
 
 class Tracker:
-    def __init__(self, max_distance=DEFAULT_CONFIG.max_distance,
-                 max_missing=DEFAULT_CONFIG.max_missing, trail_length=DEFAULT_CONFIG.trail_length,
-                 predict_velocity=DEFAULT_CONFIG.predict_velocity):
+    def __init__(self, max_distance: float = DEFAULT_CONFIG.max_distance,
+                 max_missing: int = DEFAULT_CONFIG.max_missing, trail_length: int = DEFAULT_CONFIG.trail_length,
+                 predict_velocity: bool = DEFAULT_CONFIG.predict_velocity) -> None:
         if max_distance <= 0 or max_missing < 0 or trail_length < 1:
             raise ValueError('Invalid tracker limits')
         self.max_distance = max_distance
         self.max_missing = max_missing
         self.trail_length = trail_length
         self.predict_velocity = predict_velocity
-        self.tracks = {}
+        self.tracks: dict[int, Track] = {}
         self.next_id = 1
 
-    def update(self, boxes):
+    def update(self, boxes: Iterable[BBox]) -> dict[int, Track]:
         boxes = [tuple(map(int, box)) for box in boxes]
         centers = np.array([(x+w/2, y+h/2) for x, y, w, h in boxes], dtype=float).reshape(-1, 2)
         ids = list(self.tracks)

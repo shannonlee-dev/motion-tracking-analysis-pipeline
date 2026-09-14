@@ -1,4 +1,5 @@
 """LASIESTA frame/annotation pairing and foreground labels."""
+from pathlib import Path
 import numpy as np
 
 BACKGROUND_LABEL = 0
@@ -9,7 +10,7 @@ SINGLE_PERSON_LABELS = (MOVING_PERSON_LABEL, STATIC_PERSON_LABEL)
 FOREGROUND_LABELS = (MOVING_PERSON_LABEL, (0, 255, 0), (0, 255, 255), STATIC_PERSON_LABEL)
 
 
-def labels(gt):
+def labels(gt: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """OpenCV BGR: include temporarily static objects, ignore uncertain pixels."""
     bg = np.all(gt == BACKGROUND_LABEL, axis=2)
     uncertain = np.all(gt == UNCERTAIN_LABEL, axis=2)
@@ -22,7 +23,7 @@ def labels(gt):
     return fg, ~uncertain
 
 
-def sequence_paths(root, name):
+def sequence_paths(root: Path, name: str) -> list[tuple[Path, Path]]:
     images = sorted((root/name).glob(f'{name}-*.bmp'), key=lambda p: int(p.stem.split('-')[-1]))
     truth = sorted((root/(name+'-GT')).glob(f'{name}-GT_*.png'), key=lambda p: int(p.stem.split('_')[-1]))
     if not images or len(images) != len(truth):

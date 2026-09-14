@@ -1,8 +1,9 @@
 """Deterministic scenes, ground truth and target video generation."""
 from motion_tracking.constants import VIDEO_CODEC
+from pathlib import Path
 import cv2
 import numpy as np
-from motion_tracking.geometry import intersection_area
+from motion_tracking.geometry import BBox, intersection_area
 from motion_tracking.evaluation import OCCLUSION_EXCLUSION_FRACTION
 from scripts.constants import EXPERIMENT_SEED
 
@@ -38,7 +39,9 @@ TARGET_END = TARGET_OFFSET+TARGET_SIZE
 TARGET_CENTER = (TARGET_CANVAS_SIZE//2, TARGET_CANVAS_SIZE//2)
 CONDITIONS = {'single': 10, 'crossing': 10, 'stopping': 5, 'lighting': 5}
 
-def synthetic_frame(condition, trial, frame_number):
+def synthetic_frame(
+    condition: str, trial: int, frame_number: int,
+) -> tuple[np.ndarray, dict[int, BBox], dict[int, bool]]:
     """25 s, known rectangles: enter f50, exit f575, cross f300.
 
     Rear object is rendered first, so its occlusion fraction is exact.
@@ -77,7 +80,7 @@ def synthetic_frame(condition, trial, frame_number):
     return image, truth, excluded
 
 
-def make_target():
+def make_target() -> np.ndarray:
     rng=np.random.default_rng(EXPERIMENT_SEED)
     target=np.full((TARGET_SIZE,TARGET_SIZE,3),235,np.uint8)
     for _ in range(TARGET_MARK_COUNT):
@@ -89,7 +92,7 @@ def make_target():
     return target
 
 
-def make_target_demo(path, target):
+def make_target_demo(path: Path, target: np.ndarray) -> None:
     """Write a reproducible test input to an explicitly chosen location."""
     canvas = np.full((TARGET_CANVAS_SIZE, TARGET_CANVAS_SIZE, 3), TARGET_BACKGROUND, np.uint8)
     canvas[TARGET_OFFSET:TARGET_END, TARGET_OFFSET:TARGET_END] = target

@@ -1,5 +1,8 @@
 """Event metrics, independent of tracker identity and prediction internals."""
+from collections.abc import Mapping, Sequence
 import numpy as np
+from motion_tracking.geometry import BBox
+from motion_tracking.tracker import Track
 from motion_tracking.geometry import iou  # Re-export for existing callers.
 
 IDENTITY_CONFIRMATION_FRAMES = 5
@@ -8,7 +11,9 @@ DEFAULT_MIN_IOU = 0.1
 OCCLUSION_EXCLUSION_FRACTION = 0.5
 
 
-def count_post_overlap_switches(assignments, excluded, start, end):
+def count_post_overlap_switches(
+    assignments: Sequence[int | None], excluded: Sequence[bool], start: int, end: int,
+) -> int:
     """Compare post-separation IDs with the last confirmed pre-overlap ID.
 
     start/end are inclusive sequence indices of one physical overlap event.
@@ -22,7 +27,7 @@ def count_post_overlap_switches(assignments, excluded, start, end):
     return count_events(assignments, masked)['id_switches'] - before
 
 
-def count_events(assignments, excluded):
+def count_events(assignments: Sequence[int | None], excluded: Sequence[bool]) -> dict[str, int]:
     """Count confirmed ID changes (5 consecutive frames), misses (10).
 
     A missing run counts once, not once per frame. >=50% occlusion breaks
@@ -60,7 +65,9 @@ def count_events(assignments, excluded):
                 eligible_frames=eligible, excluded_frames=sum(excluded))
 
 
-def assign_ground_truth(truth, tracks, min_iou=DEFAULT_MIN_IOU):
+def assign_ground_truth(
+    truth: Mapping[int, BBox], tracks: Mapping[int, Track], min_iou: float = DEFAULT_MIN_IOU,
+) -> dict[int, int | None]:
     """One-to-one IoU matching of observed boxes; stale tracks cannot mask loss."""
     ids = list(truth)
     observed = [(tid, t) for tid, t in tracks.items() if t.missing == 0]

@@ -2,7 +2,8 @@
 from dataclasses import dataclass
 import cv2
 import numpy as np
-from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.config import Config, DEFAULT_CONFIG
+from motion_tracking.geometry import BBox
 from motion_tracking.constants import MASK_MAX_VALUE
 from motion_tracking.features import (
     FEATURE_COUNT, MATCH_RATIO, KNN_NEIGHBORS, RANSAC_REPROJECTION_THRESHOLD,
@@ -18,7 +19,7 @@ TARGET_BOUNDARY_MARGIN = 1  # Permit one frame's width/height outside each edge.
 
 
 class MotionDetector:
-    def __init__(self, config=None):
+    def __init__(self, config: Config | None = None) -> None:
         self.config = config or DEFAULT_CONFIG
         self.model = cv2.createBackgroundSubtractorMOG2(
             history=self.config.history, varThreshold=self.config.var_threshold, detectShadows=True)
@@ -26,7 +27,7 @@ class MotionDetector:
                                                (self.config.kernel_size, self.config.kernel_size))
         self.frame_count = 0
 
-    def detect(self, frame):
+    def detect(self, frame: np.ndarray) -> tuple[list[BBox], np.ndarray]:
         raw = self.model.apply(frame, learningRate=self.config.learning_rate)
         # MOG2 labels shadows 127; only definite foreground survives.
         mask = cv2.threshold(raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY)[1]
@@ -48,11 +49,12 @@ class MatchResult:
     keypoints: int = 0
     matches: int = 0
     inliers: int = 0
-    polygon: object = None
+    polygon: np.ndarray | None = None
 
 
 class TargetMatcher:
-    def __init__(self, target, nfeatures=FEATURE_COUNT, ratio=MATCH_RATIO, min_inliers=MIN_TARGET_INLIERS):
+    def __init__(self, target: np.ndarray | None, nfeatures: int = FEATURE_COUNT,
+                 ratio: float = MATCH_RATIO, min_inliers: int = MIN_TARGET_INLIERS) -> None:
         if target is None or target.size == 0:
             raise ValueError('Cannot read target image')
         self.orb = cv2.ORB_create(nfeatures=nfeatures)
@@ -63,7 +65,7 @@ class TargetMatcher:
         self.matcher = cv2.BFMatcher(cv2.NORM_HAMMING)
         self.ratio, self.min_inliers = ratio, min_inliers
 
-    def match(self, frame):
+    def match(self, frame: np.ndarray) -> MatchResult:
         kp, desc = self.orb.detectAndCompute(frame, None)
         result = MatchResult(keypoints=len(kp))
         if desc is None or len(desc) < KNN_NEIGHBORS:

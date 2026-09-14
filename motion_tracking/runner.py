@@ -5,7 +5,7 @@ from pathlib import Path
 import time
 import cv2
 import numpy as np
-from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.config import Config, DEFAULT_CONFIG
 from motion_tracking.constants import (
     VIDEO_CODEC, DEFAULT_VIDEO_FPS, DEFAULT_SNAPSHOT_DIR,
     MIN_ELAPSED_SECONDS, MILLISECONDS_PER_SECOND,
@@ -22,8 +22,13 @@ MAIN_WINDOW_TITLE = 'Motion analysis | q quit, p pause, s snapshot'
 MASK_WINDOW_TITLE = 'Foreground mask'
 
 
-def run(source, config=None, *, target=None, headless=False, output=None, csv_path=None,
-        max_frames=None, snapshot_dir=DEFAULT_SNAPSHOT_DIR, show_mask=False):
+def run(
+    source: int | str | Path, config: Config | None = None, *,
+    target: str | Path | None = None, headless: bool = False,
+    output: str | Path | None = None, csv_path: str | Path | None = None,
+    max_frames: int | None = None, snapshot_dir: str | Path = DEFAULT_SNAPSHOT_DIR,
+    show_mask: bool = False,
+) -> dict[str, int | float]:
     config = config or DEFAULT_CONFIG
     if max_frames is not None and max_frames < 1:
         raise ValueError('max_frames must be positive')

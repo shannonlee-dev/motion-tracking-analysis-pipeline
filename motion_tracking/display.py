@@ -1,8 +1,11 @@
 """Frame overlays and keyboard controls, shared by the app and evaluations."""
+from collections.abc import Mapping
 from pathlib import Path
 import time
 import cv2
 import numpy as np
+from motion_tracking.tracker import Track
+from motion_tracking.vision import MatchResult
 
 KEY_QUIT = ord('q')
 KEY_PAUSE = ord('p')
@@ -27,10 +30,11 @@ LABEL_MIN_Y = 15
 
 
 class Controls:
-    def __init__(self):
+    def __init__(self) -> None:
         self.paused = False
 
-    def handle(self, key, frame, snapshot_dir, frame_number):
+    def handle(self, key: int, frame: np.ndarray | None,
+               snapshot_dir: str | Path, frame_number: int) -> bool:
         if key == KEY_QUIT:
             return False
         if key == KEY_PAUSE:
@@ -44,7 +48,10 @@ class Controls:
         return True
 
 
-def draw_overlay(frame, tracks, fps, frame_number, match=None):
+def draw_overlay(
+    frame: np.ndarray, tracks: Mapping[int, Track], fps: float, frame_number: int,
+    match: MatchResult | None = None,
+) -> np.ndarray:
     image = frame.copy()
     for tid, track in tracks.items():
         if track.missing:

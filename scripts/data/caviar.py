@@ -1,8 +1,10 @@
 """Read CAVIAR frame annotations as top-left bounding boxes."""
+from pathlib import Path
 import xml.etree.ElementTree as ET
+from motion_tracking.geometry import BBox
 
 
-def load_caviar(path):
+def load_caviar(path: str | Path) -> dict[int, dict[int, BBox]]:
     result = {}
     for frame in ET.parse(path).getroot().findall('frame'):
         objects = {}

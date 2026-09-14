@@ -1,4 +1,5 @@
 """Prepare official public benchmarks; verify pinned source checksums."""
+from collections.abc import Mapping
 import hashlib
 import io
 import json
@@ -13,25 +14,25 @@ DOWNLOAD_TIMEOUT_SECONDS = 120
 ALOI_MASK_PREFIX_BYTES = 524288
 
 
-def verify(content, record):
+def verify(content: bytes, record: Mapping[str, object]) -> None:
     if len(content) != record['bytes'] or hashlib.sha256(content).hexdigest() != record['sha256']:
         raise ValueError(f"Source checksum mismatch: {record['file']}")
 
 
-def download(url, limit=None):
+def download(url: str, limit: int | None = None) -> bytes:
     req = urllib.request.Request(url, headers={'Range': f'bytes=0-{limit-1}'} if limit else {})
     with urllib.request.urlopen(req, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
         return response.read(limit) if limit else response.read()
 
 
-def safe_path(root, name):
+def safe_path(root: Path, name: str) -> Path:
     path = Path(name)
     if path.is_absolute() or '..' in path.parts:
         raise ValueError('Unsafe archive path')
     return root/path
 
 
-def main():
+def main() -> None:
     # ALOI archives are read as data only; selected original files are hash checked.
     records = json.loads((ROOT/ALOI_DIR/'sources.json').read_text())
     cache = {}

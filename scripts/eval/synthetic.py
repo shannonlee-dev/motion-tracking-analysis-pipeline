@@ -24,7 +24,9 @@ BACKGROUND_WINDOW_FRAMES = 100
 BACKGROUND_CAPTURE_FRAME = LIGHTING_CHANGE_FRAME+10
 
 
-def feature_experiment(export_videos=False):
+def feature_experiment(
+    export_videos: bool = False,
+) -> tuple[list[dict[str, object]], dict[str, int | float]]:
     target=make_target()
     matcher=TargetMatcher(target)
     rows,panels=[],[]
@@ -62,7 +64,7 @@ def feature_experiment(export_videos=False):
     return rows,stats
 
 
-def background_experiment():
+def background_experiment() -> list[dict[str, object]]:
     rows=[]
     for rate in LEARNING_RATES:
         for kernel in KERNEL_SIZES:

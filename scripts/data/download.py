@@ -17,7 +17,7 @@ SOURCES = {
     'stopping.xml': 'CAVIARDATA2/OneStopNoEnter1cor/cosne1gt.xml',
 }
 
-def main():
+def main() -> None:
     dest = ROOT / CAVIAR_RAW_DIR
     dest.mkdir(parents=True, exist_ok=True)
     manifest = ROOT/CAVIAR_MANIFEST

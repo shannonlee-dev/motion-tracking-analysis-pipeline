@@ -21,7 +21,7 @@ REVIEW_FRAMES = (90, 120, 137, 150, 160, 170, 171, 180, 189, 190, 200, 230, 267,
 PANEL_COLUMNS = 4
 
 
-def main(argv=None):
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--export-videos', action='store_true')
     args = parser.parse_args(argv)

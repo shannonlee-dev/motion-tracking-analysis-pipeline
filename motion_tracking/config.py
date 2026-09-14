@@ -22,7 +22,7 @@ class Config:
 
     predict_velocity: bool = False
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not 0 <= self.learning_rate <= 1:
             raise ValueError('learning_rate must be in [0, 1]')
         if self.kernel_size < 1 or self.kernel_size % 2 == 0:

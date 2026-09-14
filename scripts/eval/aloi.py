@@ -18,7 +18,7 @@ PANEL_SIZE = (464, 368)
 PANEL_COLUMNS = 3
 
 
-def occlude(image, mask, fraction):
+def occlude(image: np.ndarray, mask: np.ndarray, fraction: float) -> tuple[np.ndarray, int]:
     if image.shape[:2] != mask.shape or not 0 <= fraction <= 1 or not mask.any():
         raise ValueError('Invalid mask or fraction')
     # Vertical opaque curtain: include whole preceding columns, then part of one column.
@@ -35,7 +35,7 @@ def occlude(image, mask, fraction):
     return out, int(np.count_nonzero(covered & mask))
 
 
-def main():
+def main() -> None:
     cv2.setRNGSeed(ALOI_SEED)
     root = ROOT/ALOI_RAW_DIR
     target = cv2.imread(str(root/'1_r0.png'))

@@ -10,7 +10,7 @@ from motion_tracking.vision import MotionDetector
 from scripts.common import write_csv, RESULTS, ROOT
 from scripts.data.lasiesta import labels, sequence_paths
 
-def confusion(pred, fg, valid):
+def confusion(pred: np.ndarray, fg: np.ndarray, valid: np.ndarray) -> tuple[int, int, int, int]:
     return tuple(int(np.count_nonzero(x & valid)) for x in
                  (pred & fg, pred & ~fg, ~pred & fg, ~pred & ~fg))
 
@@ -21,7 +21,7 @@ RECOVERY_CONSECUTIVE_FRAMES = 10
 WARMUP_FRAMES = DEFAULT_CONFIG.warmup_frames
 
 
-def main():
+def main() -> None:
     results = RESULTS/CURRENT_RESULTS_DIR
     (results/'captures').mkdir(parents=True, exist_ok=True)
     rows, frames = [], []

@@ -16,7 +16,7 @@ from scripts.eval.tracking import evaluate_synthetic, evaluate_real
 from scripts.data.synthetic import CONDITIONS
 from scripts.eval.synthetic import feature_experiment, background_experiment
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--export-videos', action='store_true', help='also save synthetic inputs and annotated videos')
     args = parser.parse_args()

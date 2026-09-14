@@ -3,27 +3,35 @@ from scripts.constants import (
     CURRENT_RESULTS_DIR, CAVIAR_RAW_DIR, CAVIAR_FPS, CAVIAR_FRAME_SIZE, CAVIAR_SEQUENCES, CLIPS_DIR,
 )
 from motion_tracking.constants import VIDEO_CODEC
+from collections.abc import Mapping, Sequence
 import cv2
+from motion_tracking.config import Config
+from motion_tracking.geometry import BBox
 import numpy as np
 from motion_tracking.display import draw_overlay
 from motion_tracking.evaluation import assign_ground_truth, count_events, count_post_overlap_switches, iou
 from scripts.common import ROOT, RESULTS, write_csv
 from scripts.data.caviar import load_caviar
 from scripts.data.synthetic import FPS, FRAMES, CONDITIONS, FRAME_SIZE, synthetic_frame
-from motion_tracking.tracker import Tracker
+from motion_tracking.tracker import Track, Tracker
 from motion_tracking.vision import MotionDetector
 
 SYNTHETIC_REVIEW_FRAMES = (100, 250, 290, 300, 320, 380, 450)
 CAVIAR_REVIEW_FRAMES = (50, 100, 150, 175, 200, 250, 300, 400, 500, 600)
 
 
-def match_eligible(truth, tracks, excluded):
+def match_eligible(
+    truth: Mapping[int, BBox], tracks: Mapping[int, Track], excluded: Mapping[int, bool],
+) -> dict[int, int | None]:
     eligible = {tid: box for tid, box in truth.items() if not excluded.get(tid, False)}
     matched = assign_ground_truth(eligible, tracks)
     return {tid: matched.get(tid) for tid in truth}
 
 
-def summarize(video, condition, assignments, exclusion, first_last, note):
+def summarize(
+    video: str, condition: str, assignments: Mapping[int, Sequence[int | None]],
+    exclusion: Mapping[int, Sequence[bool]], first_last: Mapping[int, Sequence[int]], note: str,
+) -> tuple[dict[str, object], list[dict[str, object]]]:
     totals = dict(id_switches=0, failures=0, missing_frames=0, eligible_frames=0, excluded_frames=0)
     objects = []
     for tid, values in assignments.items():
@@ -39,7 +47,9 @@ def summarize(video, condition, assignments, exclusion, first_last, note):
     return row, objects
 
 
-def evaluate_synthetic(config, variant, export=False, export_videos=False):
+def evaluate_synthetic(
+    config: Config, variant: str, export: bool = False, export_videos: bool = False,
+) -> list[dict[str, object]]:
     rows, object_rows = [], []
     for condition, count in CONDITIONS.items():
         for trial in range(count):
@@ -114,7 +124,7 @@ def evaluate_synthetic(config, variant, export=False, export_videos=False):
     return rows
 
 
-def evaluate_real(config, export_videos=False):
+def evaluate_real(config: Config, export_videos: bool = False) -> list[dict[str, object]]:
     results = RESULTS/CURRENT_RESULTS_DIR
     (results/'captures').mkdir(parents=True, exist_ok=True)
     rows, allobjects, metadata = [], [], []
