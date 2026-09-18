@@ -20,8 +20,6 @@ results/
     └── metrics/     # 조명·추적 집계
 ```
 
-기존 파일은 내용 변경 없이 이동했다. CSV는 삭제된 XML·정답 마스크를 사용한 과거 자동 평가 결과이며, 현재 입력만으로 다시 측정한 값이나 수동 검증 완료 결과가 아니다. 자동 평가 스크립트도 제거되어 기존 결과의 재생성 명령은 제공하지 않는다.
-
 새 영상·로그는 `--output`, `--csv`로 해당 입력의 결과 폴더에 저장한다.
 예: `--output results/caviar/videos/single_1_overlap_1.mp4 --csv results/caviar/traces/single_1_overlap_1.csv`.
 스냅샷은 s 키로 저장하며, 기본 경로는 `results/snapshots/`이다. `--snapshot-dir`로 입력에 맞는 `captures/`를 지정할 수 있다. 이 폴더들은 저장할 때 생성된다.

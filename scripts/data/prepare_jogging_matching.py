@@ -82,23 +82,8 @@ def main():
             raise ValueError(f"Invalid frame {frame}")
         crop(image, bbox)
     for directory in (INPUTS, ASSETS, SELECTED_FRAMES, OUTPUT, OUTPUT / "matches",
-                      OUTPUT / "keypoints", OUTPUT / "inspection"):
+                      OUTPUT / "keypoints"):
         directory.mkdir(parents=True, exist_ok=True)
-
-    # Full-sequence visual evidence, with the Jogging-1 GT highlighted.
-    thumbnails = []
-    for number, (image, bbox) in enumerate(zip(images, gt), 1):
-        image = image.copy()
-        x, y, w, h = map(int, bbox)
-        cv2.rectangle(image, (x - 1, y - 1), (x + w - 2, y + h - 2), (0, 255, 0), 1)
-        cv2.putText(image, f"{number:04d}", (5, 20), cv2.FONT_HERSHEY_SIMPLEX, .6, (0, 255, 255), 1)
-        thumbnails.append(image)
-    for start in range(0, 307, 40):
-        tiles = thumbnails[start:start + 40]
-        while len(tiles) % 5:
-            tiles.append(np.zeros_like(images[0]))
-        sheet = np.vstack([np.hstack(tiles[i:i + 5]) for i in range(0, len(tiles), 5)])
-        write_image(OUTPUT / "inspection" / f"frames_{start + 1:04d}_{min(start + 40, 307):04d}.jpg", sheet)
 
     target = crop(images[TARGET_FRAME - 1], gt[TARGET_FRAME - 1])
     write_image(INPUTS / "target.png", target)
@@ -194,7 +179,7 @@ def main():
         report.append("")
     report += ["## 재현", "", "`python -m scripts.data.prepare_jogging_matching --video`", "",
                "실험 입력 PNG와 관찰용 MP4: `data/matching_inputs/Jogging-1/`. 원본 JPG·GT·선정 근거: `data/matching_assets/Jogging-1/`.",
-               "`inspection/`: 전체 307프레임 GT 미리보기. `selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.",
+               "`selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.",
                "MP4의 25 fps는 관찰용 재생 속도이며 원본 촬영 FPS를 주장하지 않는다.", ""]
     (OUTPUT / "report.md").write_text("\n".join(report))
     if args.video:

@@ -37,5 +37,5 @@ target 특징점: 100개
 `python -m scripts.data.prepare_jogging_matching --video`
 
 실험 입력 PNG와 관찰용 MP4: `data/matching_inputs/Jogging-1/`. 원본 JPG·GT·선정 근거: `data/matching_assets/Jogging-1/`.
-`inspection/`: 전체 307프레임 GT 미리보기. `selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.
+`selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.
 MP4의 25 fps는 관찰용 재생 속도이며 원본 촬영 FPS를 주장하지 않는다.
