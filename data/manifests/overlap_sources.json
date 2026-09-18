@@ -1,6 +1,6 @@
 [
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_OneShopOneWait1cor.mp4",
+    "file": "data/tracking_inputs/04.mp4",
     "source_file": "OneShopOneWait1cor.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA2/OneShopOneWait1cor/OneShopOneWait1cor.mpg",
     "source_bytes": 7966849,
@@ -25,7 +25,7 @@
     "sha256": "320aaa5a06d3db2772a25711d4c9e513b800f580091a42334fed7a5668e7ef57"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_Meet_WalkTogether2.mp4",
+    "file": "data/tracking_inputs/05.mp4",
     "source_file": "Meet_WalkTogether2.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Meet_WalkTogether2/Meet_WalkTogether2.mpg",
     "source_bytes": 9462698,
@@ -50,7 +50,7 @@
     "sha256": "89badc4bfa976c3e3ef2f5beb2f666471ca2e0e8b7e603c34a1616752a77876b"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_Fight_RunAway1.mp4",
+    "file": "data/tracking_inputs/06.mp4",
     "source_file": "Fight_RunAway1.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Fight_RunAway1/Fight_RunAway1.mpg",
     "source_bytes": 6500613,
@@ -75,7 +75,7 @@
     "sha256": "044b0a6d845f7d35d90bd3fc318289912363434d6c3d276f5120050362acfa63"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_Fight_RunAway2.mp4",
+    "file": "data/tracking_inputs/07.mp4",
     "source_file": "Fight_RunAway2.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Fight_RunAway2/Fight_RunAway2.mpg",
     "source_bytes": 6483410,
@@ -100,7 +100,7 @@
     "sha256": "d5ae43ed69e19db74e82141d5d4c3c6ad03d8257b1a6ef873dd6cfb62cd1f206"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_Fight_OneManDown.mp4",
+    "file": "data/tracking_inputs/08.mp4",
     "source_file": "Fight_OneManDown.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Fight_OneManDown/Fight_OneManDown.mpg",
     "source_bytes": 11320119,
@@ -125,7 +125,7 @@
     "sha256": "2e791fc00ed7fb7de710e185457011645c18f4c3f540fd222a9d0674fbaaef7c"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_Fight_Chase.mp4",
+    "file": "data/tracking_inputs/09.mp4",
     "source_file": "Fight_Chase.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA1/Fight_Chase/Fight_Chase.mpg",
     "source_bytes": 5087190,
@@ -150,7 +150,7 @@
     "sha256": "6772b472dd6611240c0d9ee89232d4a0d388cb78b9dc5e82a6e60fb5a8524f51"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_EnterExitCrossingPaths1cor.mp4",
+    "file": "data/tracking_inputs/10.mp4",
     "source_file": "EnterExitCrossingPaths1cor.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA2/EnterExitCrossingPaths1cor/EnterExitCrossingPaths1cor.mpg",
     "source_bytes": 2257192,
@@ -175,7 +175,7 @@
     "sha256": "6ae22cd84a1ecd96fe5c83ff330e7c979a29c0c5a2840a74e2d5af127c6ae63a"
   },
   {
-    "file": "data/tracking_inputs/caviar/overlap_1_EnterExitCrossingPaths2cor.mp4",
+    "file": "data/tracking_inputs/11.mp4",
     "source_file": "EnterExitCrossingPaths2cor.mpg",
     "source_url": "https://homepages.inf.ed.ac.uk/rbf/CAVIARDATA2/EnterExitCrossingPaths2cor/EnterExitCrossingPaths2cor.mpg",
     "source_bytes": 2856243,

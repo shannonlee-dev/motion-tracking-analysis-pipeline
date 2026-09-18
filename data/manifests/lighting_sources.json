@@ -1,6 +1,6 @@
 [
   {
-    "local_file": "data/tracking_inputs/lighting/single_1_lighting_1_door.mp4",
+    "local_file": "data/tracking_inputs/12.mp4",
     "source_dataset": "CSIRO Light Change Dataset v4",
     "source_sequence": "human_door_8cdd.mp4",
     "raw_file": "human_door_8cdd.mp4",
@@ -16,7 +16,7 @@
     "description": "A person crosses an indoor robotics hall while an open doorway causes a large global illumination change."
   },
   {
-    "local_file": "data/tracking_inputs/lighting/single_2_lighting_2_portable_light.mp4",
+    "local_file": "data/tracking_inputs/13.mp4",
     "source_dataset": "CSIRO Light Change Dataset v4",
     "source_sequence": "human_light_0d2f.mp4",
     "raw_file": "human_light_0d2f.mp4",
@@ -32,7 +32,7 @@
     "description": "A person makes two separate passes through a fixed indoor camera view while carrying a bright portable light."
   },
   {
-    "local_file": "data/tracking_inputs/lighting/single_2_stationary_1_lighting_3_switch.mp4",
+    "local_file": "data/tracking_inputs/14.mp4",
     "source_dataset": "Microsoft Research Wallflower Test Images",
     "source_sequence": "LightSwitch",
     "raw_file": "LightSwitch.zip",
