@@ -88,11 +88,13 @@ python app.py --source data/tracking_inputs/caviar/single_1_overlap_1.mpg --head
 ```bash
 python -m scripts.data.prepare_caviar  # CAVIAR·추가 조명 원본 다운로드
 python -m pip install libarchive-c
-python -m scripts.data.prepare_lasiesta   # LASIESTA 다운로드·RAR 해제
+python -m scripts.data.prepare_lasiesta   # LASIESTA 다운로드·RAR 해제·MP4 변환
 ```
 
-RAR 해제에는 OS libarchive도 필요합니다. CAVIAR·추가 조명 원본과 LASIESTA 원본 RAR·해제본은
-`data/raw/`에 저장하며 Git에서 제외합니다. 이름을 정리한 관찰용 입력은 `data/tracking_inputs/`에, 다운로드 manifest는 `data/manifests/`에 둡니다. 합성 영상 생성과 자동 평가는 포함하지 않습니다.
+RAR 해제에는 OS libarchive도 필요합니다. CAVIAR·추가 조명 원본과 LASIESTA 원본 RAR·BMP·GT는
+`data/raw/`에 저장하며 Git에서 제외합니다. LASIESTA BMP 프레임은 자동으로 MP4로 변환되어
+`data/tracking_inputs/`에 저장됩니다. 다운로드 manifest는 `data/reference/manifests/`에 둡니다.
+합성 영상 생성과 자동 평가는 포함하지 않습니다.
 
 ## 개발 검증
 

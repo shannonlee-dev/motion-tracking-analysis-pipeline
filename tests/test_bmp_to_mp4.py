@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pytest
 
-from scripts.bmp_to_mp4 import convert_bmps
+from scripts.data.prepare_lasiesta import convert_bmps
 
 
 def write_bmp(path, bgr):

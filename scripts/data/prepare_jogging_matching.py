@@ -18,7 +18,7 @@ from motion_tracking.features import unique_ratio_matches
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUTS = ROOT / "data/matching_inputs"
-ASSETS = ROOT / "data/matching_assets/Jogging-1"
+ASSETS = ROOT / "data/reference/matching_assets/Jogging-1"
 RAW_ASSETS = ASSETS / "raw"
 SOURCE = RAW_ASSETS / "Jogging"
 SELECTED_FRAMES = ASSETS / "selected_frames"
@@ -177,8 +177,8 @@ def main():
                 report.append(f"| {row['condition']} | {row['frame']} | {row['extracted_keypoints']} | {row['matched_keypoints']} | {row['match_rate_percent']:.2f}% |")
         report.append("")
     report += ["## 재현", "", "`python -m scripts.data.prepare_jogging_matching --video`", "",
-               "실험 입력 target.png와 관찰용 MP4: `data/matching_inputs/`. 원본 JPG·GT·선정 근거: `data/matching_assets/Jogging-1/`.",
-               "`selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.",
+               "실험 입력 target.png와 관찰용 MP4: `data/matching_inputs/`. 원본 JPG·GT·선정 근거: `data/reference/matching_assets/Jogging-1/`.",
+               "`selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/reference/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.",
                "MP4의 25 fps는 관찰용 재생 속도이며 원본 촬영 FPS를 주장하지 않는다.", ""]
     (OUTPUT / "report.md").write_text("\n".join(report))
     if args.video:

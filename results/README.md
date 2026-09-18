@@ -44,4 +44,4 @@ results/
 영상·캡처를 관찰하고 영상명·프레임 범위·메모를 `docs/report.md`에 기록한다.
 출처와 이용 조건은 `data/NOTICE.md`를 확인한다.
 
-LASIESTA의 장면별 폴더명과 기존 결과의 원본 ID 대응은 `data/lasiesta/NOTICE.md`에 기록되어 있다.
+LASIESTA의 장면별 폴더명과 기존 결과의 원본 ID 대응은 `data/reference/lasiesta/NOTICE.md`에 기록되어 있다.

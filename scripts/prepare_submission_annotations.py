@@ -23,7 +23,7 @@ def main():
         p = out / 'annotations' / f'{n}.xml'
         truth[n] = parse(p)
         sources.append(dict(video=n, annotation=str(p), sha256=hashlib.sha256(p.read_bytes()).hexdigest(), origin='Cached CAVIAR XML recovered from /tmp/mission-scene-audit; dataset name and visual alignment checked; not prior tracking results'))
-    for m in json.load(open('data/manifests/overlap_sources.json')):
+    for m in json.load(open('data/reference/manifests/overlap_sources.json')):
         n = Path(m['file']).stem
         p = Path('data/raw/caviar') / m['gt_file']
         truth[n] = {f: b for f, b in parse(p, m['source_start_frame']).items() if 0 <= f < m['frames']}

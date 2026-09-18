@@ -14,6 +14,6 @@ CC BY 4.0에 따라 이 저장소의 `Jogging.zip`에서 추출한 프레임·GT
 - `data/matching_inputs/Jogging-1/`: GT bbox로 자른 PNG 6개와 JPG를 25 fps로 연결한 `jogging.mp4`.
 - `results/jogging_matching/`: GT 시각화, 특징점과 매칭 결과.
 
-원본 ZIP의 바이트 수·SHA-256·출처·인용은 `data/manifests/otb_sources.json`에 기록했다. 원본 ZIP은 `data/raw/OTB/Jogging.zip`에 두며, 재생성 가능한 원본이므로 Git에서 제외한다. 원본 JPG·GT와 선택 근거는 이 폴더에 보관한다.
+원본 ZIP의 바이트 수·SHA-256·출처·인용은 `data/reference/manifests/otb_sources.json`에 기록했다. 원본 ZIP은 `data/raw/OTB/Jogging.zip`에 두며, 재생성 가능한 원본이므로 Git에서 제외한다. 원본 JPG·GT와 선택 근거는 이 폴더에 보관한다.
 
 인용: Y. Wu, J. Lim, and M.-H. Yang, “Object Tracking Benchmark,” *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 37(9), 1834–1848, 2015. DOI: 10.1109/TPAMI.2014.2388226.

@@ -316,5 +316,5 @@ GUI 키보드·웹캠 동작을 이번에 새로 수동 검증하지 않았고 �
 `review/O10`은 약한 부분 겹침이라는 사실을 유지해 평가 기준과 대조한다.
 이 검토 없이 “과제의 모든 요구사항을 충족한 제출 완료 상태”라고 표기하지 않는다.
 
-데이터 출처·재배포 조건은 기존 [데이터 안내](../data/NOTICE.md), [LASIESTA 및 Wallflower 안내](../data/lasiesta/NOTICE.md),
-[Jogging 안내](../data/matching_assets/NOTICE.md)를 따른다. 새 관찰 캡처·bbox 파생 자료에도 해당 원본의 조건이 적용된다.
+데이터 출처·재배포 조건은 기존 [데이터 안내](../data/NOTICE.md), [LASIESTA 및 Wallflower 안내](../data/reference/lasiesta/NOTICE.md),
+[Jogging 안내](../data/reference/matching_assets/NOTICE.md)를 따른다. 새 관찰 캡처·bbox 파생 자료에도 해당 원본의 조건이 적용된다.

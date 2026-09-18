@@ -38,7 +38,7 @@
 실행 전에 `TARGET_IMAGE`에 등록 이미지 경로를 지정합니다.
 
 ```bash
-TARGET_IMAGE=data/matching_assets/Jogging-1/selected_frames/target.png
+TARGET_IMAGE=data/reference/matching_assets/Jogging-1/selected_frames/target.png
 ./.venv/bin/python app.py --source data/tracking_inputs/01.mpg --target "$TARGET_IMAGE" --headless --output command/1/01_target.mp4 --csv command/1/01_target.csv
 ```
 

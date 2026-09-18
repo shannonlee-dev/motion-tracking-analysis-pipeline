@@ -10,8 +10,9 @@ https://creativecommons.org/licenses/by-sa/4.0/
 Computer Vision and Image Understanding, 2016. DOI: 10.1016/j.cviu.2016.08.005.
 
 I_IL_01.rar, I_IL_02.rar, I_OC_01.rar, I_OC_02.rar, I_CA_01.rar을 준비 스크립트에서 사용한다.
-파일별 공식 URL·바이트 수·SHA-256은 `data/manifests/lasiesta_sources.json`에 있다.
-`python -m scripts.data.prepare_lasiesta`로 원본 RAR과 프레임·GT·XML을 `data/raw/lasiesta/`에 원본 ID 그대로 저장한다.
+파일별 공식 URL·바이트 수·SHA-256은 `data/reference/manifests/lasiesta_sources.json`에 있다.
+`python -m scripts.data.prepare_lasiesta`로 원본 RAR과 BMP 프레임·GT·XML을 `data/raw/lasiesta/`에 원본 ID 그대로 저장하고,
+BMP 프레임은 `data/tracking_inputs/15.mp4`부터 `19.mp4`까지 자동 변환한다.
 OS libarchive와 Python libarchive-c가 필요하다.
 `data/raw/`는 재생성할 수 있으므로 Git에서 제외한다. 이름을 정리한 관찰용 폴더는 `data/` 바로 아래에 둔다. 원본의 가공물에도 같은 CC BY-SA 4.0 조건을 유지한다.
 
@@ -29,7 +30,7 @@ OS libarchive와 Python libarchive-c가 필요하다.
 
 ## 추가 조명 변화 영상 3개
 
-2026-09-18에 고정 카메라, 사람 이동, 큰 조명 변화가 함께 나타나는 서로 다른 사건 3개를 추가했다. 파일별 URL·크기·SHA-256·사건 수는 `data/manifests/lighting_sources.json`에 기록했다.
+2026-09-18에 고정 카메라, 사람 이동, 큰 조명 변화가 함께 나타나는 서로 다른 사건 3개를 추가했다. 파일별 URL·크기·SHA-256·사건 수는 `data/reference/manifests/lighting_sources.json`에 기록했다.
 
 | 로컬 파일 | 원본 | 관찰 내용 |
 | --- | --- | --- |

@@ -30,7 +30,7 @@
 
 ## 등록 대상 매칭
 ```bash
-TARGET_IMAGE=data/matching_assets/Jogging-1/selected_frames/target.png
+TARGET_IMAGE=data/reference/matching_assets/Jogging-1/selected_frames/target.png
 ./.venv/bin/python app.py --source data/tracking_inputs/02.mpg --target "$TARGET_IMAGE" --headless --output command/2/02_target.mp4 --csv command/2/02_target.csv
 ```
 
