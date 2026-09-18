@@ -8,8 +8,42 @@ import numpy as np
 import pytest
 
 from motion_tracking.config import Config
-from motion_tracking.display import Controls
+from motion_tracking.display import Controls, draw_overlay
 from motion_tracking.runner import run
+from motion_tracking.vision import MatchResult
+
+
+def test_target_match_draws_a_clipped_red_box_and_local_label():
+    frame = np.zeros((100, 320, 3), np.uint8)
+    polygon = np.array([[[40, 30]], [[100, 30]], [[100, 80]], [[40, 80]]], np.int32)
+
+    image = draw_overlay(
+        frame,
+        {},
+        fps=30.0,
+        frame_number=12,
+        match=MatchResult(found=True, polygon=polygon),
+    )
+
+    assert tuple(image[30, 40]) == (0, 0, 255)
+    assert tuple(image[80, 100]) == (0, 0, 255)
+    assert np.any(np.all(image[15:30, 40:150] == (0, 0, 255), axis=2))
+    assert not np.any(np.all(image[25:55, :30] == (0, 0, 255), axis=2))
+
+
+def test_target_box_is_absent_when_match_is_not_found_and_clipped_at_frame_edges():
+    frame = np.zeros((80, 60, 3), np.uint8)
+    polygon = np.array([[[-10, 30]], [[20, 30]], [[20, 60]], [[-10, 60]]], np.int32)
+
+    absent = draw_overlay(
+        frame, {}, fps=30.0, frame_number=1, match=MatchResult(found=False, polygon=polygon)
+    )
+    present = draw_overlay(
+        frame, {}, fps=30.0, frame_number=1, match=MatchResult(found=True, polygon=polygon)
+    )
+
+    assert not np.any(np.all(absent == (0, 0, 255), axis=2))
+    assert tuple(present[30, 0]) == (0, 0, 255)
 
 
 
@@ -48,6 +82,8 @@ def test_closing_a_display_window_stops_playback(
     writer.release()
     monkeypatch.setenv("DISPLAY", ":test")
     monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
+    monkeypatch.setattr(cv2, "createTrackbar", lambda *_: None)
+    monkeypatch.setattr(cv2, "setTrackbarPos", lambda *_: None)
     monkeypatch.setattr(cv2, "imshow", lambda *_: None)
     monkeypatch.setattr(cv2, "waitKey", lambda _: -1)
     monkeypatch.setattr(
@@ -77,6 +113,8 @@ def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):
     visibility = iter((1.0, 0.0))
     monkeypatch.setenv("DISPLAY", ":test")
     monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
+    monkeypatch.setattr(cv2, "createTrackbar", lambda *_: None)
+    monkeypatch.setattr(cv2, "setTrackbarPos", lambda *_: None)
     monkeypatch.setattr(cv2, "imshow", lambda *_: None)
     monkeypatch.setattr(cv2, "waitKey", lambda _: next(keys, -1))
     monkeypatch.setattr(cv2, "getWindowProperty", lambda *_: next(visibility, 0.0))
@@ -85,6 +123,106 @@ def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):
     stats = run(str(source))
 
     assert stats["frames"] == 1
+
+
+def test_file_gui_adds_timeline_and_seeks_to_selected_frame(tmp_path, monkeypatch):
+    source = tmp_path / "input.avi"
+    trace = tmp_path / "trace.csv"
+    writer = cv2.VideoWriter(
+        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
+    )
+    assert writer.isOpened()
+
+    for value in range(4):
+        writer.write(np.full((24, 32, 3), value * 50, np.uint8))
+
+    writer.release()
+    created = []
+    positions = []
+    callback = None
+
+    def create_trackbar(name, window, initial, maximum, handler):
+        nonlocal callback
+        created.append((name, window, initial, maximum))
+        callback = handler
+
+    calls = 0
+
+    def wait_key(_):
+        nonlocal calls
+        calls += 1
+
+        if calls == 1:
+            callback(3)
+            return -1
+
+        return ord("q")
+
+    monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
+    monkeypatch.setattr(cv2, "createTrackbar", create_trackbar)
+    monkeypatch.setattr(
+        cv2, "setTrackbarPos", lambda name, window, position: positions.append(position)
+    )
+    monkeypatch.setattr(cv2, "imshow", lambda *_: None)
+    monkeypatch.setattr(cv2, "waitKey", wait_key)
+    monkeypatch.setattr(cv2, "getWindowProperty", lambda *_: 1.0)
+    monkeypatch.setattr(cv2, "destroyAllWindows", lambda: None)
+
+    stats = run(str(source), csv_path=trace)
+
+    assert created == [
+        ("Timeline (frame)", "Motion analysis | q quit, p pause, s snapshot", 0, 3)
+    ]
+    assert positions == [0, 3]
+    assert stats["frames"] == 2
+
+    with trace.open() as stream:
+        assert [int(row["frame"]) for row in csv.DictReader(stream)] == [0, 3]
+
+
+def test_timeline_updates_an_adjacent_frame_while_paused(tmp_path, monkeypatch):
+    source = tmp_path / "input.avi"
+    writer = cv2.VideoWriter(
+        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
+    )
+    assert writer.isOpened()
+
+    for value in range(3):
+        writer.write(np.full((24, 32, 3), value * 50, np.uint8))
+
+    writer.release()
+    callback = None
+
+    def create_trackbar(_, __, ___, ____, handler):
+        nonlocal callback
+        callback = handler
+
+    calls = 0
+
+    def wait_key(_):
+        nonlocal calls
+        calls += 1
+
+        if calls == 1:
+            return ord("p")
+
+        if calls == 2:
+            callback(1)
+            return -1
+
+        return ord("q")
+
+    monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
+    monkeypatch.setattr(cv2, "createTrackbar", create_trackbar)
+    monkeypatch.setattr(cv2, "setTrackbarPos", lambda *_: None)
+    monkeypatch.setattr(cv2, "imshow", lambda *_: None)
+    monkeypatch.setattr(cv2, "waitKey", wait_key)
+    monkeypatch.setattr(cv2, "getWindowProperty", lambda *_: 1.0)
+    monkeypatch.setattr(cv2, "destroyAllWindows", lambda: None)
+
+    assert run(str(source))["frames"] == 2
 
 
 @pytest.mark.parametrize("entrypoint", [None, ["app.py"], ["-m", "motion_tracking"]])

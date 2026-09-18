@@ -26,6 +26,7 @@ TRACK_CSV_FIELDS = ("frame", "time_s", "track_id", "x", "y", "w", "h", "target_f
 PAUSED_POLL_MS = 30
 MAIN_WINDOW_TITLE = "Motion analysis | q quit, p pause, s snapshot"
 MASK_WINDOW_TITLE = "Foreground mask"
+TIMELINE_NAME = "Timeline (frame)"
 
 
 def _validate_output_paths(
@@ -106,6 +107,9 @@ def run(
         config.predict_velocity,
     )
     controls, frame_number, elapsed, target_frames = Controls(), 0, 0.0, 0
+    processed_frames = 0
+    timeline_request: int | None = None
+    timeline_syncing = False
     image = None
 
     try:
@@ -125,13 +129,46 @@ def run(
 
         if not headless:
             cv2.namedWindow(MAIN_WINDOW_TITLE, cv2.WINDOW_NORMAL)
+
+            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+            if not isinstance(source, int) and total_frames > 1:
+                def request_timeline_position(position: int) -> None:
+                    nonlocal timeline_request
+
+                    if not timeline_syncing:
+                        timeline_request = position
+
+                cv2.createTrackbar(
+                    TIMELINE_NAME,
+                    MAIN_WINDOW_TITLE,
+                    0,
+                    total_frames - 1,
+                    request_timeline_position,
+                )
+
             if show_mask:
                 cv2.namedWindow(MASK_WINDOW_TITLE, cv2.WINDOW_NORMAL)
 
-        while max_frames is None or frame_number < max_frames:
+        while max_frames is None or processed_frames < max_frames:
             tick = time.perf_counter()
+            seeked = False
 
-            if not controls.paused:
+            if timeline_request is not None:
+                requested_frame = timeline_request
+                timeline_request = None
+                cap.set(cv2.CAP_PROP_POS_FRAMES, requested_frame)
+                detector = MotionDetector(config)
+                tracker = Tracker(
+                    config.max_distance,
+                    config.max_missing,
+                    config.trail_length,
+                    config.predict_velocity,
+                )
+                frame_number = requested_frame
+                seeked = True
+
+            if not controls.paused or seeked:
                 ok, frame = cap.read()
 
                 if not ok:
@@ -172,11 +209,22 @@ def run(
                 if not headless:
                     cv2.imshow(MAIN_WINDOW_TITLE, image)
 
+                    if not isinstance(source, int) and total_frames > 1:
+                        timeline_syncing = True
+
+                        try:
+                            cv2.setTrackbarPos(
+                                TIMELINE_NAME, MAIN_WINDOW_TITLE, frame_number
+                            )
+                        finally:
+                            timeline_syncing = False
+
                     if show_mask:
                         cv2.imshow(MASK_WINDOW_TITLE, mask)
 
                 elapsed += time.perf_counter() - tick
                 frame_number += 1
+                processed_frames += 1
 
             if not headless:
                 elapsed_ms = (time.perf_counter() - tick) * MILLISECONDS_PER_SECOND
@@ -205,12 +253,12 @@ def run(
                 ):
                     break
 
-        if frame_number == 0:
+        if processed_frames == 0:
             raise ValueError("Source contains no decodable frames")
 
         return dict(
-            frames=frame_number,
-            fps=frame_number / max(elapsed, MIN_ELAPSED_SECONDS),
+            frames=processed_frames,
+            fps=processed_frames / max(elapsed, MIN_ELAPSED_SECONDS),
             target_frames=target_frames,
         )
     finally:

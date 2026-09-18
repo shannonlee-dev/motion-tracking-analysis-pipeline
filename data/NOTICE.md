@@ -16,6 +16,9 @@ CAVIAR 영상으로 만든 오버레이·캡처에도 출처와 BY-SA 조건을 
 
 OTB2015 Jogging-1의 원본·출처·CC BY 4.0 표기와 가공 내용은 [OTB2015 안내](matching_assets/NOTICE.md)를 참조합니다.
 
+Oxford Town Centre 영상과 여기서 추출한 등록 이미지는 [Oxford Town Centre 안내](detected_inputs/NOTICE.md)를 참조합니다.
+배포 페이지에 라이선스가 명시되어 있지 않으므로 재배포 허가가 확인될 때까지 Git에서 제외합니다.
+
 ## 공개 범위
 
 소스·작성 문서·관찰용 영상과 재배포 허용 데이터·가공물을 공개합니다.
@@ -37,6 +40,10 @@ I_IL_01·I_IL_02·I_OC_01·I_OC_02·I_CA_01의 원본 RAR과 추출 프레임·G
 
 - `docs/private/mission.md`, `docs/private/rubric.md`: 제공받은 과제·평가 기준
   원문으로, 재배포 허가가 확인될 때까지 로컬에 보관한다.
+- `data/detected_inputs/TownCentreXVID.mp4`: Oxford Town Centre Dataset 영상.
+  Academic Torrents 배포 페이지에 라이선스가 명시되어 있지 않아 로컬에서만 사용한다.
+- `data/detected_inputs/TownCentre_target_frame5800.png`: 위 영상 5800번 프레임에서 추출한 파생 이미지.
+  원본과 같은 재배포 제한을 적용한다.
 
 허가가 확인되면 해당 경로의 제외 규칙을 제거하고 출처와 조건을 여기에 기록한다.
 교육 목적이라는 이유만으로 외부 자료의 재배포 권한이 있다고 가정하지 않는다.

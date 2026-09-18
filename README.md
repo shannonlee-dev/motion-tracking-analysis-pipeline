@@ -9,6 +9,7 @@ ORB 특징점 매칭으로 등록 물체를 재인식합니다. 딥러닝·cv2.d
 ## 핵심 특징
 
 - 웹캠·영상 입력, 박스·ID·중심점·궤적·처리 FPS·프레임 번호 표시
+- 파일 영상 GUI의 타임라인 막대로 원하는 프레임 탐색
 - 등록 이미지 인식 시 `TARGET DETECTED` 표시
 - q 종료, p 일시정지·재개, s 스냅샷 저장
 - 화면 없는 실행과 선택적 MP4·추적 CSV 저장
@@ -64,6 +65,8 @@ Windows 활성화 명령은 `.venv\Scripts\activate`입니다.
 | `--headless` / `--output` / `--csv` | 창 없이 실행 / MP4 경로 / 추적 CSV 경로 |
 
 전체 옵션은 `python app.py --help`로 확인합니다. 화면 FPS는 원본 영상 FPS가 아닌 처리 속도입니다.
+파일 영상을 GUI로 열면 창 아래 `Timeline (frame)` 막대가 표시됩니다. 막대를 옮기면 해당 프레임부터
+배경 모델과 추적 ID를 새로 시작합니다. 웹캠과 `--headless` 실행에는 막대가 표시되지 않습니다.
 
 ```bash
 python app.py --source data/tracking_inputs/caviar/single_1_overlap_1.mpg --headless \

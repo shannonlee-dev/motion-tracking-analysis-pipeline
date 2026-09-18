@@ -15,9 +15,12 @@ KEY_PAUSE = ord("p")
 KEY_SNAPSHOT = ord("s")
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 TEXT_SCALE = 0.45
-TARGET_TEXT_SCALE = 0.6
+TARGET_TEXT_SCALE = 0.75
 LINE_THICKNESS = 2
 TEXT_THICKNESS = 1
+TARGET_BOX_THICKNESS = 5
+TARGET_TEXT_THICKNESS = 2
+TARGET_LABEL_PADDING = 4
 CENTER_RADIUS = 3
 TRACK_COLOR_BASE = 60
 TRACK_COLOR_RANGE = 190
@@ -25,9 +28,8 @@ TRACK_COLOR_FACTORS = (73, 37, 109)
 STATUS_SIZE = (400, 24)
 STATUS_BACKGROUND = (25, 25, 25)
 STATUS_TEXT_COLOR = (255, 255, 255)
-TARGET_COLOR = (0, 255, 255)
+TARGET_COLOR = (0, 0, 255)
 STATUS_TEXT_ORIGIN = (7, 17)
-TARGET_TEXT_ORIGIN = (7, 45)
 LABEL_OFFSET = 5
 LABEL_MIN_Y = 15
 
@@ -112,16 +114,45 @@ def draw_overlay(
         TEXT_THICKNESS,
     )
 
-    if match is not None and match.found:
-        cv2.polylines(image, [match.polygon], True, TARGET_COLOR, LINE_THICKNESS)
+    if match is not None and match.found and match.polygon is not None:
+        x, y, w, h = cv2.boundingRect(match.polygon)
+        x1 = max(0, x)
+        y1 = max(0, y)
+        x2 = min(image.shape[1] - 1, x + w)
+        y2 = min(image.shape[0] - 1, y + h)
+
+        if x2 <= x1 or y2 <= y1:
+            return image
+
+        cv2.rectangle(image, (x1, y1), (x2, y2), TARGET_COLOR, TARGET_BOX_THICKNESS)
+        label = "TARGET DETECTED"
+        (label_width, label_height), baseline = cv2.getTextSize(
+            label, FONT, TARGET_TEXT_SCALE, TARGET_TEXT_THICKNESS
+        )
+        label_x = min(x1, max(0, image.shape[1] - label_width - TARGET_LABEL_PADDING))
+        label_y = y1 - TARGET_LABEL_PADDING
+
+        if label_y - label_height - baseline < 0:
+            label_y = min(image.shape[0] - TARGET_LABEL_PADDING, y1 + label_height + TARGET_LABEL_PADDING)
+
+        cv2.rectangle(
+            image,
+            (label_x, max(0, label_y - label_height - baseline - TARGET_LABEL_PADDING)),
+            (
+                min(image.shape[1] - 1, label_x + label_width + TARGET_LABEL_PADDING * 2),
+                min(image.shape[0] - 1, label_y + baseline + TARGET_LABEL_PADDING),
+            ),
+            TARGET_COLOR,
+            -1,
+        )
         cv2.putText(
             image,
-            "TARGET DETECTED",
-            TARGET_TEXT_ORIGIN,
+            label,
+            (label_x + TARGET_LABEL_PADDING, label_y),
             FONT,
             TARGET_TEXT_SCALE,
-            TARGET_COLOR,
-            LINE_THICKNESS,
+            STATUS_TEXT_COLOR,
+            TARGET_TEXT_THICKNESS,
         )
 
     return image
