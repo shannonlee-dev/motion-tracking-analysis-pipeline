@@ -1,0 +1,16 @@
+[
+  {
+    "file": "Jogging.zip",
+    "dataset": "OTB-2015 / Visual Tracker Benchmark",
+    "sequence": "Jogging [1,2]",
+    "source_page": "https://rvlab.snu.ac.kr/research/tracker_benchmark",
+    "license_record": "https://figshare.com/articles/dataset/OTB2015/24427468",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Yi Wu, Jongwoo Lim, and Ming-Hsuan Yang, Object Tracking Benchmark (OTB-2015)",
+    "citation": "Y. Wu, J. Lim, and M.-H. Yang, Object Tracking Benchmark, IEEE TPAMI 37(9), 1834-1848, 2015. DOI: 10.1109/TPAMI.2014.2388226.",
+    "bytes": 8131339,
+    "sha256": "967daf30c8827cd88b85cb2df322840a7bcf7f3119112852b2b3a067a8c09ba8",
+    "accessed": "2026-09-18"
+  }
+]

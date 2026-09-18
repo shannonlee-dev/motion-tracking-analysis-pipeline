@@ -1,0 +1,84 @@
+{
+  "sequence": "Jogging-1",
+  "frame_count": 307,
+  "frame_numbering": "1-based JPG filenames",
+  "zip_sha256": "967daf30c8827cd88b85cb2df322840a7bcf7f3119112852b2b3a067a8c09ba8",
+  "gt_file": "Jogging/groundtruth_rect.1.txt",
+  "gt_sha256": "634b450c421c0c9dd30493e147eef15ae6cd4d078445206994ff7e6e9530ca96",
+  "target_frame": 1,
+  "target_bbox_xywh_1based": [
+    111,
+    98,
+    25,
+    101
+  ],
+  "target_reason": "초기 정면에서 얼굴·상체·다리가 보이고 다른 물체의 가림이 없음",
+  "selections": [
+    {
+      "condition": "정면",
+      "slug": "front",
+      "frame": 33,
+      "bbox_xywh_1based": [
+        104,
+        94,
+        25,
+        105
+      ],
+      "reason": "얼굴과 상체 앞면이 보이는 비가림 프레임; target과 다른 시점",
+      "approximate": false
+    },
+    {
+      "condition": "약 30° 방향 변화",
+      "slug": "rotation_30",
+      "frame": 140,
+      "bbox_xywh_1based": [
+        128,
+        111,
+        24,
+        114
+      ],
+      "reason": "얼굴·어깨가 초기 정면보다 오른쪽으로 향하는 약한 사선 자세",
+      "approximate": true
+    },
+    {
+      "condition": "약 60° 방향 변화",
+      "slug": "rotation_60",
+      "frame": 300,
+      "bbox_xywh_1based": [
+        113,
+        133,
+        26,
+        122
+      ],
+      "reason": "얼굴 측면과 오른쪽을 향한 어깨가 보이는 더 큰 사선 자세",
+      "approximate": true
+    },
+    {
+      "condition": "약 30% 가림",
+      "slug": "occlusion_30",
+      "frame": 65,
+      "bbox_xywh_1based": [
+        111,
+        93,
+        24,
+        103
+      ],
+      "reason": "전봇대 부착물이 몸의 오른쪽 일부를 가림; 얼굴과 왼쪽 몸은 보임",
+      "approximate": true
+    },
+    {
+      "condition": "약 50% 가림",
+      "slug": "occlusion_50",
+      "frame": 68,
+      "bbox_xywh_1based": [
+        117,
+        88,
+        24,
+        111
+      ],
+      "reason": "전봇대와 부착물이 몸통·다리의 상당 부분을 가림",
+      "approximate": true
+    }
+  ],
+  "approximation_note": "각도는 얼굴·상체 방향의 정성적 구간 표기, 가림은 몸 실루엣의 시각적 추정. 정확한 각도/가림률 GT가 아니며 오차 범위도 측정하지 않음."
+}

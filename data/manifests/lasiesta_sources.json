@@ -1,0 +1,37 @@
+[
+  {
+    "file": "I_IL_01.rar",
+    "url": "https://www.gti.ssr.upm.es/images/Data/Downloads/LASIESTA/I_IL_01.rar",
+    "bytes": 36649677,
+    "sha256": "8910f4c62323126ed540939f667c4b9bdb2d4364df7ea9ea4dacc6ecfc4ebbcd",
+    "directory": "single_1_stationary_1_lighting_1_switch"
+  },
+  {
+    "file": "I_IL_02.rar",
+    "url": "https://www.gti.ssr.upm.es/images/Data/Downloads/LASIESTA/I_IL_02.rar",
+    "bytes": 68176471,
+    "sha256": "9a8662cc58c3e2a111846f6932cc1ada64ac9b4ded87ffc541f10e8464927c79",
+    "directory": "single_1_stationary_1_lighting_1_blinds"
+  },
+  {
+    "file": "I_OC_01.rar",
+    "url": "https://www.gti.ssr.upm.es/images/Data/Downloads/LASIESTA/I_OC_01.rar",
+    "bytes": 33101291,
+    "sha256": "98338566d1981381d52d1fa5e16f7e9062075160890094876f2d5ae62100f72f",
+    "directory": "single_1_pillar_occlusion"
+  },
+  {
+    "file": "I_OC_02.rar",
+    "url": "https://www.gti.ssr.upm.es/images/Data/Downloads/LASIESTA/I_OC_02.rar",
+    "bytes": 25580299,
+    "sha256": "a873bbf1e7a316b9e2e3e4114d16e9684bf8e4643cdb941dc97bda3318566c04",
+    "directory": "single_1_stairwell_occlusion"
+  },
+  {
+    "file": "I_CA_01.rar",
+    "url": "https://www.gti.ssr.upm.es/images/Data/Downloads/LASIESTA/I_CA_01.rar",
+    "bytes": 38365138,
+    "sha256": "73ee16e335d7440207a6a80159846461d1c909b6bbd0acdf0332a2e0314d77f0",
+    "directory": "single_1_stationary_1_red_door"
+  }
+]
