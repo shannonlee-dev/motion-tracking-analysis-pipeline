@@ -123,6 +123,11 @@ def run(
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(TRACK_CSV_FIELDS)
 
+        if not headless:
+            cv2.namedWindow(MAIN_WINDOW_TITLE, cv2.WINDOW_NORMAL)
+            if show_mask:
+                cv2.namedWindow(MASK_WINDOW_TITLE, cv2.WINDOW_NORMAL)
+
         while max_frames is None or frame_number < max_frames:
             tick = time.perf_counter()
 

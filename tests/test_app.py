@@ -47,6 +47,7 @@ def test_closing_a_display_window_stops_playback(
 
     writer.release()
     monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
     monkeypatch.setattr(cv2, "imshow", lambda *_: None)
     monkeypatch.setattr(cv2, "waitKey", lambda _: -1)
     monkeypatch.setattr(
@@ -75,6 +76,7 @@ def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):
     keys = iter((ord("p"), -1, ord("p")))
     visibility = iter((1.0, 0.0))
     monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
     monkeypatch.setattr(cv2, "imshow", lambda *_: None)
     monkeypatch.setattr(cv2, "waitKey", lambda _: next(keys, -1))
     monkeypatch.setattr(cv2, "getWindowProperty", lambda *_: next(visibility, 0.0))
