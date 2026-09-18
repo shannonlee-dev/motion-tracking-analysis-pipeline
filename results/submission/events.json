@@ -1,0 +1,472 @@
+[
+  {
+    "event_id": "M01",
+    "video": "19",
+    "condition": "단일 객체 이동",
+    "start": 89,
+    "end": 149,
+    "objects": [
+      "1"
+    ],
+    "note": "문 앞 접근; 재출발은 중복 집계하지 않음",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M02",
+    "video": "18",
+    "condition": "단일 객체 이동",
+    "start": 139,
+    "end": 189,
+    "objects": [
+      "1"
+    ],
+    "note": "스위치 조작 후 이동",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M03",
+    "video": "17",
+    "condition": "단일 객체 이동",
+    "start": 79,
+    "end": 169,
+    "objects": [
+      "1"
+    ],
+    "note": "블라인드 접근; 왕복 중 1회",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M04",
+    "video": "15",
+    "condition": "단일 객체 이동",
+    "start": 104,
+    "end": 154,
+    "objects": [
+      "1"
+    ],
+    "note": "기둥 가림 전 이동만 평가",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M05",
+    "video": "16",
+    "condition": "단일 객체 이동",
+    "start": 94,
+    "end": 129,
+    "objects": [
+      "1"
+    ],
+    "note": "계단 이동; 벽 뒤 구간은 평가창 밖",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M06",
+    "video": "02",
+    "condition": "단일 객체 이동",
+    "start": 30,
+    "end": 85,
+    "objects": [
+      "0"
+    ],
+    "note": "첫 번째 파란 상의 인물; 배경 인물 제외",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M07",
+    "video": "02",
+    "condition": "단일 객체 이동",
+    "start": 310,
+    "end": 445,
+    "objects": [
+      "1"
+    ],
+    "note": "두 번째 붉은 상의 인물; 배경 인물 제외",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M08",
+    "video": "01",
+    "condition": "단일 객체 이동",
+    "start": 80,
+    "end": 120,
+    "objects": [
+      "3"
+    ],
+    "note": "검은 옷 인물의 만남 전 이동",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M09",
+    "video": "03",
+    "condition": "단일 객체 이동",
+    "start": 105,
+    "end": 325,
+    "objects": [
+      "1"
+    ],
+    "note": "갈색 상의 인물 정지 전 이동",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "M10",
+    "video": "03",
+    "condition": "단일 객체 이동",
+    "start": 430,
+    "end": 590,
+    "objects": [
+      "2"
+    ],
+    "note": "검은 옷 여성의 별도 진입",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "O01",
+    "video": "01",
+    "condition": "두 객체 겹침",
+    "start": 110,
+    "end": 240,
+    "objects": [
+      "1",
+      "3"
+    ],
+    "note": "주연 두 사람 만남; 약한 실루엣 겹침",
+    "overlap": [
+      150,
+      195
+    ],
+    "exclude": []
+  },
+  {
+    "event_id": "O02",
+    "video": "04",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 224,
+    "objects": [
+      "1",
+      "2"
+    ],
+    "note": "매장에서 나온 사람이 기다리던 사람과 합류하며 몸이 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      65,
+      100
+    ],
+    "exclude": [
+      [
+        78,
+        96
+      ]
+    ]
+  },
+  {
+    "event_id": "O03",
+    "video": "05",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 224,
+    "objects": [
+      "1",
+      "2"
+    ],
+    "note": "두 사람이 만나 방향을 바꾸며 몸이 일부 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      90,
+      145
+    ],
+    "exclude": [
+      [
+        99,
+        137
+      ]
+    ]
+  },
+  {
+    "event_id": "O04",
+    "video": "06",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 224,
+    "objects": [
+      "6",
+      "7"
+    ],
+    "note": "두 사람이 접근·접촉한 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      90,
+      130
+    ],
+    "exclude": [
+      [
+        96,
+        126
+      ]
+    ]
+  },
+  {
+    "event_id": "O05",
+    "video": "07",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 224,
+    "objects": [
+      "3",
+      "4"
+    ],
+    "note": "두 사람이 몸싸움 동작 중 겹친 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      45,
+      155
+    ],
+    "exclude": [
+      [
+        50,
+        153
+      ]
+    ]
+  },
+  {
+    "event_id": "O06",
+    "video": "08",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 224,
+    "objects": [
+      "7",
+      "9"
+    ],
+    "note": "두 사람이 접촉하며 몸이 크게 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      50,
+      145
+    ],
+    "exclude": [
+      [
+        55,
+        140
+      ]
+    ]
+  },
+  {
+    "event_id": "O07",
+    "video": "09",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 206,
+    "objects": [
+      "1",
+      "2"
+    ],
+    "note": "두 사람이 접촉한 뒤 이동하는 동안 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      65,
+      192
+    ],
+    "exclude": [
+      [
+        138,
+        191
+      ]
+    ]
+  },
+  {
+    "event_id": "O08",
+    "video": "10",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 149,
+    "objects": [
+      "1",
+      "2"
+    ],
+    "note": "검은 옷 보행자가 뒤쪽 보행자를 가리며 지나감; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      55,
+      85
+    ],
+    "exclude": [
+      [
+        61,
+        79
+      ]
+    ]
+  },
+  {
+    "event_id": "O09",
+    "video": "11",
+    "condition": "두 객체 겹침",
+    "start": 25,
+    "end": 149,
+    "objects": [
+      "2",
+      "3"
+    ],
+    "note": "매장으로 들어가는 사람과 나오는 사람이 교차; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외",
+    "overlap": [
+      53,
+      72
+    ],
+    "exclude": [
+      [
+        59,
+        68
+      ]
+    ]
+  },
+  {
+    "event_id": "O10",
+    "video": "03",
+    "condition": "두 객체 겹침",
+    "start": 590,
+    "end": 690,
+    "objects": [
+      "1",
+      "2"
+    ],
+    "note": "추가 식별: 여성 머리·상체와 앞 남성 다리의 약한 투영 겹침. 별도 영상의 사건이며 기존 9회와 중복 없음",
+    "overlap": [
+      625,
+      660
+    ],
+    "exclude": []
+  },
+  {
+    "event_id": "S01",
+    "video": "02",
+    "condition": "객체 일시 정지",
+    "start": 95,
+    "end": 120,
+    "objects": [
+      "0"
+    ],
+    "note": "팔을 들어 신호하는 짧은 위치 정지",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "S02",
+    "video": "03",
+    "condition": "객체 일시 정지",
+    "start": 355,
+    "end": 390,
+    "objects": [
+      "1"
+    ],
+    "note": "왼쪽 매장을 바라보며 정지",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "S03",
+    "video": "19",
+    "condition": "객체 일시 정지",
+    "start": 159,
+    "end": 273,
+    "objects": [
+      "1"
+    ],
+    "note": "문 앞 정지; 공식 static GT는 199–266",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "S04",
+    "video": "18",
+    "condition": "객체 일시 정지",
+    "start": 123,
+    "end": 133,
+    "objects": [
+      "1"
+    ],
+    "note": "스위치 조작을 위한 짧은 위치 정지; 손 동작·조명 혼합",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "S05",
+    "video": "17",
+    "condition": "객체 일시 정지",
+    "start": 177,
+    "end": 256,
+    "objects": [
+      "1"
+    ],
+    "note": "블라인드 조작 중 위치 정지; 팔 동작·조명 혼합",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "L01",
+    "video": "18",
+    "condition": "조명 변화",
+    "start": 119,
+    "end": 174,
+    "objects": [
+      "1"
+    ],
+    "note": "스위치 변화 f128",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "L02",
+    "video": "17",
+    "condition": "조명 변화",
+    "start": 204,
+    "end": 249,
+    "objects": [
+      "1"
+    ],
+    "note": "블라인드 연속 변화; 최대 밝기차 f215",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "L03",
+    "video": "14",
+    "condition": "조명 변화",
+    "start": 800,
+    "end": 826,
+    "objects": [
+      "1"
+    ],
+    "note": "첫 소등 f812; 사람이 보이는 구간; 수동 bbox 근사",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "L04",
+    "video": "14",
+    "condition": "조명 변화",
+    "start": 1851,
+    "end": 1910,
+    "objects": [
+      "1"
+    ],
+    "note": "점등 f1853; 진입 후 착석; 수동 bbox 근사",
+    "overlap": null,
+    "exclude": []
+  },
+  {
+    "event_id": "L05",
+    "video": "14",
+    "condition": "조명 변화",
+    "start": 2160,
+    "end": 2192,
+    "objects": [
+      "1"
+    ],
+    "note": "두 번째 소등 f2188; 자리에서 일어나 퇴장; 수동 bbox 근사",
+    "overlap": null,
+    "exclude": []
+  }
+]

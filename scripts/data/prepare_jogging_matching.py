@@ -139,7 +139,7 @@ def main():
             keypoints, descriptors = detector.detectAndCompute(scene, None)
             # Query = condition crop; reference = target. Deduplicate target indices.
             matches = [] if descriptors is None else unique_ratio_matches(matcher, descriptors, ref_desc, RATIO)
-            rate = 100 * len(matches) / len(keypoints) if keypoints else 0.0
+            rate = 100 * len(matches) / len(ref_kp)
             rows.append(dict(algorithm=algorithm, condition=label, frame=number,
                              extracted_keypoints=len(keypoints), matched_keypoints=len(matches),
                              match_rate_percent=round(rate, 2), target_keypoints=len(ref_kp)))
@@ -155,19 +155,19 @@ def main():
             (OUTPUT / "matches" / f"{algorithm}_{slug}_{number:04d}.json").write_text(json.dumps(pairs, indent=2) + "\n")
 
     with (OUTPUT / "metrics.csv").open("w", newline="", encoding="utf-8-sig") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     settings.update(opencv=cv2.__version__, resize_scale=SCALE, interpolation="INTER_CUBIC",
                     grayscale=True, ratio_test=RATIO, query="condition GT crop", train="target GT crop",
                     uniqueness="best distance per target descriptor", geometric_verification=False,
-                    rate_denominator="condition crop keypoints", video_playback_fps=25 if args.video else None)
+                    rate_denominator="target keypoints", video_playback_fps=25 if args.video else None)
     (OUTPUT / "settings.json").write_text(json.dumps(settings, indent=2) + "\n")
-    report = ["# Jogging-1 ORB / SIFT 특징점 매칭", "",
+    report = ["# 참고용 ROI 실험: Jogging-1 ORB / SIFT 특징점 매칭", "",
               "GT: `groundtruth_rect.1.txt`. target: 0001번. 프레임 번호는 원본 JPG의 1-based 번호.", "",
               "307개 원본 프레임을 확인해 선정했다. 30°/60°는 얼굴·어깨 방향의 근사 구간, 30%/50%는 몸 실루엣 가림의 육안 근사값이다. 정밀한 각도·가림률 실험이나 순수 회전 실험은 아니며 달리기 자세·크기·배경도 달라진다.", "",
               "원본 GT bbox 크롭은 `data/matching_inputs/`의 4배 확대·흑백 전처리된 target.png에 보존했다. 특징점 검출에는 모두 회색조+4배 INTER_CUBIC 확대를 적용했다. 좁은 크롭에서 ORB 기본 31픽셀 경계 제외로 특징점이 사라지는 문제를 피하기 위한 동일 전처리이며, 확대가 실제 영상 세부 정보를 추가하지는 않는다.", "",
-              "BF kNN(k=2), Lowe ratio < 0.75, target 특징점 중복 제거. 추출 수는 각 조건 크롭의 특징점 수, 매칭률 = 매칭 수 / 해당 조건 추출 수 × 100. 매칭 수는 이 규칙을 통과한 대응 수이며 기하 검증된 정답 수가 아니다. GT bbox의 배경과 가림 물체 특징도 포함되므로 사람 인식 정확도로 해석하지 않는다.", ""]
+              "BF kNN(k=2), Lowe ratio < 0.75, target 특징점 중복 제거. 추출 수는 각 조건 크롭의 특징점 수, 매칭률 = 매칭 수 / 등록 이미지 특징점 수 × 100. 매칭 수는 이 규칙을 통과한 대응 수이며 기하 검증된 정답 수가 아니다. GT bbox의 배경과 가림 물체 특징도 포함되므로 사람 인식 정확도로 해석하지 않는다.", ""]
     for algorithm in ("ORB", "SIFT"):
         report += [f"## {algorithm}", "", f"target 특징점: {settings[algorithm]['target_keypoints']}개", "",
                    "| 조건 | 프레임 | 추출된 특징점 수 | 매칭된 특징점 수 | 매칭률 |",

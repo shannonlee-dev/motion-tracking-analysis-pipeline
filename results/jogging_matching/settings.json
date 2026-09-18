@@ -20,6 +20,6 @@
   "train": "target GT crop",
   "uniqueness": "best distance per target descriptor",
   "geometric_verification": false,
-  "rate_denominator": "condition crop keypoints",
+  "rate_denominator": "target keypoints",
   "video_playback_fps": 25
 }
