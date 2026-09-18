@@ -17,7 +17,7 @@ import numpy as np
 from motion_tracking.features import unique_ratio_matches
 
 ROOT = Path(__file__).resolve().parents[2]
-INPUTS = ROOT / "data/matching_inputs/Jogging-1"
+INPUTS = ROOT / "data/matching_inputs"
 ASSETS = ROOT / "data/matching_assets/Jogging-1"
 RAW_ASSETS = ASSETS / "raw"
 SOURCE = RAW_ASSETS / "Jogging"
@@ -86,14 +86,13 @@ def main():
         directory.mkdir(parents=True, exist_ok=True)
 
     target = crop(images[TARGET_FRAME - 1], gt[TARGET_FRAME - 1])
-    write_image(INPUTS / "target.png", target)
+    write_image(INPUTS / "target.png", matching_image(target))
     shutil.copyfile(paths[TARGET_FRAME - 1], SELECTED_FRAMES / "target_0001.jpg")
     selection_records = []
     crops = []
     for slug, label, number, reason in SELECTIONS:
         filename = f"{slug}_{number:04d}"
         roi = crop(images[number - 1], gt[number - 1])
-        write_image(INPUTS / f"{filename}.png", roi)
         shutil.copyfile(paths[number - 1], SELECTED_FRAMES / f"{filename}.jpg")
         crops.append(roi)
         selection_records.append(dict(condition=label, slug=slug, frame=number,
@@ -167,7 +166,7 @@ def main():
     report = ["# Jogging-1 ORB / SIFT 특징점 매칭", "",
               "GT: `groundtruth_rect.1.txt`. target: 0001번. 프레임 번호는 원본 JPG의 1-based 번호.", "",
               "307개 원본 프레임을 확인해 선정했다. 30°/60°는 얼굴·어깨 방향의 근사 구간, 30%/50%는 몸 실루엣 가림의 육안 근사값이다. 정밀한 각도·가림률 실험이나 순수 회전 실험은 아니며 달리기 자세·크기·배경도 달라진다.", "",
-              "원본 GT bbox 크롭은 `data/matching_inputs/Jogging-1/`의 target.png와 조건별 PNG에 보존했다. 특징점 검출에는 모두 회색조+4배 INTER_CUBIC 확대를 적용했다. 좁은 크롭에서 ORB 기본 31픽셀 경계 제외로 특징점이 사라지는 문제를 피하기 위한 동일 전처리이며, 확대가 실제 영상 세부 정보를 추가하지는 않는다.", "",
+              "원본 GT bbox 크롭은 `data/matching_inputs/`의 4배 확대·흑백 전처리된 target.png에 보존했다. 특징점 검출에는 모두 회색조+4배 INTER_CUBIC 확대를 적용했다. 좁은 크롭에서 ORB 기본 31픽셀 경계 제외로 특징점이 사라지는 문제를 피하기 위한 동일 전처리이며, 확대가 실제 영상 세부 정보를 추가하지는 않는다.", "",
               "BF kNN(k=2), Lowe ratio < 0.75, target 특징점 중복 제거. 추출 수는 각 조건 크롭의 특징점 수, 매칭률 = 매칭 수 / 해당 조건 추출 수 × 100. 매칭 수는 이 규칙을 통과한 대응 수이며 기하 검증된 정답 수가 아니다. GT bbox의 배경과 가림 물체 특징도 포함되므로 사람 인식 정확도로 해석하지 않는다.", ""]
     for algorithm in ("ORB", "SIFT"):
         report += [f"## {algorithm}", "", f"target 특징점: {settings[algorithm]['target_keypoints']}개", "",
@@ -178,7 +177,7 @@ def main():
                 report.append(f"| {row['condition']} | {row['frame']} | {row['extracted_keypoints']} | {row['matched_keypoints']} | {row['match_rate_percent']:.2f}% |")
         report.append("")
     report += ["## 재현", "", "`python -m scripts.data.prepare_jogging_matching --video`", "",
-               "실험 입력 PNG와 관찰용 MP4: `data/matching_inputs/Jogging-1/`. 원본 JPG·GT·선정 근거: `data/matching_assets/Jogging-1/`.",
+               "실험 입력 target.png와 관찰용 MP4: `data/matching_inputs/`. 원본 JPG·GT·선정 근거: `data/matching_assets/Jogging-1/`.",
                "`selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matching_assets/Jogging-1/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.",
                "MP4의 25 fps는 관찰용 재생 속도이며 원본 촬영 FPS를 주장하지 않는다.", ""]
     (OUTPUT / "report.md").write_text("\n".join(report))
