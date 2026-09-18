@@ -1,0 +1,10 @@
+id_switches,failures,missing_frames,eligible_frames,excluded_frames,sequence,learning_rate,frames,visible_frames,missing_rate,static_frames,static_missing,static_mean_pixel_recall,metric_scope
+1,0,11,139,111,I_OC_01,0.001,250,139,0.07913669064748201,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+1,1,21,139,111,I_OC_01,0.01,250,139,0.1510791366906475,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+0,2,139,139,111,I_OC_01,0.1,250,139,1.0,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+2,0,1,144,106,I_OC_02,0.001,250,144,0.006944444444444444,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+5,0,3,144,106,I_OC_02,0.01,250,144,0.020833333333333332,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+0,2,144,144,106,I_OC_02,0.1,250,144,1.0,0,0,,all confirmed ID changes; partial occlusion percentage not corrected
+4,0,2,256,94,I_CA_01,0.001,350,256,0.0078125,68,0,0.7852732268976433,all confirmed ID changes; partial occlusion percentage not corrected
+3,1,90,256,94,I_CA_01,0.01,350,256,0.3515625,68,68,0.0,all confirmed ID changes; partial occlusion percentage not corrected
+0,1,256,256,94,I_CA_01,0.1,350,256,1.0,68,68,0.0,all confirmed ID changes; partial occlusion percentage not corrected
