@@ -45,7 +45,6 @@ def setup(
     *,
     offline: bool = False,
     raw: bool = False,
-    detection_source: Path | None = None,
     purpose: str = "all",
 ) -> None:
     if purpose in ("all", "tracker"):
@@ -53,15 +52,21 @@ def setup(
     if purpose in ("all", "matcher"):
         jogging.prepare(offline=offline)
     if purpose in ("all", "detection"):
-        detection.prepare(offline=offline, source=detection_source)
+        detection.prepare()
     # Generated manifest describes actual prepared bytes, never replaces source provenance.
     for name in ("tracker", "matcher", "detection"):
         if purpose not in ("all", name):
             continue
         directory = ROOT / "data" / name
-        inputs = sorted(p for p in (directory / "inputs").glob("*") if p.is_file())
+        inputs = sorted(
+            p
+            for p in (directory / "inputs").glob("*")
+            if p.is_file() and p.name != ".gitkeep"
+        )
         if name == "detection":
-            inputs.append(DETECTION / "raw/town_centre.mp4")
+            video = DETECTION / "raw/town_centre.mp4"
+            if video.exists():
+                inputs.append(video)
         write_json(
             directory / "generated/prepared.json",
             [
@@ -115,8 +120,17 @@ def verify_data(*, purpose: str = "all") -> dict:
         report["matcher"] = check_video(MATCHER / "inputs/jogging.mp4", 307)
         TargetMatcher(cv2.imread(str(MATCHER / "inputs/target.png")))
     if purpose in ("all", "detection"):
-        report["detection"] = check_video(DETECTION / "raw/town_centre.mp4", 7502)
-        TargetMatcher(cv2.imread(str(DETECTION / "inputs/target.png")))
+        video = DETECTION / "raw/town_centre.mp4"
+        target = DETECTION / "inputs/target.png"
+        if not video.is_file() or not target.is_file():
+            raise FileNotFoundError(
+                "Oxford inputs are not downloaded automatically; place them manually at "
+                "data/detection/raw/town_centre.mp4 and "
+                "data/detection/inputs/target.png"
+            )
+        detection.verify_inputs()
+        report["detection"] = check_video(video, 7502)
+        TargetMatcher(cv2.imread(str(target)))
     for name, details in report.items():
         write_json(ROOT / "data" / name / "generated/readiness.json", details)
     return report
@@ -141,11 +155,6 @@ def main(stage: str) -> None:
             "--raw",
             action="store_true",
             help="Also download/extract tracker source archives and GT for full measurements",
-        )
-        parser.add_argument(
-            "--detection-source",
-            type=Path,
-            help="Import the original Oxford MP4 from a local download",
         )
     args = vars(parser.parse_args())
     try:

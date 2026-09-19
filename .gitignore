@@ -31,3 +31,13 @@ results/detection/
 # Latest experiment outputs are local; fixed report evidence lives in docs/evidence/.
 results/*
 !results/README.md
+
+# Keep the manually populated Oxford input directory structure in Git.
+!data/
+!data/detection/
+!data/detection/raw/
+data/detection/raw/*
+!data/detection/raw/.gitkeep
+!data/detection/inputs/
+data/detection/inputs/*
+!data/detection/inputs/.gitkeep

@@ -35,8 +35,11 @@ Academic Torrents 상세 페이지의 `license` 및 `terms` 항목은 비어 있
 
 원본 SHA-256·크기와 등록 crop은 `reference/source.json`에 기록했다.
 등록 이미지는 **0-based 5800번 프레임**, `(x, y, width, height) = (1680, 452, 162, 322)`다.
-`python scripts/01_setup_data.py --purpose detection`은 로컬 원본을 검증하거나 Academic Torrents 배포를 aria2c로 받고, 누락된 등록 이미지를 같은 해시로 복원한다.
-이미 다운로드한 원본은 `--detection-source /path/to/TownCentreXVID.mp4`로 가져온다.
+`python scripts/01_setup_data.py --purpose detection`은 `raw/`와 `inputs/` 디렉터리 및
+각 디렉터리의 `.gitkeep`만 만든다. 원본 영상과 등록 이미지는 다운로드·복사·생성하지 않는다.
+사용자가 적법하게 확보한 파일을 각각 `raw/town_centre.mp4`와 `inputs/target.png`에
+직접 배치한 뒤 `python scripts/02_verify_data.py --purpose detection`으로 검증한다.
 
-`data/detection/raw/`, `data/detection/inputs/`, `results/detection/`은 Git에서 제외한다.
+`data/detection/raw/`, `data/detection/inputs/`의 `.gitkeep`을 제외한 내용과
+`results/detection/`은 Git에서 제외한다.
 리팩토링 이전 main에는 원본·이미지가 커밋되어 있었다. 현재 경로의 재추적은 막았지만 과거 Git 이력에는 남아 있다. 이력 정리는 별도 저장소 운영 작업이다.

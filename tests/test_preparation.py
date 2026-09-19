@@ -1,6 +1,5 @@
 """Preparation rejects changed inputs and never rewrites healthy cached bytes."""
 
-import hashlib
 import json
 import subprocess
 import sys
@@ -67,52 +66,80 @@ def test_tracker_paths_do_not_depend_on_working_directory(tmp_path, monkeypatch)
         tracker_input(20)
 
 
-def test_registration_uses_recorded_frame_and_crop(tmp_path, monkeypatch):
-    root = tmp_path
-    directory = root / "data/detection"
-    (directory / "reference").mkdir(parents=True)
-    (directory / "raw").mkdir()
-    source = directory / "raw/town_centre.mp4"
-    source.write_bytes(b"stub video")
-    frame = np.arange(40 * 50 * 3, dtype=np.uint8).reshape(40, 50, 3)
-    crop = frame[5:25, 10:30]
-    _, encoded = cv2.imencode(".png", crop)
-    record = dict(
-        path="data/detection/raw/town_centre.mp4",
-        bytes=10,
-        sha256=sha256(source),
-        target=dict(
-            path="data/detection/inputs/target.png",
-            frame=5800,
-            bbox_xywh=[10, 5, 20, 20],
-            sha256=hashlib.sha256(encoded).hexdigest(),
-            bytes=len(encoded),
-        ),
-    )
-    (directory / "reference/source.json").write_text(json.dumps(record))
-
-    class Capture:
-        def __init__(self, path):
-            pass
-
-        def set(self, key, value):
-            assert value == 5800
-
-        def read(self):
-            return True, frame
-
-        def release(self):
-            pass
-
-    monkeypatch.setattr(detection, "ROOT", root)
+def test_detection_prepare_creates_only_placeholder_directories(tmp_path, monkeypatch):
+    directory = tmp_path / "data/detection"
     monkeypatch.setattr(detection, "DETECTION", directory)
-    monkeypatch.setattr(cv2, "VideoCapture", Capture)
-    detection.prepare(offline=True)
+
+    detection.prepare()
+
+    assert sorted(
+        path.relative_to(directory).as_posix()
+        for path in directory.rglob("*")
+        if path.is_file()
+    ) == ["inputs/.gitkeep", "raw/.gitkeep"]
+
+
+def test_detection_setup_succeeds_without_manually_supplied_files(
+    tmp_path, monkeypatch
+):
+    from datasets import workflow
+
+    directory = tmp_path / "data/detection"
+    monkeypatch.setattr(detection, "DETECTION", directory)
+    monkeypatch.setattr(workflow, "DETECTION", directory)
+    monkeypatch.setattr(workflow, "ROOT", tmp_path)
+
+    workflow.setup(purpose="detection")
+
+    prepared = json.loads((directory / "generated/prepared.json").read_text())
+    assert prepared == []
+
+
+def test_detection_verify_explains_where_to_place_manual_inputs(
+    tmp_path, monkeypatch
+):
+    from datasets import workflow
+
+    directory = tmp_path / "data/detection"
+    monkeypatch.setattr(detection, "DETECTION", directory)
+    monkeypatch.setattr(workflow, "DETECTION", directory)
+    monkeypatch.setattr(workflow, "ROOT", tmp_path)
+
+    with pytest.raises(
+        FileNotFoundError,
+        match=r"manually.*raw/town_centre\.mp4.*inputs/target\.png",
+    ):
+        workflow.verify_data(purpose="detection")
+
+
+def test_detection_verify_rejects_changed_manual_inputs(tmp_path, monkeypatch):
+    directory = tmp_path / "data/detection"
+    reference = directory / "reference"
+    video = directory / "raw/town_centre.mp4"
     target = directory / "inputs/target.png"
-    assert np.array_equal(cv2.imread(str(target)), crop)
-    before = target.stat().st_mtime_ns
-    detection.prepare(offline=True)
-    assert target.stat().st_mtime_ns == before
+    reference.mkdir(parents=True)
+    video.parent.mkdir()
+    target.parent.mkdir()
+    video.write_bytes(b"video")
+    target.write_bytes(b"target")
+    record = {
+        "path": "data/detection/raw/town_centre.mp4",
+        "bytes": video.stat().st_size,
+        "sha256": sha256(video),
+        "target": {
+            "path": "data/detection/inputs/target.png",
+            "bytes": target.stat().st_size,
+            "sha256": sha256(target),
+        },
+    }
+    (reference / "source.json").write_text(json.dumps(record))
+    monkeypatch.setattr(detection, "DETECTION", directory)
+
+    detection.verify_inputs()
+    target.write_bytes(b"change")
+
+    with pytest.raises(ValueError, match="Checksum"):
+        detection.verify_inputs()
 
 
 @pytest.mark.parametrize(
