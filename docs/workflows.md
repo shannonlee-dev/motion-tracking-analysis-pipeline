@@ -1,6 +1,6 @@
 # 실행과 재현
 
-프로젝트 루트에서 가상환경을 활성화한 뒤 복사해 실행한다. 준비·평가 스크립트 자체는 다른 작업 디렉토리에서도 저장소 경로를 찾는다. 앱에 직접 주는 상대 경로와 `--output-dir` 상대 경로는 현재 작업 디렉토리 기준이다.
+프로젝트 루트에서 가상환경을 활성화한 뒤 복사해 실행한다. 준비·검증 스크립트 자체는 다른 작업 디렉토리에서도 저장소 경로를 찾는다. 앱에 직접 주는 상대 경로는 현재 작업 디렉토리 기준이다.
 
 ## 데이터 준비
 
@@ -21,19 +21,23 @@ Tracker 04–11과 14의 과거 H.264 인코더 설정은 기록되지 않았다
 ## 실제 앱과 보고서 실험
 
 ```bash
-# 단일 입력 → 기본 설정 → MP4·CSV
+# 단순 GUI 실행
 python app.py --source data/tracker/inputs/01.mpg
-# 모든 입력 → 각 40프레임 smoke test
+# headless 결과 저장
+python app.py \
+  --source data/tracker/inputs/01.mpg \
+  --headless \
+  --output results/tracker/runs/manual/video.mp4 \
+  --csv results/tracker/runs/manual/tracks.csv
 # 원본 GT 준비 → 전체 주석 평가 + 세 learning-rate 실험
 python scripts/01_setup_data.py --purpose tracker --raw
 python -m experiments.tracker_metrics
 python -m experiments.learning_rate
 ```
 
-기본 결과는 `results/tracker/runs/latest/case_XX/{video.mp4,tracks.csv}`다.
-`--measure`는 `submission/`에 네 가지 Tracker 설정의 원본 trace·사건 30개 집계·검토 시트를,
-`learning_rate/`에 17번 영상의 0.001·0.01·0.1 측정 및 GT 픽셀 비교를 쓴다.
-12·13은 기존 사건 주석 프로토콜 대상이 아니며 `--suite` 앱 실행에는 포함된다.
+Tracker 일반 실행은 앱에서 직접 지정한 output과 csv에 저장한다. 보고서 정량 실험은
+`results/tracker/runs/latest/` 아래에 trace, 사건 집계, 검토 근거와 learning-rate
+측정을 생성한다. 12·13은 기존 사건 주석 프로토콜 대상이 아니다.
 측정 정의·제외 후보·수동 검토 한계는 [보고서](report.md)에 있다.
 
 개별 파라미터 실험은 앱 CLI를 사용한다. 이전 추천값과 관찰 메모는 [Tracker 설정 기록](recipes/tracker.md)에 보존했다.
@@ -58,9 +62,7 @@ python -m experiments.feature_matching
 python app.py --source data/detection/raw/town_centre.mp4 --target data/detection/inputs/target.png
 ```
 
-`results/detection/runs/latest/{video.mp4,tracks.csv,summary.json}`에 전체 프레임 앱 결과를 저장한다.
 `target_frames > 0`을 성공 조건으로 확인한다. 이는 등록 이미지 인식 시연이며 독립적인 인식 정확도 평가가 아니다.
-모든 평가에서 `--output-dir`로 새 결과 위치를 지정할 수 있다. `baseline` 덮어쓰기는 거부한다.
 
 ## GUI와 출력
 

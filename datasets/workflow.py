@@ -123,6 +123,8 @@ def verify_data(*, purpose: str = "all") -> dict:
 
 
 def main(stage: str) -> None:
+    if stage not in {"setup", "verify"}:
+        raise ValueError(f"Unknown workflow stage: {stage}")
     parser = argparse.ArgumentParser(
         description="Prepare pinned datasets"
         if stage == "setup"

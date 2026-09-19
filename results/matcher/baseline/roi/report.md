@@ -1,6 +1,6 @@
 # 참고용 ROI 실험: Jogging-1 ORB / SIFT 특징점 매칭
 
-최종 제출 성능표는 `../submission/features.csv`와 `../../docs/report.md`를 사용한다. 이 표는 기존 대응점 수를 보존하고 등록 이미지 고정 분모로만 수정했다.
+최종 제출 성능표는 `../application/features.csv`와 `../../../docs/report.md`를 사용한다. 이 표는 기존 대응점 수를 보존하고 등록 이미지 고정 분모로만 수정했다.
 
 GT: `groundtruth_rect.1.txt`. target: 0001번. 프레임 번호는 원본 JPG의 1-based 번호.
 
@@ -36,7 +36,7 @@ target 특징점: 100개
 
 ## 재현
 
-`python scripts/evaluate.py matcher`
+`python -m experiments.feature_matching`
 
 실험 입력 target.png와 관찰용 MP4: `data/matcher/inputs/`. 원본 JPG·GT·선정 근거: `data/matcher/reference/`.
 `selected_preview.png`: 선정 크롭 모음. `matches/`: 조건(왼쪽)과 target(오른쪽)의 매칭 그림·좌표. `keypoints/`: 특징점 그림. `data/matcher/reference/selection.json`에 선정 근거·GT·원본 해시, `settings.json`에 실험 설정을 기록했다.

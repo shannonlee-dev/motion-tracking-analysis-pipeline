@@ -9,7 +9,7 @@ import numpy as np
 
 from datasets.jogging import SELECTIONS
 from datasets.paths import MATCHER, TRACKER
-from experiments.storage import environment, write_csv
+from experiments.storage import environment, initialize_reproducibility, write_csv
 from motion_tracking.config import DEFAULT_CONFIG
 from motion_tracking.matching import TargetMatcher
 from motion_tracking.motion import MotionDetector
@@ -18,8 +18,7 @@ from motion_tracking.tracker import Tracker
 
 def measure_application_matcher(output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
-    cv2.setNumThreads(1)
-    cv2.setRNGSeed(0)
+    initialize_reproducibility()
     matcher = TargetMatcher(cv2.imread(str(MATCHER / "inputs/target.png")))
     selected = {s[2] - 1: s for s in SELECTIONS}
     cap = cv2.VideoCapture(str(MATCHER / "inputs/jogging.mp4"))
@@ -61,7 +60,7 @@ def measure_application_matcher(output: Path) -> None:
 
 def measure_learning_rates(output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
-    cv2.setNumThreads(1)
+    initialize_reproducibility()
     for rate in (0.001, 0.01, 0.1):
         detector = MotionDetector(replace(DEFAULT_CONFIG, learning_rate=rate))
         cap = cv2.VideoCapture(str(TRACKER / "inputs/17.mp4"))
@@ -100,7 +99,7 @@ def measure_learning_rates(output: Path) -> None:
 
 def measure_tracks(output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
-    cv2.setNumThreads(1)
+    initialize_reproducibility()
     for path in sorted((TRACKER / "inputs").glob("*")):
         if path.stem in ("12", "13"):
             continue

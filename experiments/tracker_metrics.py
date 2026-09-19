@@ -193,8 +193,10 @@ def run(output: Path) -> None:
 
 def main() -> None:
     from experiments.measurements import measure_tracks
+    from experiments.storage import initialize_reproducibility
     from experiments.tracker_review import run as render_review
 
+    initialize_reproducibility()
     output = Path("results/tracker/runs/latest") / "submission"
     measure_tracks(output)
     run(output)

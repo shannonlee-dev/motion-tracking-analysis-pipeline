@@ -14,6 +14,11 @@ from datasets.storage import sha256, write_json
 from motion_tracking.config import DEFAULT_CONFIG
 
 
+def initialize_reproducibility() -> None:
+    cv2.setNumThreads(1)
+    cv2.setRNGSeed(0)
+
+
 def write_csv(path: Path, rows: list[dict]) -> None:
     if not rows:
         raise ValueError(f"No measurements to write: {path}")

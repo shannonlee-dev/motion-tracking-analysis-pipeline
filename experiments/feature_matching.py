@@ -17,12 +17,12 @@ from datasets.jogging import (
     matching_image,
     write_image,
 )
+from experiments.storage import initialize_reproducibility
 from motion_tracking.features import unique_ratio_matches
 
 
 def run(output: Path) -> list[dict]:
-    cv2.setNumThreads(1)
-    cv2.setRNGSeed(0)
+    initialize_reproducibility()
     for directory in (output, output / "matches", output / "keypoints"):
         directory.mkdir(parents=True, exist_ok=True)
     paths, gt, images = load_sequence()

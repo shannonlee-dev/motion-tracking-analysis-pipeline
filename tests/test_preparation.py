@@ -128,6 +128,25 @@ def test_script_help_works_outside_repository(tmp_path, script):
     assert result.returncode == 0, result.stderr
 
 
+def test_workflow_rejects_unknown_stage():
+    from datasets.workflow import main
+
+    with pytest.raises(ValueError, match="Unknown workflow stage"):
+        main("prepare")
+
+
+def test_learning_rate_fails_before_output_without_raw_ground_truth(
+    tmp_path, monkeypatch
+):
+    from experiments import learning_rate
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(learning_rate, "TRACKER", tmp_path / "tracker")
+    with pytest.raises(ValueError, match="Learning-rate ground truth is missing"):
+        learning_rate.main()
+    assert not (tmp_path / "results").exists()
+
+
 def test_all_pinned_public_inputs_match_manifest():
     for purpose in ("tracker", "matcher"):
         manifest = ROOT / "data" / purpose / "reference/input_integrity.json"

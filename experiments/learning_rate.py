@@ -7,14 +7,46 @@ import cv2
 import numpy as np
 
 from datasets.paths import TRACKER
-from experiments.storage import write_csv
+from experiments.storage import initialize_reproducibility, write_csv
 from motion_tracking.config import DEFAULT_CONFIG
 from motion_tracking.motion import MotionDetector
 
 
+def validate_inputs() -> None:
+    video = TRACKER / "inputs/17.mp4"
+    gt_directory = TRACKER / "raw/lasiesta/I_IL_02-GT"
+    if not video.is_file() or not gt_directory.is_dir():
+        raise ValueError(
+            "Learning-rate ground truth is missing.\n"
+            "Run:\n"
+            "python scripts/01_setup_data.py --purpose tracker --raw"
+        )
+    gt_paths = sorted(gt_directory.glob("*.png"))
+    if len(gt_paths) != 525:
+        raise ValueError(
+            "Learning-rate ground truth must contain exactly 525 frames; "
+            f"found {len(gt_paths)}.\n"
+            "Run:\n"
+            "python scripts/01_setup_data.py --purpose tracker --raw"
+        )
+    for path in (gt_paths[0], gt_paths[-1]):
+        if cv2.imread(str(path)) is None:
+            raise ValueError(f"Cannot decode learning-rate ground truth: {path}")
+    capture = cv2.VideoCapture(str(video))
+    try:
+        if not capture.isOpened():
+            raise ValueError(f"Cannot open learning-rate video: {video}")
+        count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        if count != 525:
+            raise ValueError(
+                f"Learning-rate video must contain 525 frames; found {count}"
+            )
+    finally:
+        capture.release()
+
+
 def run(output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
-    cv2.setNumThreads(1)
     summary = []
     for rate in (0.001, 0.01, 0.1):
         cap = cv2.VideoCapture(str(TRACKER / "inputs/17.mp4"))
@@ -91,6 +123,8 @@ def run(output: Path) -> None:
 def main() -> None:
     from experiments.measurements import measure_learning_rates
 
+    validate_inputs()
+    initialize_reproducibility()
     output = Path("results/tracker/runs/latest") / "learning_rate"
     measure_learning_rates(output)
     run(output)

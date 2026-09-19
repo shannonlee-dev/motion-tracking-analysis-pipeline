@@ -79,6 +79,8 @@ python -m experiments.learning_rate
 python -m experiments.feature_matching
 ```
 
+`learning_rate` 실험은 LASIESTA 원본과 525개 GT frame이 필요하므로 먼저
+`python scripts/01_setup_data.py --purpose tracker --raw`를 실행합니다.
 위 명령은 보고서의 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric만 재현합니다.
 Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 
