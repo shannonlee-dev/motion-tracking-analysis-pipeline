@@ -14,7 +14,7 @@ OpenCV MOG2로 움직임을 검출하고 객체 ID·궤적을 추적하는 Pytho
 | **Target Detection Test** | Oxford Town Centre | 실제 앱 전체 프레임 TargetMatcher, 특정 사람 등록, `TARGET DETECTED` 시연 |
 
 웹캠·영상, GUI 타임라인, headless 실행, MP4·CSV 저장을 지원합니다.
-`q` 종료, `p` 일시정지·재개, `s` 스냅샷. 탐색하면 MOG2와 추적 ID를 초기화합니다.
+`q` 종료, `p` 일시정지·재개, `s` 스냅샷(`results/tracking-snapshots/`). 탐색하면 MOG2와 추적 ID를 초기화합니다.
 
 ## 아키텍처
 

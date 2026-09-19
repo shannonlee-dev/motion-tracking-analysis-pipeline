@@ -103,7 +103,6 @@ def run(
         config.max_distance,
         config.max_missing,
         config.trail_length,
-        config.predict_velocity,
     )
     controls, frame_number, elapsed, target_frames = Controls(), 0, 0.0, 0
     processed_frames = 0
@@ -144,7 +143,6 @@ def run(
                     config.max_distance,
                     config.max_missing,
                     config.trail_length,
-                    config.predict_velocity,
                 )
                 frame_number = requested_frame
                 seeked = True

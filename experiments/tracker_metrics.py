@@ -72,7 +72,7 @@ def count_runs(rows, overlap):
 
 def evaluate(events, gt, records, *, keep_traces=False):
     all_results, traces, details = [], [], []
-    for variant in ("default", "distance_80", "missing_30", "velocity"):
+    for variant in ("default", "distance_80", "missing_30"):
         for event in events:
             per_object = {g: [] for g in event["objects"]}
             for f in range(event["start"], event["end"] + 1):
@@ -168,7 +168,7 @@ def write_details(output, events, all_results, traces, details):
 
 def summarize(events, all_results):
     summary = []
-    for variant in ("default", "distance_80", "missing_30", "velocity"):
+    for variant in ("default", "distance_80", "missing_30"):
         for condition in dict.fromkeys(e["condition"] for e in events):
             selected = [
                 r
@@ -228,7 +228,7 @@ def main(argv: list[str] | None = None) -> None:
                 counted.extend(runs)
             del records
         if details is not None:
-            variants = ["default", "distance_80", "missing_30", "velocity"]
+            variants = ["default", "distance_80", "missing_30"]
             order = {e["event_id"]: i for i, e in enumerate(events)}
 
             def key(row):

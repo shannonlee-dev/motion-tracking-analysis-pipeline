@@ -80,14 +80,17 @@ def test_invalid_config_rejected():
         Config(kernel_size=0)
 
 
-def test_velocity_after_missing_frames_preserves_id_and_observed_trail():
-    tracker = Tracker(max_distance=11, max_missing=3, predict_velocity=True)
+def test_missing_frames_match_last_observed_position_without_extrapolation():
+    tracker = Tracker(max_distance=11, max_missing=3)
     tracker.update([(0, 0, 10, 10)])
     tracker.update([(10, 0, 10, 10)])
     tracker.update([])
     tracker.update([])
     tracks = tracker.update([(40, 0, 10, 10)])
-    assert list(tracks) == [1]
+    assert list(tracks) == [1, 2]
+    assert tracks[1].missing == 3
+    assert list(tracks[1].trail) == [(5, 5), (15, 5)]
+    assert tracks[2].bbox == (40, 0, 10, 10)
+    tracks = tracker.update([(12, 0, 10, 10)])
     assert tracks[1].missing == 0
-    assert np.array_equal(tracks[1].velocity, [10, 0])
-    assert list(tracks[1].trail) == [(5, 5), (15, 5), (45, 5)]
+    assert list(tracks[1].trail) == [(5, 5), (15, 5), (17, 5)]

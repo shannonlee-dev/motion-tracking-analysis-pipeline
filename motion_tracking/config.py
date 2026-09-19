@@ -21,8 +21,6 @@ class Config:
     max_missing: int = 15
     trail_length: int = 80
 
-    predict_velocity: bool = False
-
     def __post_init__(self) -> None:
         if not 0 <= self.learning_rate <= 1:
             raise ValueError("learning_rate must be in [0, 1]")
@@ -61,4 +59,3 @@ CLI_NUMERIC_FIELDS = (
     "max_missing",
     "warmup_frames",
 )
-CLI_CONFIG_FIELDS = (*CLI_NUMERIC_FIELDS, "predict_velocity")

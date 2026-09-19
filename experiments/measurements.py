@@ -71,7 +71,6 @@ def measure_tracks(details: Path | None = None):
             "default": Tracker(),
             "distance_80": Tracker(max_distance=80),
             "missing_30": Tracker(max_missing=30),
-            "velocity": Tracker(predict_velocity=True),
         }
         records = {key: [] for key in variants}
         index = 0

@@ -16,7 +16,6 @@ class Track:
     center: np.ndarray
     trail: deque[tuple[int, int]]
     missing: int = 0
-    velocity: np.ndarray | None = None
 
 
 class Tracker:
@@ -25,7 +24,6 @@ class Tracker:
         max_distance: float = DEFAULT_CONFIG.max_distance,
         max_missing: int = DEFAULT_CONFIG.max_missing,
         trail_length: int = DEFAULT_CONFIG.trail_length,
-        predict_velocity: bool = DEFAULT_CONFIG.predict_velocity,
     ) -> None:
         if max_distance <= 0 or max_missing < 0 or trail_length < 1:
             raise ValueError("Invalid tracker limits")
@@ -33,7 +31,6 @@ class Tracker:
         self.max_distance = max_distance
         self.max_missing = max_missing
         self.trail_length = trail_length
-        self.predict_velocity = predict_velocity
         self.tracks: dict[int, Track] = {}
         self.next_id = 1
 
@@ -48,16 +45,7 @@ class Tracker:
         used_rows, used_cols = set(), set()
 
         if ids and boxes:
-            # 속도 예측을 사용하면 마지막 관측 이후 경과한 프레임 수를 반영한다.
-            positions = []
-
-            for tid in ids:
-                track = self.tracks[tid]
-                offset = (
-                    track.velocity * (track.missing + 1) if self.predict_velocity else 0
-                )
-                positions.append(track.center + offset)
-
+            positions = [self.tracks[tid].center for tid in ids]
             distances = np.linalg.norm(
                 np.array(positions)[:, None, :] - centers[None, :, :],
                 axis=2,
@@ -75,7 +63,6 @@ class Tracker:
                     continue
 
                 track = self.tracks[ids[row]]
-                track.velocity = (centers[col] - track.center) / (track.missing + 1)
                 track.center, track.bbox, track.missing = centers[col], boxes[col], 0
                 track.trail.append(tuple(map(int, centers[col])))
                 used_rows.add(row)
@@ -96,9 +83,7 @@ class Tracker:
                     [tuple(map(int, centers[col]))],
                     maxlen=self.trail_length,
                 )
-                self.tracks[self.next_id] = Track(
-                    box, centers[col], trail, velocity=np.zeros(2)
-                )
+                self.tracks[self.next_id] = Track(box, centers[col], trail)
                 self.next_id += 1
 
         return self.tracks

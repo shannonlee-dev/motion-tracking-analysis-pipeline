@@ -324,6 +324,17 @@ def test_export_paths_cannot_destroy_inputs_or_each_other(tmp_path):
 
 
 @pytest.mark.parametrize("entrypoint", [["app.py"], ["-m", "motion_tracking"]])
+@pytest.mark.parametrize("option", ["--snapshot-dir", "--predict-velocity"])
+def test_removed_cli_options_are_rejected(entrypoint, option):
+    result = subprocess.run(
+        [sys.executable, *entrypoint, option], text=True, capture_output=True
+    )
+    assert result.returncode == 2
+    assert f"unrecognized arguments: {option}" in result.stderr
+    assert "Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("entrypoint", [["app.py"], ["-m", "motion_tracking"]])
 def test_invalid_cli_config_returns_clean_error(entrypoint):
     result = subprocess.run(
         [sys.executable, *entrypoint, "--headless", "--learning-rate", "2"],
