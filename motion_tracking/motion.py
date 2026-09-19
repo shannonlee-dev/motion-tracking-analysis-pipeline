@@ -3,9 +3,9 @@
 import cv2
 import numpy as np
 
+from motion_tracking import BBox
 from motion_tracking.config import DEFAULT_CONFIG, Config
 from motion_tracking.constants import MASK_MAX_VALUE
-from motion_tracking.geometry import BBox
 
 FOREGROUND_THRESHOLD = 200  # Discard shadows.
 

@@ -6,8 +6,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from motion_tracking import BBox
 from motion_tracking.config import DEFAULT_CONFIG
-from motion_tracking.geometry import BBox
 
 
 @dataclass
