@@ -20,9 +20,9 @@ OpenCV MOG2로 움직임을 검출하고 객체 ID·궤적을 추적하는 Pytho
 
 ```text
 app.py / motion_tracking/     # CLI, 영상 루프, 검출, 추적, 매칭, 화면
-scripts/                     # 데이터 준비 2단계 + 평가 진입점
+scripts/                     # 데이터 준비 2단계
 datasets/                    # 다운로드·검증·변환·등록 이미지
-evaluation/                  # 앱 알고리즘을 사용하는 별도 실험 코드
+experiments/                 # 보고서 정량 결과를 재현하는 최소 실험
 data/{tracker,matcher,detection}/
   reference/                 # 출처 manifest, 원본 주석, 고정 실험 조건
   raw/                       # 로컬 원본 다운로드·압축 해제 (Git 제외)
@@ -52,11 +52,11 @@ Windows에서는 `.venv\Scripts\activate`로 활성화합니다.
 
 ```bash
 python scripts/01_setup_data.py
-python scripts/02_prepare_evaluation.py
+python scripts/02_verify_data.py
 ```
 
 첫 단계는 고정 해시 검증·필요한 다운로드/압축 해제/변환·등록 이미지·manifest를 준비합니다.
-두 번째는 영상 전체 디코딩, 평가 주석, 앱 등록 이미지까지 검사합니다.
+두 번째는 영상 전체 디코딩, 주석·출처 일관성, 앱 등록 이미지를 검사합니다.
 Oxford 원본을 이미 받았다면 첫 명령에 `--detection-source /path/to/TownCentreXVID.mp4`를 지정합니다.
 오프라인 재검사는 `--offline`, 한 목적만 준비하려면 `--purpose tracker|matcher|detection`을 사용합니다.
 출처·재배포 제한은 [data/NOTICE.md](data/NOTICE.md)를 따릅니다. Oxford 원본·파생물은 로컬 전용입니다.
@@ -71,19 +71,19 @@ python app.py --help
 
 화면이 없는 환경에서는 `--headless`를 추가합니다. 처리 FPS는 원본 재생 FPS와 다릅니다.
 
-## 평가 실행
+## 보고서 실험
 
 ```bash
-python scripts/evaluate.py tracker --case 1 --max-frames 100
-python scripts/evaluate.py matcher
-python scripts/evaluate.py detection
+python -m experiments.tracker_metrics
+python -m experiments.learning_rate
+python -m experiments.feature_matching
 ```
 
-Tracker 전체 입력은 `--suite`, 기존 주석·학습률 실험 전체 재현은 [실행 지침](docs/workflows.md)을 참조합니다.
-Detection 기본 실행은 Oxford 전체 영상입니다. 등록 프레임이 5800이므로 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
+위 명령은 보고서의 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric만 재현합니다.
+Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 
 결과: `results/<목적>/runs/latest/`. 이전 측정: `results/{tracker,matcher}/baseline/`.
-[분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md), [구조·이전 기록](docs/migration.md).
+[분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md), [코드 책임](docs/code-organization.md).
 
 ## 개발 검증
 

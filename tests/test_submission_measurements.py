@@ -7,7 +7,7 @@ import cv2
 import pytest
 
 from datasets.paths import RESULTS, TRACKER_REFERENCE
-from evaluation.tracker import associate, count_runs
+from experiments.tracker_metrics import associate, count_runs
 from motion_tracking.matching import TargetMatcher
 
 OUT = RESULTS / "tracker/baseline/submission"

@@ -9,7 +9,7 @@ import numpy as np
 
 from datasets.jogging import SELECTIONS
 from datasets.paths import MATCHER, TRACKER
-from evaluation.storage import environment, write_csv
+from experiments.storage import environment, write_csv
 from motion_tracking.config import DEFAULT_CONFIG
 from motion_tracking.matching import TargetMatcher
 from motion_tracking.motion import MotionDetector

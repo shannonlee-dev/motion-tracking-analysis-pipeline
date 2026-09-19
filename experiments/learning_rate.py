@@ -1,4 +1,4 @@
-"""Compare video 17 masks with LASIESTA labels, including shadow diagnostics."""
+"""Reproduce learning-rate masks and LASIESTA pixel metrics."""
 
 from dataclasses import replace
 from pathlib import Path
@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 from datasets.paths import TRACKER
-from evaluation.storage import write_csv
+from experiments.storage import write_csv
 from motion_tracking.config import DEFAULT_CONFIG
 from motion_tracking.motion import MotionDetector
 
@@ -86,3 +86,15 @@ def run(output: Path) -> None:
             summary.append(row)
     write_csv(output / "learning_rate_summary.csv", summary)
     print("Wrote 1,575 pixel-level measurements and 15 window summaries")
+
+
+def main() -> None:
+    from experiments.measurements import measure_learning_rates
+
+    output = Path("results/tracker/runs/latest") / "learning_rate"
+    measure_learning_rates(output)
+    run(output)
+
+
+if __name__ == "__main__":
+    main()

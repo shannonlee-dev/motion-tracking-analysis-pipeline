@@ -6,7 +6,7 @@
 
 ```bash
 python scripts/01_setup_data.py
-python scripts/02_prepare_evaluation.py
+python scripts/02_verify_data.py
 ```
 
 정상 입력은 해시를 검증하고 그대로 사용한다. 원본 archive는 `data/<목적>/raw`, 데이터 주석·출처·고정 해시는 `reference`, 사용 입력은 `inputs`, 자동 상태 manifest는 `generated`에 둔다. 기존 해시를 현재 파일 값으로 덮어쓰지 않는다. 손상된 입력은 오류로 알리므로 잘못된 파일을 별도로 옮긴 뒤 재실행한다.
@@ -18,16 +18,16 @@ python scripts/02_prepare_evaluation.py
 
 Tracker 04–11과 14의 과거 H.264 인코더 설정은 기록되지 않았다. 보존된 입력은 바이트 단위로 검증한다. 입력을 삭제하고 원본에서 재구성하면 같은 프레임 구간을 mp4v로 생성하고, 다른 바이트 해시와 코덱을 `data/tracker/generated/inputs.json`에 기록한다. 이 경우 과거 측정과 같다고 가정하지 말고 평가를 다시 실행한다. 새 클론은 보존 입력을 사용하므로 이 재인코딩이 필요 없다.
 
-## Tracker Test
+## 실제 앱과 보고서 실험
 
 ```bash
 # 단일 입력 → 기본 설정 → MP4·CSV
-python scripts/evaluate.py tracker --case 1 --max-frames 100
+python app.py --source data/tracker/inputs/01.mpg
 # 모든 입력 → 각 40프레임 smoke test
-python scripts/evaluate.py tracker --suite --max-frames 40
 # 원본 GT 준비 → 전체 주석 평가 + 세 learning-rate 실험
 python scripts/01_setup_data.py --purpose tracker --raw
-python scripts/evaluate.py tracker --measure
+python -m experiments.tracker_metrics
+python -m experiments.learning_rate
 ```
 
 기본 결과는 `results/tracker/runs/latest/case_XX/{video.mp4,tracks.csv}`다.
@@ -43,20 +43,18 @@ python app.py --source data/tracker/inputs/17.mp4 --headless --learning-rate 0.0
   --output results/tracker/runs/lr_0001/video.mp4 --csv results/tracker/runs/lr_0001/tracks.csv
 ```
 
-## Matcher Test
+## 특징점 실험
 
 ```bash
-python scripts/evaluate.py matcher
+python -m experiments.feature_matching
 ```
 
 `results/matcher/runs/latest/roi/`: ORB/SIFT 각 5조건, keypoint·match 그림과 좌표, metrics.csv, settings.json.
 `application/`: 같은 선정 시점에 대한 기존 전체 프레임 ORB 비교. ROI 조건→target 매칭과 앱 target→전체 프레임 매칭은 다른 실험이다. ROI 매칭률을 사람 검출 정확도로 해석하지 않는다. 각도·가림률은 육안 근사 구간이다.
 
-## Target Detection Test
+## Oxford Target Detection 시연
 
 ```bash
-python scripts/evaluate.py detection
-# GUI 시연
 python app.py --source data/detection/raw/town_centre.mp4 --target data/detection/inputs/target.png
 ```
 

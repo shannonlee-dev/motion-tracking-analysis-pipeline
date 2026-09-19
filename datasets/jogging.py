@@ -1,4 +1,4 @@
-"""Fixed Jogging selections and preparation; measurements live in evaluation.matcher."""
+"""Fixed Jogging selections and preparation for the feature experiment."""
 
 import hashlib
 import json

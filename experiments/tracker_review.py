@@ -1,4 +1,4 @@
-"""Render event evidence: cyan GT, green observed tracks, red excluded window."""
+"""Render tracker event evidence used by the report."""
 
 import json
 from pathlib import Path

@@ -1,1 +1,1 @@
-"""Thin user-facing entry points; logic lives in datasets and evaluation."""
+"""Thin user-facing data entry points; logic lives in datasets."""

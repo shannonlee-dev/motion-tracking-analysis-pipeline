@@ -1,4 +1,4 @@
-"""Step 1: acquire, verify and prepare inputs for all three evaluation purposes."""
+"""Step 1: acquire and prepare the application inputs."""
 
 import sys
 from pathlib import Path

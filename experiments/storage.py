@@ -42,7 +42,7 @@ def environment(output: Path, inputs: list[Path]) -> None:
             input_sha256={str(p.relative_to(ROOT)): sha256(p) for p in inputs},
             code_sha256={
                 str(p.relative_to(ROOT)): sha256(p)
-                for directory in ("motion_tracking", "evaluation", "datasets")
+                for directory in ("motion_tracking", "experiments", "datasets")
                 for p in sorted((ROOT / directory).glob("*.py"))
             },
         ),

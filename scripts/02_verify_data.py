@@ -1,4 +1,4 @@
-"""Step 2: verify decodable media, registration assets and evaluation annotations."""
+"""Step 2: verify decodable media, assets, and reference consistency."""
 
 import sys
 from pathlib import Path

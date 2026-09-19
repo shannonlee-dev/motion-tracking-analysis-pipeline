@@ -1,4 +1,4 @@
-"""Two user-facing stages: obtain inputs, then verify evaluation readiness."""
+"""Two user-facing stages: obtain inputs, then verify dataset readiness."""
 
 import argparse
 import json
@@ -75,7 +75,7 @@ def setup(
         )
 
 
-def prepare_evaluation(*, purpose: str = "all") -> dict:
+def verify_data(*, purpose: str = "all") -> dict:
     setup(offline=True, purpose=purpose)
     report = {}
     if purpose in ("all", "tracker"):
@@ -126,7 +126,7 @@ def main(stage: str) -> None:
     parser = argparse.ArgumentParser(
         description="Prepare pinned datasets"
         if stage == "setup"
-        else "Validate all evaluation inputs"
+        else "Verify all prepared data inputs"
     )
     parser.add_argument(
         "--purpose", choices=("all", "tracker", "matcher", "detection"), default="all"
@@ -149,8 +149,8 @@ def main(stage: str) -> None:
     try:
         if stage == "setup":
             setup(**args)
-            print("Data ready; run scripts/02_prepare_evaluation.py")
+            print("Data ready; run scripts/02_verify_data.py")
         else:
-            print(json.dumps(prepare_evaluation(**args), indent=2))
+            print(json.dumps(verify_data(**args), indent=2))
     except (OSError, ValueError, cv2.error) as error:
         parser.exit(2, f"Error: {error}\n")

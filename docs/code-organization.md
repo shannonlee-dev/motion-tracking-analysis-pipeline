@@ -15,8 +15,9 @@
 | `datasets/{tracker,jogging,detection}.py` | 목적별 원본·입력 준비 |
 | `datasets/workflow.py` | 준비/검증 두 단계 조합 |
 | `datasets/annotations.py` | 기존 raw GT에서 bbox를 재구성하는 검증 함수 |
-| `evaluation/cli.py` | 세 평가 목적별 실행 조합 |
-| `evaluation/{measurements,tracker,background,review,matcher}.py` | 측정·집계·시각 근거 생성 |
-
-앱은 `datasets`나 `evaluation`을 import하지 않는다. 실험이 앱 알고리즘을 가져다 쓴다.
+| `experiments/tracker_metrics.py` | Tracker trace, ID switch·failure 집계 |
+| `experiments/learning_rate.py` | 17번 영상 learning-rate 및 LASIESTA metric |
+| `experiments/feature_matching.py` | Jogging ROI와 앱 full-frame matcher metric |
+| `experiments/measurements.py`, `tracker_review.py`, `storage.py` | 실험 산출물 생성 helper |
+앱은 `datasets`나 `experiments`를 import하지 않는다. 실험이 앱 알고리즘을 가져다 쓴다.
 MOG2·Tracker·ORB 임곗값과 매칭 순서는 기존과 동일하다. 데이터를 준비하는 것만으로 측정을 재실행하거나 보존 결과를 덮어쓰지 않는다.

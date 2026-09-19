@@ -281,14 +281,15 @@ ORB의 모든 설계 요소에 통계적 선택이 전혀 없다는 뜻으로 �
 
 ```bash
 python scripts/01_setup_data.py --purpose tracker --raw
-python scripts/evaluate.py tracker --measure
-python scripts/evaluate.py matcher
+python -m experiments.tracker_metrics
+python -m experiments.learning_rate
+python -m experiments.feature_matching
 ```
 
-첫 명령은 기존 앱 클래스로 전체 프레임 특징점·17번 학습률·추적 규칙 비교를 다시 실행한다.
+세 명령은 기존 앱 클래스로 전체 프레임 특징점, 17번 학습률, 추적 규칙 비교를 각각 다시 실행한다.
 학습률 픽셀 비교에는 로컬 LASIESTA `data/tracker/raw/lasiesta/I_IL_02-GT`가 필요하다. 원본 주석 복원은 `scripts/01_setup_data.py --purpose tracker --raw` 절차를 따른다.
 추적 집계는 보존된 `ground_truth.json`과 `events.json`을 이용하므로 raw 주석 없이도 재집계할 수 있다.
-`scripts/02_prepare_evaluation.py`는 raw 주석이 모두 있으면 bbox를 `data/tracker/generated/annotations/`에 재구성해 보존된 기준과 비교한다. 14번 수동 기준점은 유지한다.
+`scripts/02_verify_data.py`는 raw 주석이 모두 있으면 bbox를 `data/tracker/generated/annotations/`에 재구성해 보존된 기준과 비교한다. 14번 수동 기준점은 유지한다.
 사건 조건 수정 후에는 집계·검토 이미지를 다시 만들고 이 보고서의 표도 새 집계와 맞춰야 한다. `event_log.csv`는 집계 명령이 함께 갱신한다.
 
 검증: 5프레임 ID 확정과 10프레임 연속 누락의 경계, 가림에 의한 연속 구간 단절, 일대일 GT 배정,

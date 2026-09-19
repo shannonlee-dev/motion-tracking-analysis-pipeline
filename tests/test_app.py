@@ -10,7 +10,6 @@ import pytest
 from motion_tracking.config import Config
 from motion_tracking.display import Controls, draw_overlay
 from motion_tracking.matching import MatchResult
-from motion_tracking.motion import MotionDetector
 from motion_tracking.runner import run
 
 

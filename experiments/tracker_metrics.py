@@ -1,10 +1,10 @@
-"""Aggregate frame-level GT associations; keep candidate exclusions explicit."""
+"""Reproduce tracker traces, event metrics, and report review images."""
 
 import json
 from pathlib import Path
 
 from datasets.paths import TRACKER_REFERENCE
-from evaluation.storage import write_csv
+from experiments.storage import write_csv
 
 
 def iou(a, b):
@@ -189,3 +189,17 @@ def run(output: Path) -> None:
             )
     write_csv(output / "tracking_summary.csv", summary)
     print("\n".join(str(r) for r in summary))
+
+
+def main() -> None:
+    from experiments.measurements import measure_tracks
+    from experiments.tracker_review import run as render_review
+
+    output = Path("results/tracker/runs/latest") / "submission"
+    measure_tracks(output)
+    run(output)
+    render_review(output)
+
+
+if __name__ == "__main__":
+    main()

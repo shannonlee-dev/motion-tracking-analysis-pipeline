@@ -1,4 +1,4 @@
-"""Rebuild explicit evaluation annotations from local dataset labels."""
+"""Rebuild explicit tracker annotations from local dataset labels."""
 
 import hashlib
 import json

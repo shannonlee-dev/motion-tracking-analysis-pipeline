@@ -116,7 +116,7 @@ def test_registration_uses_recorded_frame_and_crop(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "script", ["01_setup_data.py", "02_prepare_evaluation.py", "evaluate.py"]
+    "script", ["01_setup_data.py", "02_verify_data.py"]
 )
 def test_script_help_works_outside_repository(tmp_path, script):
     result = subprocess.run(

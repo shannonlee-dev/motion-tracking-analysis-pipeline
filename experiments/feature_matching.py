@@ -1,4 +1,4 @@
-"""Jogging ROI ORB/SIFT measurement, distinct from the app full-frame matcher."""
+"""Reproduce Jogging ROI and full-frame application matching separately."""
 
 import csv
 import json
@@ -137,3 +137,15 @@ def run(output: Path) -> list[dict]:
     )
     (output / "settings.json").write_text(json.dumps(settings, indent=2) + "\n")
     return rows
+
+
+def main() -> None:
+    from experiments.measurements import measure_application_matcher
+
+    output = Path("results/matcher/runs/latest")
+    run(output / "roi")
+    measure_application_matcher(output / "application")
+
+
+if __name__ == "__main__":
+    main()
