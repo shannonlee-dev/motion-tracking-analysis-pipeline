@@ -8,7 +8,7 @@ import pytest
 
 from datasets.paths import RESULTS, TRACKER_REFERENCE
 from evaluation.tracker import associate, count_runs
-from motion_tracking.vision import TargetMatcher
+from motion_tracking.matching import TargetMatcher
 
 OUT = RESULTS / "tracker/baseline/submission"
 MATCHER_OUT = RESULTS / "matcher/baseline/application"

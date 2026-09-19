@@ -9,8 +9,9 @@ import pytest
 
 from motion_tracking.config import Config
 from motion_tracking.display import Controls, draw_overlay
+from motion_tracking.matching import MatchResult
+from motion_tracking.motion import MotionDetector
 from motion_tracking.runner import run
-from motion_tracking.vision import MatchResult
 
 
 def test_target_match_draws_a_clipped_red_box_and_local_label():

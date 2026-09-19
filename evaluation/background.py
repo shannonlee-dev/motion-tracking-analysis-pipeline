@@ -9,7 +9,7 @@ import numpy as np
 from datasets.paths import TRACKER
 from evaluation.storage import write_csv
 from motion_tracking.config import DEFAULT_CONFIG
-from motion_tracking.vision import MotionDetector
+from motion_tracking.motion import MotionDetector
 
 
 def run(output: Path) -> None:

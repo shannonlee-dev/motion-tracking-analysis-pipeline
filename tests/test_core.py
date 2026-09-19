@@ -2,8 +2,9 @@ import numpy as np
 import pytest
 
 from motion_tracking.config import Config
+from motion_tracking.matching import TargetMatcher
+from motion_tracking.motion import MotionDetector
 from motion_tracking.tracker import Tracker
-from motion_tracking.vision import MotionDetector, TargetMatcher
 
 
 def test_ids_follow_positions_not_detection_order():

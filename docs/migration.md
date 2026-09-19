@@ -27,7 +27,6 @@ motion_tracking/
   display.py             # overlay styles, controls
   features.py            # common ratio matching
   config.py, constants.py, geometry.py
-  vision.py              # original import compatibility
 scripts/
   01_setup_data.py
   02_prepare_evaluation.py
@@ -95,7 +94,7 @@ tests/
 - `scripts/data/prepare_caviar.py`, `prepare_lasiesta.py`, `prepare_jogging_matching.py`의 사용자 진입점을 두 단계 스크립트로 통합했다. 다운로드·압축 해제·변환은 `datasets`로, ORB/SIFT 실험은 `evaluation/matcher.py`로 분리했다.
 - `measure_submission`, `evaluate_submission`, `measure_background_gt`, `render_submission_review`는 `evaluate.py tracker --measure`로 조합한다. raw 주석 복원은 두 번째 준비 단계에서 재구성 가능한 경우 검증한다.
 - 숫자별 명령 문서 19개의 반복 보일러플레이트, 중복 다운로드 함수, 이전 경로 상수 모듈, 사용되지 않는 `HOMOGRAPHY_MIN_MATCHES`, 분리 과정에서 남은 미사용 import를 제거했다.
-- `vision.py`는 삭제하지 않고 기존 공개 import를 유지한다. MOG2·Tracker·ORB 설정·연산 순서는 바꾸지 않았다.
+- 기존 호환 import 모듈을 제거하고 구현 모듈(`motion.py`, `matching.py`)을 직접 사용한다. MOG2·Tracker·ORB 설정·연산 순서는 바꾸지 않았다.
 - 영상·이미지·라이선스·유효한 기존 측정 파일은 삭제하지 않았다. 이전한 3,955개 파일을 검사했으며 누락 0, 바이너리 변경 0이다. 문서와 일부 provenance/CSV의 경로만 갱신했다.
 
 ## GUI 개선

@@ -10,7 +10,6 @@
 | `motion_tracking/features.py` | 공통 ratio test·descriptor 중복 제거 |
 | `motion_tracking/display.py` | 해상도별 글꼴·라벨 배경·bbox·키 제어·창/타임라인 UI |
 | `motion_tracking/config.py`, `constants.py` | 알고리즘 설정/검증, 영상 입출력 공통값 |
-| `motion_tracking/vision.py` | 기존 Python import 호환용 재노출 |
 | `datasets/paths.py` | 저장소 기준 경로, Tracker case 해석 |
 | `datasets/storage.py`, `media.py` | 고정 해시 다운로드·안전한 압축 해제·원자적 파일 교체·BMP 변환 |
 | `datasets/{tracker,jogging,detection}.py` | 목적별 원본·입력 준비 |
