@@ -3,6 +3,7 @@
 import time
 from collections.abc import Mapping
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 import cv2
@@ -28,10 +29,20 @@ class OverlayStyle:
     line_height: int
 
     @classmethod
-    def for_frame(cls, frame: np.ndarray) -> "OverlayStyle":
-        scale = max(0.6, min(1.6, min(frame.shape[:2]) / 900))
+    def for_frame(
+        cls, frame: np.ndarray, *, scale_factor: float = 1.0
+    ) -> "OverlayStyle":
+        return cls._for_dimensions(*frame.shape[:2], scale_factor)
+
+    @classmethod
+    @lru_cache(maxsize=32)
+    def _for_dimensions(
+        cls, frame_height: int, frame_width: int, scale_factor: float
+    ) -> "OverlayStyle":
+        # Cache only dimensions and immutable styles, never the frame arrays.
+        scale = max(0.6, min(1.6, min(frame_height, frame_width) / 900)) * scale_factor
         thickness = max(1, round(scale * 2))
-        padding = max(3, round(scale * 6))
+        padding = max(2, round(scale * 6))
         (_, height), baseline = cv2.getTextSize(
             "FPS: 0123456789", FONT, scale, thickness
         )
@@ -43,9 +54,11 @@ def draw_label(
     text: str,
     origin: tuple[int, int],
     style: OverlayStyle,
-    background: tuple[int, int, int] = BACKGROUND,
+    background: tuple[int, int, int] | None = BACKGROUND,
+    *,
+    foreground: tuple[int, int, int] = WHITE,
 ) -> None:
-    """Place a padded high-contrast label, keeping text inside the image."""
+    """Place a label with an optional background, keeping text inside the image."""
     height, width = image.shape[:2]
     pad = min(style.padding, max(0, (min(height, width) - 1) // 2))
     (text_width, _), _ = cv2.getTextSize(text, FONT, style.scale, style.thickness)
@@ -57,23 +70,24 @@ def draw_label(
     )
     x = max(0, min(origin[0], width - text_width - 2 * pad - 1))
     y = max(0, min(origin[1], height - text_height - baseline - 2 * pad - 1))
-    cv2.rectangle(
-        image,
-        (x, y),
-        (
-            min(width - 1, x + text_width + 2 * pad),
-            min(height - 1, y + text_height + baseline + 2 * pad),
-        ),
-        background,
-        -1,
-    )
+    if background is not None:
+        cv2.rectangle(
+            image,
+            (x, y),
+            (
+                min(width - 1, x + text_width + 2 * pad),
+                min(height - 1, y + text_height + baseline + 2 * pad),
+            ),
+            background,
+            -1,
+        )
     cv2.putText(
         image,
         text,
         (x + pad, y + pad + text_height),
         FONT,
         scale,
-        WHITE,
+        foreground,
         style.thickness,
         cv2.LINE_AA,
     )
@@ -116,6 +130,7 @@ def draw_overlay(
 ) -> np.ndarray:
     image = frame.copy()
     style = OverlayStyle.for_frame(frame)
+    id_style = OverlayStyle.for_frame(frame, scale_factor=0.7)
     line = max(2, style.thickness)
     for tid, track in tracks.items():
         if track.missing:
@@ -123,7 +138,14 @@ def draw_overlay(
         color = tuple(60 + (tid * factor) % 190 for factor in (73, 37, 109))
         x, y, w, h = track.bbox
         cv2.rectangle(image, (x, y), (x + w, y + h), color, line)
-        draw_label(image, f"ID:{tid}", (x, max(0, y - style.line_height)), style)
+        draw_label(
+            image,
+            f"ID:{tid}",
+            (x, max(0, y - id_style.line_height)),
+            id_style,
+            background=None,
+            foreground=color,
+        )
         cv2.circle(image, tuple(map(int, track.center)), max(3, line), color, -1)
         if len(track.trail) > 1:
             cv2.polylines(image, [np.array(track.trail, np.int32)], False, color, line)

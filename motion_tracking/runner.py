@@ -2,6 +2,7 @@
 
 import csv
 import os
+import sys
 import time
 from collections.abc import Mapping
 from pathlib import Path
@@ -86,7 +87,8 @@ def run(
 
     if (
         not headless
-        and os.name == "posix"
+        # macOS uses Cocoa, which does not require X11/Wayland variables.
+        and sys.platform == "linux"
         and not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
     ):
         raise ValueError(

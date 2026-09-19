@@ -68,6 +68,10 @@ def test_controls_pause_resume_snapshot_quit(tmp_path):
 
 
 @pytest.mark.parametrize(
+    ("platform", "display_variable"),
+    [("darwin", None), ("win32", None), ("linux", "DISPLAY"), ("linux", "WAYLAND_DISPLAY")],
+)
+@pytest.mark.parametrize(
     ("show_mask", "closed_title"),
     [
         (False, "Motion analysis | q quit, p pause, s snapshot"),
@@ -75,7 +79,7 @@ def test_controls_pause_resume_snapshot_quit(tmp_path):
     ],
 )
 def test_closing_a_display_window_stops_playback(
-    tmp_path, monkeypatch, show_mask, closed_title
+    tmp_path, monkeypatch, show_mask, closed_title, platform, display_variable
 ):
     source = tmp_path / "input.avi"
     writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24))
@@ -85,7 +89,11 @@ def test_closing_a_display_window_stops_playback(
         writer.write(np.zeros((24, 32, 3), np.uint8))
 
     writer.release()
-    monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(sys, "platform", platform)
+    monkeypatch.delenv("DISPLAY", raising=False)
+    monkeypatch.delenv("WAYLAND_DISPLAY", raising=False)
+    if display_variable:
+        monkeypatch.setenv(display_variable, ":test")
     monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
     monkeypatch.setattr(cv2, "createTrackbar", lambda *_: None)
     monkeypatch.setattr(cv2, "setTrackbarPos", lambda *_: None)
@@ -101,6 +109,15 @@ def test_closing_a_display_window_stops_playback(
     stats = run(str(source), show_mask=show_mask)
 
     assert stats["frames"] == 1
+
+
+def test_linux_without_a_display_requires_headless(monkeypatch):
+    monkeypatch.setattr(sys, "platform", "linux")
+    monkeypatch.delenv("DISPLAY", raising=False)
+    monkeypatch.delenv("WAYLAND_DISPLAY", raising=False)
+
+    with pytest.raises(ValueError, match="No desktop display"):
+        run("unused.avi")
 
 
 def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):

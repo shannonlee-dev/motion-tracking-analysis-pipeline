@@ -33,3 +33,15 @@ def test_status_and_target_use_one_scaling_system():
     large = OverlayStyle.for_frame(np.zeros((1080, 1920, 3), np.uint8))
     assert large.line_height > small.line_height
     assert large.padding > small.padding
+
+
+def test_overlay_styles_are_reused_by_dimensions_and_scale():
+    frame = np.zeros((288, 352, 3), np.uint8)
+    style = OverlayStyle.for_frame(frame)
+    compact = OverlayStyle.for_frame(frame, scale_factor=0.7)
+
+    assert OverlayStyle.for_frame(frame.copy()) is style
+    assert OverlayStyle.for_frame(frame.copy(), scale_factor=0.7) is compact
+    assert compact.scale < style.scale
+    large = OverlayStyle.for_frame(np.zeros((1080, 1920, 3), np.uint8))
+    assert large.scale > style.scale
