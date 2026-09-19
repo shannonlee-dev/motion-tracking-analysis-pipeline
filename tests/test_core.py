@@ -61,6 +61,13 @@ def test_matcher_rejects_featureless_target():
         TargetMatcher(np.zeros((100, 100, 3), np.uint8))
 
 
+def test_matcher_extracts_sift_float_descriptors():
+    rng = np.random.default_rng(11)
+    matcher = TargetMatcher(rng.integers(0, 256, (180, 180, 3), dtype=np.uint8))
+
+    assert matcher.target_desc.dtype == np.float32
+
+
 def test_matcher_accepts_real_texture_and_rejects_blank():
     rng = np.random.default_rng(7)
     target = rng.integers(0, 256, (180, 180, 3), dtype=np.uint8)

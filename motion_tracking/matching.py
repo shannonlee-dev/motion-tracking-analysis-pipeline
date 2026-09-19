@@ -1,4 +1,4 @@
-"""Geometric ORB target recognition on complete application frames."""
+"""Geometric SIFT target recognition on complete application frames."""
 
 from dataclasses import dataclass
 
@@ -40,20 +40,20 @@ class TargetMatcher:
         if target is None or target.size == 0:
             raise ValueError("Cannot read target image")
 
-        self.orb = cv2.ORB_create(nfeatures=nfeatures)
-        self.target_kp, self.target_desc = self.orb.detectAndCompute(target, None)
+        self.sift = cv2.SIFT_create(nfeatures=nfeatures)
+        self.target_kp, self.target_desc = self.sift.detectAndCompute(target, None)
 
         if self.target_desc is None or len(self.target_kp) < min_inliers:
             raise ValueError(
-                "Target needs more texture: fewer than required ORB features"
+                "Target needs more texture: fewer than required SIFT features"
             )
 
         self.height, self.width = target.shape[:2]
-        self.matcher = cv2.BFMatcher(cv2.NORM_HAMMING)
+        self.matcher = cv2.BFMatcher(cv2.NORM_L2)
         self.ratio, self.min_inliers = ratio, min_inliers
 
     def match(self, frame: np.ndarray) -> MatchResult:
-        kp, desc = self.orb.detectAndCompute(frame, None)
+        kp, desc = self.sift.detectAndCompute(frame, None)
         result = MatchResult(keypoints=len(kp))
 
         if desc is None or len(desc) < KNN_NEIGHBORS:

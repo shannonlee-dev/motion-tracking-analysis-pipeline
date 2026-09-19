@@ -1,4 +1,4 @@
-"""Descriptor matching for ORB target recognition."""
+"""Descriptor matching shared by target-recognition feature extractors."""
 
 import cv2
 import numpy as np
