@@ -1,9 +1,8 @@
 """Reproduce tracker traces, event metrics, and report review images."""
 
 import json
-from pathlib import Path
 
-from datasets.paths import TRACKER_REFERENCE
+from datasets.paths import TRACKER, TRACKER_REFERENCE
 from experiments.storage import write_csv
 
 
@@ -71,20 +70,14 @@ def count_runs(rows, overlap):
     return failures, switches
 
 
-def run(output: Path) -> None:
-    events = json.loads((TRACKER_REFERENCE / "events.json").read_text())
-    gt = json.loads((TRACKER_REFERENCE / "ground_truth.json").read_text())
+def evaluate(events, gt, records, *, keep_traces=False):
     all_results, traces, details = [], [], []
     for variant in ("default", "distance_80", "missing_30", "velocity"):
-        cache = {
-            n: json.loads((output / f"tracks_{n}_{variant}.json").read_text())
-            for n in {e["video"] for e in events}
-        }
         for event in events:
             per_object = {g: [] for g in event["objects"]}
             for f in range(event["start"], event["end"] + 1):
                 truth = gt[event["video"]].get(str(f), {})
-                assigned = associate(truth, cache[event["video"]][f]["tracks"])
+                assigned = associate(truth, records[variant][f]["tracks"])
                 occluded = any(lo <= f <= hi for lo, hi in event["exclude"])
                 for gid in per_object:
                     row = dict(
@@ -101,7 +94,8 @@ def run(output: Path) -> None:
                         else "",
                     )
                     per_object[gid].append(row)
-                    traces.append(row)
+                    if keep_traces:
+                        traces.append(row)
             failures, switches = [], []
             for gid, rows in per_object.items():
                 loss, change = count_runs(rows, event["overlap"])
@@ -130,6 +124,10 @@ def run(output: Path) -> None:
                     excluded_intervals=json.dumps(event["exclude"]),
                 )
             )
+    return all_results, traces, details
+
+
+def write_details(output, events, all_results, traces, details):
     event_log = []
     for event, result, counted in zip(
         events, all_results[: len(events)], details[: len(events)]
@@ -166,6 +164,9 @@ def run(output: Path) -> None:
     (output / "counted_runs.json").write_text(
         json.dumps(details, ensure_ascii=False, indent=2) + "\n"
     )
+
+
+def summarize(events, all_results):
     summary = []
     for variant in ("default", "distance_80", "missing_30", "velocity"):
         for condition in dict.fromkeys(e["condition"] for e in events):
@@ -187,20 +188,66 @@ def run(output: Path) -> None:
                     / len(selected),
                 )
             )
-    write_csv(output / "tracking_summary.csv", summary)
-    print("\n".join(str(r) for r in summary))
+    return summary
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     from experiments.measurements import measure_tracks
-    from experiments.storage import initialize_reproducibility
-    from experiments.tracker_review import run as render_review
+    from experiments.storage import (
+        environment,
+        initialize_reproducibility,
+        publish_results,
+        result_arguments,
+        result_directory,
+    )
+    from experiments.tracker_review import render_review
 
+    args = result_arguments("tracking", argv)
     initialize_reproducibility()
-    output = Path("results/tracker/runs/latest") / "submission"
-    measure_tracks(output)
-    run(output)
-    render_review(output)
+    events = json.loads((TRACKER_REFERENCE / "events.json").read_text())
+    gt = json.loads((TRACKER_REFERENCE / "ground_truth.json").read_text())
+    with result_directory(args.output, "tracking") as output:
+        details = output / "details" if args.details else None
+        if details is not None:
+            details.mkdir()
+        results, traces, counted, images = [], [], [], {}
+        for name, records in measure_tracks(details):
+            relevant = [event for event in events if event["video"] == name]
+            measured, assigned, runs = evaluate(
+                relevant, gt, records, keep_traces=args.details
+            )
+            results.extend(measured)
+            if relevant:
+                images.update(
+                    render_review(
+                        name, records["default"], relevant, gt[name], runs, details
+                    )
+                )
+            if details is not None:
+                traces.extend(assigned)
+                counted.extend(runs)
+            del records
+        if details is not None:
+            variants = ["default", "distance_80", "missing_30", "velocity"]
+            order = {e["event_id"]: i for i, e in enumerate(events)}
+
+            def key(row):
+                return variants.index(row["variant"]), order[row["event_id"]]
+
+            results.sort(key=key)
+            counted.sort(key=key)
+            traces.sort(
+                key=key
+            )  # Stable sort retains frame/object order within events.
+            write_details(details, events, results, traces, counted)
+        publish_results(
+            output,
+            "tracking",
+            summarize(events, results),
+            images,
+            environment(sorted((TRACKER / "inputs").glob("*"))),
+            details=args.details,
+        )
 
 
 if __name__ == "__main__":

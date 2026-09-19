@@ -10,8 +10,8 @@
 ## 1. 측정 환경과 설정
 
 Python 3.12.3, OpenCV 4.13.0, NumPy 2.4.3, Linux/WSL2 x86_64, CPU 처리, OpenCV 스레드 1, RNG seed 0.
-입력·등록 이미지 SHA-256과 환경은 [environment.json](../results/tracker/baseline/submission/environment.json)에 기록했다.
-이 문서의 측정은 리팩토링 이전에 실행한 baseline이다. 기존 수치·해석을 보존하며 새 실행은 results/<목적>/runs에 별도로 기록한다. 기존 `results/tracker/baseline/case_01`–`results/tracker/baseline/case_19`와 과거 커밋의 추적 성공·실패 집계는 사용하지 않았다.
+입력·등록 이미지 SHA-256과 환경은 [environment.json](evidence/tracking/environment.json)에 기록했다.
+이 문서의 측정은 리팩토링 이전에 실행한 baseline이다. 기존 수치·해석을 보존하며 새 실행은 `results/{tracking,learning-rate,matching}/`에 별도로 기록한다. 이 보고서의 고정 측정 근거는 `docs/evidence/`에 보존한다. 과거 개별 영상·CSV와 추적 성공·실패 집계는 이 보고서에 사용하지 않았으며, 해당 레거시 영상·CSV는 삭제했다.
 
 | 설정 | 값 |
 | --- | --- |
@@ -63,7 +63,7 @@ CAVIAR 01–03 주석은 로컬에 남아 있던 XML을 복구해 데이터셋 �
 | 객체 일시 정지 | 5 | 해당 없음 | 3 | 60.0% | 실패 사건 3/5; 미확정 대응·가림 조건 적용 |
 | 조명 변화 | 5 | 해당 없음 | 3 | 40.0% | 실패 사건 2/5; 미확정 대응·가림 조건 적용 |
 
-요약 출처: [tracking_summary.csv](../results/tracker/baseline/submission/tracking_summary.csv).
+요약 출처: [tracking_summary.csv](evidence/tracking/tracking_summary.csv).
 검출 조각에 ID가 붙은 상태와 실제 대상 추적 성공을 구별해야 하므로, 이 표를 검증 완료된 최종 성능으로 인용하지 않는다.
 
 ### 열 번째 겹침 사건
@@ -72,8 +72,8 @@ CAVIAR 01–03 주석은 로컬에 남아 있던 XML을 복구해 데이터셋 �
 590–690을 전후 관찰창으로 잡았다. 뒤에서 접근하는 여성(GT 2)의 머리·상체가 앞 남성(GT 1)의 다리 부근을 가린다.
 630·640·650 부근에 약한 투영 겹침이 보이고 675 이후 분리된다. 완전한 몸통 가림 사례는 아니다.
 다른 영상의 기존 사건을 재사용하거나 같은 겹침을 여러 구간으로 나눠 세지 않았다.
-[현재 코드 결과와 GT를 함께 표시한 O10](../results/tracker/baseline/submission/review/O10.jpg),
-[원본 장면을 확대한 관찰 시퀀스](../results/tracker/baseline/submission/detail_03.jpg)로 확인할 수 있다.
+[현재 코드 결과와 GT를 함께 표시한 O10](evidence/tracking/review/O10.jpg),
+[원본 장면을 확대한 관찰 시퀀스](evidence/tracking/detail_03.jpg)로 확인할 수 있다.
 따라서 사건 후보 수는 10회이며, 서로 다른 두 객체의 부분 겹침까지 포함하는 기준이다.
 
 ## 4. 사건별 원본 기록
@@ -85,41 +85,41 @@ CAVIAR 01–03 주석은 로컬에 남아 있던 XML을 복구해 데이터셋 �
 
 | 영상명 | 조건 | 프레임 범위 | ID Switch 수 | 실패 수 | 관찰 메모 |
 | --- | --- | --- | --- | --- | --- |
-| 19.mp4 | 단일 객체 이동 | 89–149 | 해당 없음 | 0 | [M01](../results/tracker/baseline/submission/review/M01.jpg) · 문 앞 접근; 재출발은 중복 집계하지 않음 · 제외 후보 [] |
-| 18.mp4 | 단일 객체 이동 | 139–189 | 해당 없음 | 0 | [M02](../results/tracker/baseline/submission/review/M02.jpg) · 스위치 조작 후 이동 · 제외 후보 [] |
-| 17.mp4 | 단일 객체 이동 | 79–169 | 해당 없음 | 0 | [M03](../results/tracker/baseline/submission/review/M03.jpg) · 블라인드 접근; 왕복 중 1회 · 제외 후보 [] |
-| 15.mp4 | 단일 객체 이동 | 104–154 | 해당 없음 | 0 | [M04](../results/tracker/baseline/submission/review/M04.jpg) · 기둥 가림 전 이동만 평가 · 제외 후보 [] |
-| 16.mp4 | 단일 객체 이동 | 94–129 | 해당 없음 | 0 | [M05](../results/tracker/baseline/submission/review/M05.jpg) · 계단 이동; 벽 뒤 구간은 평가창 밖 · 제외 후보 [] |
-| 02.mpg | 단일 객체 이동 | 30–85 | 해당 없음 | 0 | [M06](../results/tracker/baseline/submission/review/M06.jpg) · 첫 번째 파란 상의 인물; 배경 인물 제외 · 제외 후보 [] |
-| 02.mpg | 단일 객체 이동 | 310–445 | 해당 없음 | 1 | [M07](../results/tracker/baseline/submission/review/M07.jpg) · 두 번째 붉은 상의 인물; 배경 인물 제외 · 제외 후보 [] |
-| 01.mpg | 단일 객체 이동 | 80–120 | 해당 없음 | 0 | [M08](../results/tracker/baseline/submission/review/M08.jpg) · 검은 옷 인물의 만남 전 이동 · 제외 후보 [] |
-| 03.mpg | 단일 객체 이동 | 105–325 | 해당 없음 | 1 | [M09](../results/tracker/baseline/submission/review/M09.jpg) · 갈색 상의 인물 정지 전 이동 · 제외 후보 [] |
-| 03.mpg | 단일 객체 이동 | 430–590 | 해당 없음 | 5 | [M10](../results/tracker/baseline/submission/review/M10.jpg) · 검은 옷 여성의 별도 진입 · 제외 후보 [] |
-| 01.mpg | 두 객체 겹침 | 110–240 | 2 | 4 | [O01](../results/tracker/baseline/submission/review/O01.jpg) · 주연 두 사람 만남; 약한 실루엣 겹침 · 제외 후보 [] |
-| 04.mp4 | 두 객체 겹침 | 25–224 | 3 | 7 | [O02](../results/tracker/baseline/submission/review/O02.jpg) · 매장에서 나온 사람이 기다리던 사람과 합류하며 몸이 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[78, 96]] |
-| 05.mp4 | 두 객체 겹침 | 25–224 | 0 | 5 | [O03](../results/tracker/baseline/submission/review/O03.jpg) · 두 사람이 만나 방향을 바꾸며 몸이 일부 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[99, 137]] |
-| 06.mp4 | 두 객체 겹침 | 25–224 | 1 | 4 | [O04](../results/tracker/baseline/submission/review/O04.jpg) · 두 사람이 접근·접촉한 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[96, 126]] |
-| 07.mp4 | 두 객체 겹침 | 25–224 | 1 | 3 | [O05](../results/tracker/baseline/submission/review/O05.jpg) · 두 사람이 몸싸움 동작 중 겹친 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[50, 153]] |
-| 08.mp4 | 두 객체 겹침 | 25–224 | 0 | 3 | [O06](../results/tracker/baseline/submission/review/O06.jpg) · 두 사람이 접촉하며 몸이 크게 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[55, 140]] |
-| 09.mp4 | 두 객체 겹침 | 25–206 | 0 | 4 | [O07](../results/tracker/baseline/submission/review/O07.jpg) · 두 사람이 접촉한 뒤 이동하는 동안 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[138, 191]] |
-| 10.mp4 | 두 객체 겹침 | 25–149 | 2 | 3 | [O08](../results/tracker/baseline/submission/review/O08.jpg) · 검은 옷 보행자가 뒤쪽 보행자를 가리며 지나감; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[61, 79]] |
-| 11.mp4 | 두 객체 겹침 | 25–149 | 6 | 1 | [O09](../results/tracker/baseline/submission/review/O09.jpg) · 매장으로 들어가는 사람과 나오는 사람이 교차; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[59, 68]] |
-| 03.mpg | 두 객체 겹침 | 590–690 | 0 | 5 | [O10](../results/tracker/baseline/submission/review/O10.jpg) · 추가 식별: 여성 머리·상체와 앞 남성 다리의 약한 투영 겹침. 별도 영상의 사건이며 기존 9회와 중복 없음 · 제외 후보 [] |
-| 02.mpg | 객체 일시 정지 | 95–120 | 해당 없음 | 1 | [S01](../results/tracker/baseline/submission/review/S01.jpg) · 팔을 들어 신호하는 짧은 위치 정지 · 제외 후보 [] |
-| 03.mpg | 객체 일시 정지 | 355–390 | 해당 없음 | 1 | [S02](../results/tracker/baseline/submission/review/S02.jpg) · 왼쪽 매장을 바라보며 정지 · 제외 후보 [] |
-| 19.mp4 | 객체 일시 정지 | 159–273 | 해당 없음 | 1 | [S03](../results/tracker/baseline/submission/review/S03.jpg) · 문 앞 정지; 공식 static GT는 199–266 · 제외 후보 [] |
-| 18.mp4 | 객체 일시 정지 | 123–133 | 해당 없음 | 0 | [S04](../results/tracker/baseline/submission/review/S04.jpg) · 스위치 조작을 위한 짧은 위치 정지; 손 동작·조명 혼합 · 제외 후보 [] |
-| 17.mp4 | 객체 일시 정지 | 177–256 | 해당 없음 | 0 | [S05](../results/tracker/baseline/submission/review/S05.jpg) · 블라인드 조작 중 위치 정지; 팔 동작·조명 혼합 · 제외 후보 [] |
-| 18.mp4 | 조명 변화 | 119–174 | 해당 없음 | 1 | [L01](../results/tracker/baseline/submission/review/L01.jpg) · 스위치 변화 f128 · 제외 후보 [] |
-| 17.mp4 | 조명 변화 | 204–249 | 해당 없음 | 0 | [L02](../results/tracker/baseline/submission/review/L02.jpg) · 블라인드 연속 변화; 최대 밝기차 f215 · 제외 후보 [] |
-| 14.mp4 | 조명 변화 | 800–826 | 해당 없음 | 0 | [L03](../results/tracker/baseline/submission/review/L03.jpg) · 첫 소등 f812; 사람이 보이는 구간; 수동 bbox 근사 · 제외 후보 [] |
-| 14.mp4 | 조명 변화 | 1851–1910 | 해당 없음 | 2 | [L04](../results/tracker/baseline/submission/review/L04.jpg) · 점등 f1853; 진입 후 착석; 수동 bbox 근사 · 제외 후보 [] |
-| 14.mp4 | 조명 변화 | 2160–2192 | 해당 없음 | 0 | [L05](../results/tracker/baseline/submission/review/L05.jpg) · 두 번째 소등 f2188; 자리에서 일어나 퇴장; 수동 bbox 근사 · 제외 후보 [] |
+| 19.mp4 | 단일 객체 이동 | 89–149 | 해당 없음 | 0 | [M01](evidence/tracking/review/M01.jpg) · 문 앞 접근; 재출발은 중복 집계하지 않음 · 제외 후보 [] |
+| 18.mp4 | 단일 객체 이동 | 139–189 | 해당 없음 | 0 | [M02](evidence/tracking/review/M02.jpg) · 스위치 조작 후 이동 · 제외 후보 [] |
+| 17.mp4 | 단일 객체 이동 | 79–169 | 해당 없음 | 0 | [M03](evidence/tracking/review/M03.jpg) · 블라인드 접근; 왕복 중 1회 · 제외 후보 [] |
+| 15.mp4 | 단일 객체 이동 | 104–154 | 해당 없음 | 0 | [M04](evidence/tracking/review/M04.jpg) · 기둥 가림 전 이동만 평가 · 제외 후보 [] |
+| 16.mp4 | 단일 객체 이동 | 94–129 | 해당 없음 | 0 | [M05](evidence/tracking/review/M05.jpg) · 계단 이동; 벽 뒤 구간은 평가창 밖 · 제외 후보 [] |
+| 02.mpg | 단일 객체 이동 | 30–85 | 해당 없음 | 0 | [M06](evidence/tracking/review/M06.jpg) · 첫 번째 파란 상의 인물; 배경 인물 제외 · 제외 후보 [] |
+| 02.mpg | 단일 객체 이동 | 310–445 | 해당 없음 | 1 | [M07](evidence/tracking/review/M07.jpg) · 두 번째 붉은 상의 인물; 배경 인물 제외 · 제외 후보 [] |
+| 01.mpg | 단일 객체 이동 | 80–120 | 해당 없음 | 0 | [M08](evidence/tracking/review/M08.jpg) · 검은 옷 인물의 만남 전 이동 · 제외 후보 [] |
+| 03.mpg | 단일 객체 이동 | 105–325 | 해당 없음 | 1 | [M09](evidence/tracking/review/M09.jpg) · 갈색 상의 인물 정지 전 이동 · 제외 후보 [] |
+| 03.mpg | 단일 객체 이동 | 430–590 | 해당 없음 | 5 | [M10](evidence/tracking/review/M10.jpg) · 검은 옷 여성의 별도 진입 · 제외 후보 [] |
+| 01.mpg | 두 객체 겹침 | 110–240 | 2 | 4 | [O01](evidence/tracking/review/O01.jpg) · 주연 두 사람 만남; 약한 실루엣 겹침 · 제외 후보 [] |
+| 04.mp4 | 두 객체 겹침 | 25–224 | 3 | 7 | [O02](evidence/tracking/review/O02.jpg) · 매장에서 나온 사람이 기다리던 사람과 합류하며 몸이 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[78, 96]] |
+| 05.mp4 | 두 객체 겹침 | 25–224 | 0 | 5 | [O03](evidence/tracking/review/O03.jpg) · 두 사람이 만나 방향을 바꾸며 몸이 일부 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[99, 137]] |
+| 06.mp4 | 두 객체 겹침 | 25–224 | 1 | 4 | [O04](evidence/tracking/review/O04.jpg) · 두 사람이 접근·접촉한 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[96, 126]] |
+| 07.mp4 | 두 객체 겹침 | 25–224 | 1 | 3 | [O05](evidence/tracking/review/O05.jpg) · 두 사람이 몸싸움 동작 중 겹친 뒤 떨어짐; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[50, 153]] |
+| 08.mp4 | 두 객체 겹침 | 25–224 | 0 | 3 | [O06](evidence/tracking/review/O06.jpg) · 두 사람이 접촉하며 몸이 크게 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[55, 140]] |
+| 09.mp4 | 두 객체 겹침 | 25–206 | 0 | 4 | [O07](evidence/tracking/review/O07.jpg) · 두 사람이 접촉한 뒤 이동하는 동안 겹침; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[138, 191]] |
+| 10.mp4 | 두 객체 겹침 | 25–149 | 2 | 3 | [O08](evidence/tracking/review/O08.jpg) · 검은 옷 보행자가 뒤쪽 보행자를 가리며 지나감; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[61, 79]] |
+| 11.mp4 | 두 객체 겹침 | 25–149 | 6 | 1 | [O09](evidence/tracking/review/O09.jpg) · 매장으로 들어가는 사람과 나오는 사람이 교차; 50% 가림 경계는 bbox 후보와 육안 근사, 보수적 구간 제외 · 제외 후보 [[59, 68]] |
+| 03.mpg | 두 객체 겹침 | 590–690 | 0 | 5 | [O10](evidence/tracking/review/O10.jpg) · 추가 식별: 여성 머리·상체와 앞 남성 다리의 약한 투영 겹침. 별도 영상의 사건이며 기존 9회와 중복 없음 · 제외 후보 [] |
+| 02.mpg | 객체 일시 정지 | 95–120 | 해당 없음 | 1 | [S01](evidence/tracking/review/S01.jpg) · 팔을 들어 신호하는 짧은 위치 정지 · 제외 후보 [] |
+| 03.mpg | 객체 일시 정지 | 355–390 | 해당 없음 | 1 | [S02](evidence/tracking/review/S02.jpg) · 왼쪽 매장을 바라보며 정지 · 제외 후보 [] |
+| 19.mp4 | 객체 일시 정지 | 159–273 | 해당 없음 | 1 | [S03](evidence/tracking/review/S03.jpg) · 문 앞 정지; 공식 static GT는 199–266 · 제외 후보 [] |
+| 18.mp4 | 객체 일시 정지 | 123–133 | 해당 없음 | 0 | [S04](evidence/tracking/review/S04.jpg) · 스위치 조작을 위한 짧은 위치 정지; 손 동작·조명 혼합 · 제외 후보 [] |
+| 17.mp4 | 객체 일시 정지 | 177–256 | 해당 없음 | 0 | [S05](evidence/tracking/review/S05.jpg) · 블라인드 조작 중 위치 정지; 팔 동작·조명 혼합 · 제외 후보 [] |
+| 18.mp4 | 조명 변화 | 119–174 | 해당 없음 | 1 | [L01](evidence/tracking/review/L01.jpg) · 스위치 변화 f128 · 제외 후보 [] |
+| 17.mp4 | 조명 변화 | 204–249 | 해당 없음 | 0 | [L02](evidence/tracking/review/L02.jpg) · 블라인드 연속 변화; 최대 밝기차 f215 · 제외 후보 [] |
+| 14.mp4 | 조명 변화 | 800–826 | 해당 없음 | 0 | [L03](evidence/tracking/review/L03.jpg) · 첫 소등 f812; 사람이 보이는 구간; 수동 bbox 근사 · 제외 후보 [] |
+| 14.mp4 | 조명 변화 | 1851–1910 | 해당 없음 | 2 | [L04](evidence/tracking/review/L04.jpg) · 점등 f1853; 진입 후 착석; 수동 bbox 근사 · 제외 후보 [] |
+| 14.mp4 | 조명 변화 | 2160–2192 | 해당 없음 | 0 | [L05](evidence/tracking/review/L05.jpg) · 두 번째 소등 f2188; 자리에서 일어나 퇴장; 수동 bbox 근사 · 제외 후보 [] |
 
-[요청된 6열 원본 로그 CSV](../results/tracker/baseline/submission/event_log.csv)에는 대상 GT ID, 모든 누락 시작·종료 프레임,
+[요청된 6열 원본 로그 CSV](evidence/tracking/event_log.csv)에는 대상 GT ID, 모든 누락 시작·종료 프레임,
 변경 전후 ID 및 5프레임 확정 범위까지 기록했다.
-[frame_assignments.csv](../results/tracker/baseline/submission/frame_assignments.csv)는 사건·설정·GT·프레임별 대응 ID와 제외 사유,
-[counted_runs.json](../results/tracker/baseline/submission/counted_runs.json)은 실제 집계된 연속 구간이다.
+[frame_assignments.csv](evidence/tracking/frame_assignments.csv)는 사건·설정·GT·프레임별 대응 ID와 제외 사유,
+[counted_runs.json](evidence/tracking/counted_runs.json)은 실제 집계된 연속 구간이다.
 [events.json](../data/tracker/reference/events.json)이 사건 범위·대상·겹침·제외 후보의 기준이다.
 
 예를 들어 S03(19번)의 누락은 178–270, 총 93프레임으로 자동 집계되어 실패 1회다.
@@ -152,10 +152,10 @@ O10은 자동 대조 실패 5구간이지만 확정된 겹침 후 ID 변경은 0
 | 약 30% 가림 | jogging.mp4 | 64 | 65 |
 | 약 50% 가림 | jogging.mp4 | 67 | 68 |
 
-측정 원본: [features.csv](../results/matcher/baseline/application/features.csv). 선정은 기존 `selection.json`을 유지했다.
+측정 원본: [features.csv](evidence/matching/features.csv). 선정은 기존 `selection.json`을 유지했다.
 약 30도·약 60도는 얼굴·어깨 방향의 근사 시점/자세 변화이며 정밀한 평면 회전 실험이 아니다.
 약 30%·약 50% 역시 몸 실루엣의 육안 근사 가림이다. 이 근사 조건은 요구된 실험 조건으로 그대로 사용했다.
-프레임 파일은 `results/matcher/baseline/application/feature_*.png`에 저장했다. JPG 번호는 대응 관계 설명이며, 최종 측정 입력은 앱용 MP4의 디코딩 프레임이다.
+프레임 파일은 `docs/evidence/matching/feature_*.png`에 저장했다. JPG 번호는 대응 관계 설명이며, 최종 측정 입력은 앱용 MP4의 디코딩 프레임이다.
 
 모든 조건에서 대응점이 8개 미만이어서 `TargetMatcher.match`는 homography 계산 전에 반환한다.
 따라서 inlier 0은 RANSAC을 실행해 모든 대응이 기각되었다는 뜻이 아니라 **RANSAC 실행 조건에 도달하지 못한 결과 필드 값**이다.
@@ -164,7 +164,7 @@ O10은 자동 대조 실패 5구간이지만 확정된 겹침 후 ID 변경은 0
 
 ### 기존 ROI 실험과 분모 수정
 
-`results/matcher/baseline/roi`은 참고자료로만 보존했다. 그 실험은 조건 crop→target 방향 매칭, 4배 확대, 기하 검증 없음으로 앱과 다르다.
+`docs/evidence/matching-roi`은 참고자료로만 보존했다. 그 실험은 조건 crop→target 방향 매칭, 4배 확대, 기하 검증 없음으로 앱과 다르다.
 기존 대응점 수를 보존하면서 분모는 등록 특징점으로 수정했다. ORB의 두 가림 조건은 모두 1/14=7.14%이며,
 SIFT는 정면부터 순서대로 9/100=9%, 4%, 4%, 2%, 0%다. 재생성 스크립트의 분모도 수정했다.
 이 값들은 위의 최종 전체 프레임 표에 섞지 않았다.
@@ -191,10 +191,10 @@ LASIESTA I_IL_02-GT의 프레임 번호는 앱 번호+1이다. 빨강/흰색은 
 0.01에서는 각각 64.11%와 4.03%, 0.001에서는 1.42%와 1.14%였다.
 따라서 빠른 적응의 배경 흡수와 그림자 제거가 함께 사람 전경 소실에 기여하며, morphology도 작은 잔여 조각을 지운다.
 
-측정 [구간 집계](../results/tracker/baseline/learning_rate/learning_rate_summary.csv),
-[0.001 관찰](../results/tracker/baseline/learning_rate/learning_rate_0.001.jpg),
-[0.01 관찰](../results/tracker/baseline/learning_rate/learning_rate_0.01.jpg),
-[0.1 관찰](../results/tracker/baseline/learning_rate/learning_rate_0.1.jpg).
+측정 [구간 집계](evidence/learning-rate/learning_rate_summary.csv),
+[0.001 관찰](evidence/learning-rate/learning_rate_0.001.jpg),
+[0.01 관찰](evidence/learning-rate/learning_rate_0.01.jpg),
+[0.1 관찰](evidence/learning-rate/learning_rate_0.1.jpg).
 `learning_rate_*.csv`는 전경 면적·bbox 수·밝기의 프레임 로그, `learning_rate_*_gt.csv`는 TP/FP 및 원시 라벨별 사람 픽셀 수다.
 이 영상에서는 높은 학습률이 좋은 추적을 의미하지 않는다. 0.001도 높은 배경 오검출 때문에 무조건 우수하다고 결론낼 수 없다.
 

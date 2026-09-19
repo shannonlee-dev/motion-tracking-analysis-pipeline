@@ -90,7 +90,7 @@ def run(
         and not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
     ):
         raise ValueError(
-            "No desktop display. Use --headless --output results/tracker/runs/manual/video.mp4"
+            "No desktop display. Use --headless --output results/tracking-video.mp4"
         )
 
     _validate_output_paths(source, target, output, csv_path)

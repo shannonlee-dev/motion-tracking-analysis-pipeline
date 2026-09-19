@@ -6,12 +6,12 @@ import json
 import cv2
 import pytest
 
-from datasets.paths import RESULTS, TRACKER_REFERENCE
+from datasets.paths import ROOT, TRACKER_REFERENCE
 from experiments.tracker_metrics import associate, count_runs
 from motion_tracking.matching import TargetMatcher
 
-OUT = RESULTS / "tracker/baseline/submission"
-MATCHER_OUT = RESULTS / "matcher/baseline/application"
+OUT = ROOT / "docs/evidence/tracking"
+MATCHER_OUT = ROOT / "docs/evidence/matching"
 
 
 def rows(identities, excluded=()):

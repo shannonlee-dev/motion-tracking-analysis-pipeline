@@ -1,0 +1,25 @@
+{
+  "ORB": {
+    "nfeatures": 1500,
+    "other_parameters": "OpenCV defaults",
+    "target_keypoints": 14,
+    "norm": "HAMMING"
+  },
+  "SIFT": {
+    "nfeatures": 1500,
+    "other_parameters": "OpenCV defaults",
+    "target_keypoints": 100,
+    "norm": "L2"
+  },
+  "opencv": "4.13.0",
+  "resize_scale": 4,
+  "interpolation": "INTER_CUBIC",
+  "grayscale": true,
+  "ratio_test": 0.75,
+  "query": "condition GT crop",
+  "train": "target GT crop",
+  "uniqueness": "best distance per target descriptor",
+  "geometric_verification": false,
+  "rate_denominator": "target keypoints",
+  "video_playback_fps": 25
+}

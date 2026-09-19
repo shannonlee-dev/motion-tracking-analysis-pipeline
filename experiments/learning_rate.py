@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 from datasets.paths import TRACKER
-from experiments.storage import initialize_reproducibility, write_csv
+from experiments.storage import environment, initialize_reproducibility, write_csv
 from motion_tracking.config import DEFAULT_CONFIG
 from motion_tracking.motion import MotionDetector
 
@@ -45,9 +45,8 @@ def validate_inputs() -> None:
         capture.release()
 
 
-def run(output: Path) -> None:
-    output.mkdir(parents=True, exist_ok=True)
-    summary = []
+def run(details: Path | None = None):
+    summary, images = [], {}
     for rate in (0.001, 0.01, 0.1):
         cap = cv2.VideoCapture(str(TRACKER / "inputs/17.mp4"))
         detector = MotionDetector(replace(DEFAULT_CONFIG, learning_rate=rate))
@@ -57,37 +56,69 @@ def run(output: Path) -> None:
             varThreshold=DEFAULT_CONFIG.var_threshold,
             detectShadows=True,
         )
-        rows = []
-        while True:
-            ok, frame = cap.read()
-            if not ok:
-                break
-            index = len(rows)
-            _, mask = detector.detect(frame)
-            raw = raw_model.apply(frame, learningRate=rate)
-            gt = cv2.imread(
-                str(TRACKER / f"raw/lasiesta/I_IL_02-GT/I_IL_02-GT_{index + 1}.png")
-            )
-            if gt is None or gt.shape != frame.shape:
-                raise ValueError(f"Missing or mismatched GT at {index}")
-            foreground = np.all(gt == (0, 0, 255), axis=2) | np.all(gt == 255, axis=2)
-            background = np.all(gt == 0, axis=2)
-            rows.append(
-                dict(
-                    frame=index,
-                    tp=int(((mask > 0) & foreground).sum()),
-                    fg_pixels=int(foreground.sum()),
-                    fp=int(((mask > 0) & background).sum()),
-                    bg_pixels=int(background.sum()),
-                    person_raw_background=int(((raw == 0) & foreground).sum()),
-                    person_raw_shadow=int(((raw == 127) & foreground).sum()),
-                    person_raw_foreground=int(((raw == 255) & foreground).sum()),
+        rows, observations, tiles = [], [], []
+        try:
+            while True:
+                ok, frame = cap.read()
+                if not ok:
+                    break
+                index = len(rows)
+                boxes, mask = detector.detect(frame)
+                if details is not None:
+                    observations.append(
+                        dict(
+                            frame=index,
+                            foreground_pixels=int(np.count_nonzero(mask)),
+                            foreground_fraction=float(np.mean(mask > 0)),
+                            boxes=len(boxes),
+                            mean_gray=float(
+                                cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).mean()
+                            ),
+                        )
+                    )
+                if index in (100, 170, 190, 210, 240, 270, 300, 350, 420):
+                    im = frame.copy()
+                    for x, y, w, h in boxes:
+                        cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                    a = cv2.resize(im, (320, 240))
+                    b = cv2.resize(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR), (320, 240))
+                    cv2.putText(
+                        a, f"LR {rate} f{index}", (5, 20), 0, 0.6, (0, 255, 255), 1
+                    )
+                    tiles.append(np.hstack([a, b]))
+                raw = raw_model.apply(frame, learningRate=rate)
+                gt = cv2.imread(
+                    str(TRACKER / f"raw/lasiesta/I_IL_02-GT/I_IL_02-GT_{index + 1}.png")
                 )
-            )
-        cap.release()
+                if gt is None or gt.shape != frame.shape:
+                    raise ValueError(f"Missing or mismatched GT at {index}")
+                foreground = np.all(gt == (0, 0, 255), axis=2) | np.all(
+                    gt == 255, axis=2
+                )
+                background = np.all(gt == 0, axis=2)
+                rows.append(
+                    dict(
+                        frame=index,
+                        tp=int(((mask > 0) & foreground).sum()),
+                        fg_pixels=int(foreground.sum()),
+                        fp=int(((mask > 0) & background).sum()),
+                        bg_pixels=int(background.sum()),
+                        person_raw_background=int(((raw == 0) & foreground).sum()),
+                        person_raw_shadow=int(((raw == 127) & foreground).sum()),
+                        person_raw_foreground=int(((raw == 255) & foreground).sum()),
+                    )
+                )
+        finally:
+            cap.release()
         if len(rows) != 525:
             raise ValueError(f"Expected 525 frames, got {len(rows)}")
-        write_csv(output / f"learning_rate_{rate}_gt.csv", rows)
+        image = np.vstack(tiles)
+        images[f"learning_rate_{rate}"] = image
+        if details is not None:
+            write_csv(details / f"learning_rate_{rate}_gt.csv", rows)
+            write_csv(details / f"learning_rate_{rate}.csv", observations)
+            if not cv2.imwrite(str(details / f"learning_rate_{rate}.jpg"), image):
+                raise OSError("Cannot write learning-rate observation")
         windows = [
             ("approach", 80, 169),
             ("stationary", 177, 256),
@@ -116,18 +147,28 @@ def run(output: Path) -> None:
                     counts[f"person_raw_{label}"] / foreground if foreground else ""
                 )
             summary.append(row)
-    write_csv(output / "learning_rate_summary.csv", summary)
-    print("Wrote 1,575 pixel-level measurements and 15 window summaries")
+    return summary, images
 
 
-def main() -> None:
-    from experiments.measurements import measure_learning_rates
+def main(argv: list[str] | None = None) -> None:
+    from experiments.storage import publish_results, result_arguments, result_directory
 
+    args = result_arguments("learning-rate", argv)
     validate_inputs()
     initialize_reproducibility()
-    output = Path("results/tracker/runs/latest") / "learning_rate"
-    measure_learning_rates(output)
-    run(output)
+    with result_directory(args.output, "learning-rate") as output:
+        details = output / "details" if args.details else None
+        if details is not None:
+            details.mkdir()
+        rows, images = run(details)
+        publish_results(
+            output,
+            "learning-rate",
+            rows,
+            images,
+            environment([TRACKER / "inputs/17.mp4"]),
+            details=args.details,
+        )
 
 
 if __name__ == "__main__":

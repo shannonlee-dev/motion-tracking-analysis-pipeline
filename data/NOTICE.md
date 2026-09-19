@@ -22,7 +22,7 @@ Oxford Town Centre 영상과 여기서 추출한 등록 이미지는 [Oxford Tow
 ## 공개 범위
 
 소스·작성 문서·관찰용 영상과 재배포 허용 데이터·가공물을 공개합니다.
-`data/`·`results/`를 일괄 제외하지 않으며 가상환경·캐시·비밀 설정·`data/tracker/raw/`의 재생성 가능한 원본·아래 허가 미확인 자료를 `.gitignore`로 제외합니다.
+재배포 가능한 고정 측정 근거는 `docs/evidence/`에 보존합니다. `results/`의 최신 산출물은 안내 문서를 제외하고 Git에서 제외합니다. 가상환경·캐시·비밀 설정·`data/tracker/raw/`의 재생성 가능한 원본·아래 허가 미확인 자료도 `.gitignore`로 제외합니다.
 
 ## LASIESTA
 

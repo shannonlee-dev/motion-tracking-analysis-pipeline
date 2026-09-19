@@ -1,6 +1,5 @@
 """Reproduce Jogging ROI and full-frame application matching separately."""
 
-import csv
 import json
 from pathlib import Path
 
@@ -17,34 +16,36 @@ from datasets.jogging import (
     matching_image,
     write_image,
 )
-from experiments.storage import initialize_reproducibility
+from datasets.paths import MATCHER
+from experiments.storage import initialize_reproducibility, write_csv
 from motion_tracking.features import unique_ratio_matches
 
 
-def run(output: Path) -> list[dict]:
+def run(details: Path | None = None):
     initialize_reproducibility()
-    for directory in (output, output / "matches", output / "keypoints"):
-        directory.mkdir(parents=True, exist_ok=True)
-    paths, gt, images = load_sequence()
+    _, gt, images = load_sequence()
     target = crop(images[TARGET_FRAME - 1], gt[TARGET_FRAME - 1])
     crops = [crop(images[number - 1], gt[number - 1]) for _, _, number, _ in SELECTIONS]
-    preview = []
-    labels = [("target", TARGET_FRAME)] + [(s[0], s[2]) for s in SELECTIONS]
-    for (label, number), roi in zip(labels, [target] + crops):
-        enlarged = cv2.resize(roi, None, fx=4, fy=4, interpolation=cv2.INTER_NEAREST)
-        tile = np.zeros((570, 180, 3), np.uint8)
-        tile[35 : 35 + enlarged.shape[0], : enlarged.shape[1]] = enlarged
-        cv2.putText(
-            tile,
-            f"{label} {number}",
-            (3, 22),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.42,
-            (255, 255, 255),
-            1,
-        )
-        preview.append(tile)
-    write_image(output / "selected_preview.png", np.hstack(preview))
+    if details is not None:
+        preview = []
+        labels = [("target", TARGET_FRAME)] + [(s[0], s[2]) for s in SELECTIONS]
+        for (label, number), roi in zip(labels, [target] + crops):
+            enlarged = cv2.resize(
+                roi, None, fx=4, fy=4, interpolation=cv2.INTER_NEAREST
+            )
+            tile = np.zeros((570, 180, 3), np.uint8)
+            tile[35 : 35 + enlarged.shape[0], : enlarged.shape[1]] = enlarged
+            cv2.putText(
+                tile,
+                f"{label} {number}",
+                (3, 22),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.42,
+                (255, 255, 255),
+                1,
+            )
+            preview.append(tile)
+        write_image(details / "roi__selected_preview.png", np.hstack(preview))
     rows, settings = [], {}
     for algorithm, detector, norm in (
         ("ORB", cv2.ORB_create(nfeatures=1500), cv2.NORM_HAMMING),
@@ -61,10 +62,11 @@ def run(output: Path) -> list[dict]:
             target_keypoints=len(ref_kp),
             norm="HAMMING" if algorithm == "ORB" else "L2",
         )
-        write_image(
-            output / "keypoints" / f"{algorithm}_target.png",
-            cv2.drawKeypoints(reference, ref_kp, None, color=(0, 255, 0)),
-        )
+        if details is not None:
+            write_image(
+                details / f"roi__keypoints__{algorithm}_target.png",
+                cv2.drawKeypoints(reference, ref_kp, None, color=(0, 255, 0)),
+            )
         for (slug, label, number, _), roi in zip(SELECTIONS, crops):
             scene = matching_image(roi)
             keypoints, descriptors = detector.detectAndCompute(scene, None)
@@ -86,42 +88,40 @@ def run(output: Path) -> list[dict]:
                     target_keypoints=len(ref_kp),
                 )
             )
-            write_image(
-                output / "keypoints" / f"{algorithm}_{slug}.png",
-                cv2.drawKeypoints(scene, keypoints, None, color=(0, 255, 0)),
-            )
-            drawn = cv2.drawMatches(
-                scene,
-                keypoints,
-                reference,
-                ref_kp,
-                matches,
-                None,
-                matchColor=(0, 255, 0),
-                singlePointColor=(0, 0, 255),
-                flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
-            )
-            write_image(
-                output / "matches" / f"{algorithm}_{slug}_{number:04d}.png", drawn
-            )
-            pairs = [
-                dict(
-                    condition_keypoint=m.queryIdx,
-                    target_keypoint=m.trainIdx,
-                    condition_xy=list(keypoints[m.queryIdx].pt),
-                    target_xy=list(ref_kp[m.trainIdx].pt),
-                    distance=m.distance,
+            if details is not None:
+                write_image(
+                    details / f"roi__keypoints__{algorithm}_{slug}.png",
+                    cv2.drawKeypoints(scene, keypoints, None, color=(0, 255, 0)),
                 )
-                for m in matches
-            ]
-            (output / "matches" / f"{algorithm}_{slug}_{number:04d}.json").write_text(
-                json.dumps(pairs, indent=2) + "\n"
-            )
+                drawn = cv2.drawMatches(
+                    scene,
+                    keypoints,
+                    reference,
+                    ref_kp,
+                    matches,
+                    None,
+                    matchColor=(0, 255, 0),
+                    singlePointColor=(0, 0, 255),
+                    flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
+                )
+                write_image(
+                    details / f"roi__matches__{algorithm}_{slug}_{number:04d}.png",
+                    drawn,
+                )
+                pairs = [
+                    dict(
+                        condition_keypoint=m.queryIdx,
+                        target_keypoint=m.trainIdx,
+                        condition_xy=list(keypoints[m.queryIdx].pt),
+                        target_xy=list(ref_kp[m.trainIdx].pt),
+                        distance=m.distance,
+                    )
+                    for m in matches
+                ]
+                (
+                    details / f"roi__matches__{algorithm}_{slug}_{number:04d}.json"
+                ).write_text(json.dumps(pairs, indent=2) + "\n")
 
-    with (output / "metrics.csv").open("w", newline="", encoding="utf-8-sig") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
     settings.update(
         opencv=cv2.__version__,
         resize_scale=SCALE,
@@ -135,16 +135,43 @@ def run(output: Path) -> list[dict]:
         rate_denominator="target keypoints",
         video_playback_fps=25,
     )
-    (output / "settings.json").write_text(json.dumps(settings, indent=2) + "\n")
-    return rows
+    if details is not None:
+        write_csv(details / "roi__metrics.csv", rows)
+        (details / "roi__settings.json").write_text(
+            json.dumps(settings, indent=2) + "\n"
+        )
+    return rows, settings
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     from experiments.measurements import measure_application_matcher
+    from experiments.storage import (
+        environment,
+        publish_results,
+        result_arguments,
+        result_directory,
+    )
 
-    output = Path("results/matcher/runs/latest")
-    run(output / "roi")
-    measure_application_matcher(output / "application")
+    args = result_arguments("matching", argv)
+    with result_directory(args.output, "matching") as output:
+        details = output / "details" if args.details else None
+        if details is not None:
+            details.mkdir()
+        roi_rows, settings = run(details)
+        rows, images = measure_application_matcher(details)
+        metadata = environment(
+            [MATCHER / "inputs/jogging.mp4", MATCHER / "inputs/target.png"]
+        )
+        metadata["settings"] = {"roi/settings.json": settings}
+        publish_results(
+            output,
+            "matching",
+            rows,
+            images,
+            metadata,
+            details=args.details,
+            extra_summaries={"roi-summary.csv": roi_rows},
+        )
 
 
 if __name__ == "__main__":

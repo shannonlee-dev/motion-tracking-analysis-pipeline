@@ -28,10 +28,9 @@ data/{tracker,matcher,detection}/
   raw/                       # 로컬 원본 다운로드·압축 해제 (Git 제외)
   inputs/                    # 앱·평가 입력
   generated/                 # 준비 상태·재구성 이력 (Git 제외)
-results/{tracker,matcher,detection}/
-  baseline/                  # 보존한 기존 측정 자료 (tracker, matcher)
-  runs/                      # 새 실행 결과 (Git 제외)
-docs/                        # 실행 지침, 분석 보고서, 이전 기록
+results/{tracking,learning-rate,matching,detection}/
+                             # 최신 요약·비교 이미지·실행 정보 (Git 제외)
+docs/                        # 실행 지침, 분석 보고서, 고정 측정 근거(evidence/)
 ```
 
 ## 설치
@@ -84,7 +83,12 @@ python -m experiments.feature_matching
 위 명령은 보고서의 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric만 재현합니다.
 Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 
-결과: `results/<목적>/runs/latest/`. 이전 측정: `results/{tracker,matcher}/baseline/`.
+결과: [results 안내](results/README.md). 실험별 폴더에 `summary.csv`, `comparison.jpg`,
+`metadata.json`을 저장하며, matching에는 `roi-summary.csv`도 저장합니다.
+기본 실행은 중간 데이터를 메모리로 전달하고 최종 파일만 저장합니다.
+`--details`를 추가할 때만 개별 trace·이미지를 `details/`에 저장합니다.
+재실행은 해당 실험의 이전 결과를 교체합니다. 비교할 실행은 `--output /tmp/matching-check`처럼 별도 경로에 저장하세요.
+보고서의 고정 측정 근거는 `docs/evidence/`에 보존하며 새 실행과 섞이지 않습니다.
 [분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md).
 
 ## 개발 검증

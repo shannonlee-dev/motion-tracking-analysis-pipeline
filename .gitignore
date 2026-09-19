@@ -1,5 +1,5 @@
 # Publish source, docs, observation clips and licensed media.
-# Do not ignore data/ or results/ wholesale. See data/NOTICE.md for terms.
+# Keep licensed input data and fixed report evidence. See data/NOTICE.md for terms.
 docs/private/
 
 # Local Python environments and caches
@@ -28,5 +28,6 @@ data/*/generated/
 # Oxford source and derivatives: permission for redistribution is unconfirmed.
 data/detection/inputs/
 results/detection/
-# Keep committed baseline evidence; new runs are local artifacts.
-results/*/runs/
+# Latest experiment outputs are local; fixed report evidence lives in docs/evidence/.
+results/*
+!results/README.md

@@ -143,7 +143,7 @@ def test_learning_rate_fails_before_output_without_raw_ground_truth(
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(learning_rate, "TRACKER", tmp_path / "tracker")
     with pytest.raises(ValueError, match="Learning-rate ground truth is missing"):
-        learning_rate.main()
+        learning_rate.main([])
     assert not (tmp_path / "results").exists()
 
 

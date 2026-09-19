@@ -1,0 +1,2285 @@
+[
+  {
+    "event_id": "M01",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M02",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M03",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M04",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M05",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M06",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M07",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 378,
+        "end": 445
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M08",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M09",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 105,
+        "end": 125
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M10",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 468,
+        "end": 480
+      },
+      {
+        "gt_id": "2",
+        "start": 493,
+        "end": 506
+      },
+      {
+        "gt_id": "2",
+        "start": 516,
+        "end": 535
+      },
+      {
+        "gt_id": "2",
+        "start": 538,
+        "end": 560
+      },
+      {
+        "gt_id": "2",
+        "start": 562,
+        "end": 582
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O01",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 163,
+        "end": 174
+      },
+      {
+        "gt_id": "1",
+        "start": 187,
+        "end": 203
+      },
+      {
+        "gt_id": "1",
+        "start": 220,
+        "end": 231
+      },
+      {
+        "gt_id": "3",
+        "start": 155,
+        "end": 222
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 209,
+        "confirmed": 213,
+        "old": "2",
+        "new": "6"
+      },
+      {
+        "gt_id": "3",
+        "start": 228,
+        "confirmed": 232,
+        "old": "4",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O02",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 151,
+        "end": 168
+      },
+      {
+        "gt_id": "1",
+        "start": 184,
+        "end": 196
+      },
+      {
+        "gt_id": "1",
+        "start": 209,
+        "end": 222
+      },
+      {
+        "gt_id": "2",
+        "start": 26,
+        "end": 77
+      },
+      {
+        "gt_id": "2",
+        "start": 97,
+        "end": 122
+      },
+      {
+        "gt_id": "2",
+        "start": 128,
+        "end": 167
+      },
+      {
+        "gt_id": "2",
+        "start": 196,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "2",
+        "start": 175,
+        "confirmed": 179,
+        "old": "8",
+        "new": "14"
+      },
+      {
+        "gt_id": "2",
+        "start": 184,
+        "confirmed": 188,
+        "old": "14",
+        "new": "10"
+      },
+      {
+        "gt_id": "2",
+        "start": 189,
+        "confirmed": 193,
+        "old": "10",
+        "new": "7"
+      }
+    ]
+  },
+  {
+    "event_id": "O03",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 25,
+        "end": 98
+      },
+      {
+        "gt_id": "1",
+        "start": 185,
+        "end": 209
+      },
+      {
+        "gt_id": "2",
+        "start": 51,
+        "end": 98
+      },
+      {
+        "gt_id": "2",
+        "start": 148,
+        "end": 158
+      },
+      {
+        "gt_id": "2",
+        "start": 204,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O04",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "6",
+        "start": 129,
+        "end": 147
+      },
+      {
+        "gt_id": "7",
+        "start": 25,
+        "end": 88
+      },
+      {
+        "gt_id": "7",
+        "start": 127,
+        "end": 157
+      },
+      {
+        "gt_id": "7",
+        "start": 187,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "6",
+        "start": 148,
+        "confirmed": 152,
+        "old": "1",
+        "new": "3"
+      }
+    ]
+  },
+  {
+    "event_id": "O05",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "3",
+        "start": 154,
+        "end": 172
+      },
+      {
+        "gt_id": "4",
+        "start": 25,
+        "end": 49
+      },
+      {
+        "gt_id": "4",
+        "start": 180,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 173,
+        "confirmed": 177,
+        "old": "1",
+        "new": "5"
+      }
+    ]
+  },
+  {
+    "event_id": "O06",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "7",
+        "start": 141,
+        "end": 224
+      },
+      {
+        "gt_id": "9",
+        "start": 25,
+        "end": 54
+      },
+      {
+        "gt_id": "9",
+        "start": 141,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O07",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 31,
+        "end": 137
+      },
+      {
+        "gt_id": "1",
+        "start": 192,
+        "end": 201
+      },
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 113
+      },
+      {
+        "gt_id": "2",
+        "start": 121,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O08",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 47,
+        "end": 60
+      },
+      {
+        "gt_id": "1",
+        "start": 80,
+        "end": 141
+      },
+      {
+        "gt_id": "2",
+        "start": 25,
+        "end": 34
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 142,
+        "confirmed": 146,
+        "old": "2",
+        "new": "12"
+      },
+      {
+        "gt_id": "2",
+        "start": 89,
+        "confirmed": 93,
+        "old": "3",
+        "new": "7"
+      }
+    ]
+  },
+  {
+    "event_id": "O09",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 95
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "2",
+        "start": 73,
+        "confirmed": 77,
+        "old": "1",
+        "new": "4"
+      },
+      {
+        "gt_id": "3",
+        "start": 73,
+        "confirmed": 77,
+        "old": "4",
+        "new": "3"
+      },
+      {
+        "gt_id": "3",
+        "start": 101,
+        "confirmed": 105,
+        "old": "3",
+        "new": "8"
+      },
+      {
+        "gt_id": "3",
+        "start": 114,
+        "confirmed": 118,
+        "old": "8",
+        "new": "9"
+      },
+      {
+        "gt_id": "3",
+        "start": 138,
+        "confirmed": 142,
+        "old": "9",
+        "new": "10"
+      },
+      {
+        "gt_id": "3",
+        "start": 145,
+        "confirmed": 149,
+        "old": "10",
+        "new": "11"
+      }
+    ]
+  },
+  {
+    "event_id": "O10",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 605,
+        "end": 630
+      },
+      {
+        "gt_id": "1",
+        "start": 633,
+        "end": 677
+      },
+      {
+        "gt_id": "1",
+        "start": 679,
+        "end": 690
+      },
+      {
+        "gt_id": "2",
+        "start": 590,
+        "end": 640
+      },
+      {
+        "gt_id": "2",
+        "start": 647,
+        "end": 690
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S01",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "0",
+        "start": 104,
+        "end": 120
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S02",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 355,
+        "end": 390
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S03",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 178,
+        "end": 270
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S04",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "S05",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L01",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 128,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L02",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L03",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L04",
+    "variant": "default",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 1851,
+        "end": 1862
+      },
+      {
+        "gt_id": "1",
+        "start": 1878,
+        "end": 1910
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L05",
+    "variant": "default",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M01",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M02",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M03",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M04",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M05",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M06",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M07",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 378,
+        "end": 445
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M08",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M09",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 105,
+        "end": 125
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M10",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 468,
+        "end": 480
+      },
+      {
+        "gt_id": "2",
+        "start": 493,
+        "end": 506
+      },
+      {
+        "gt_id": "2",
+        "start": 516,
+        "end": 535
+      },
+      {
+        "gt_id": "2",
+        "start": 538,
+        "end": 560
+      },
+      {
+        "gt_id": "2",
+        "start": 562,
+        "end": 582
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O01",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 163,
+        "end": 174
+      },
+      {
+        "gt_id": "1",
+        "start": 187,
+        "end": 203
+      },
+      {
+        "gt_id": "1",
+        "start": 220,
+        "end": 231
+      },
+      {
+        "gt_id": "3",
+        "start": 155,
+        "end": 222
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 209,
+        "confirmed": 213,
+        "old": "2",
+        "new": "6"
+      },
+      {
+        "gt_id": "3",
+        "start": 228,
+        "confirmed": 232,
+        "old": "4",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O02",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 151,
+        "end": 168
+      },
+      {
+        "gt_id": "1",
+        "start": 184,
+        "end": 196
+      },
+      {
+        "gt_id": "1",
+        "start": 209,
+        "end": 222
+      },
+      {
+        "gt_id": "2",
+        "start": 26,
+        "end": 77
+      },
+      {
+        "gt_id": "2",
+        "start": 97,
+        "end": 122
+      },
+      {
+        "gt_id": "2",
+        "start": 128,
+        "end": 167
+      },
+      {
+        "gt_id": "2",
+        "start": 196,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 101,
+        "confirmed": 105,
+        "old": "3",
+        "new": "7"
+      },
+      {
+        "gt_id": "1",
+        "start": 169,
+        "confirmed": 173,
+        "old": "7",
+        "new": "3"
+      },
+      {
+        "gt_id": "2",
+        "start": 175,
+        "confirmed": 179,
+        "old": "5",
+        "new": "9"
+      },
+      {
+        "gt_id": "2",
+        "start": 184,
+        "confirmed": 188,
+        "old": "9",
+        "new": "12"
+      },
+      {
+        "gt_id": "2",
+        "start": 189,
+        "confirmed": 193,
+        "old": "12",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O03",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 25,
+        "end": 98
+      },
+      {
+        "gt_id": "1",
+        "start": 185,
+        "end": 209
+      },
+      {
+        "gt_id": "2",
+        "start": 51,
+        "end": 98
+      },
+      {
+        "gt_id": "2",
+        "start": 148,
+        "end": 158
+      },
+      {
+        "gt_id": "2",
+        "start": 204,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O04",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "6",
+        "start": 129,
+        "end": 147
+      },
+      {
+        "gt_id": "7",
+        "start": 25,
+        "end": 88
+      },
+      {
+        "gt_id": "7",
+        "start": 127,
+        "end": 157
+      },
+      {
+        "gt_id": "7",
+        "start": 187,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "6",
+        "start": 148,
+        "confirmed": 152,
+        "old": "1",
+        "new": "3"
+      }
+    ]
+  },
+  {
+    "event_id": "O05",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "3",
+        "start": 154,
+        "end": 172
+      },
+      {
+        "gt_id": "4",
+        "start": 25,
+        "end": 49
+      },
+      {
+        "gt_id": "4",
+        "start": 180,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 173,
+        "confirmed": 177,
+        "old": "1",
+        "new": "5"
+      }
+    ]
+  },
+  {
+    "event_id": "O06",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "7",
+        "start": 141,
+        "end": 224
+      },
+      {
+        "gt_id": "9",
+        "start": 25,
+        "end": 54
+      },
+      {
+        "gt_id": "9",
+        "start": 141,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O07",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 31,
+        "end": 137
+      },
+      {
+        "gt_id": "1",
+        "start": 192,
+        "end": 201
+      },
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 113
+      },
+      {
+        "gt_id": "2",
+        "start": 121,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O08",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 47,
+        "end": 60
+      },
+      {
+        "gt_id": "1",
+        "start": 80,
+        "end": 141
+      },
+      {
+        "gt_id": "2",
+        "start": 25,
+        "end": 34
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 142,
+        "confirmed": 146,
+        "old": "2",
+        "new": "11"
+      },
+      {
+        "gt_id": "2",
+        "start": 89,
+        "confirmed": 93,
+        "old": "3",
+        "new": "4"
+      }
+    ]
+  },
+  {
+    "event_id": "O09",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 95
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "2",
+        "start": 73,
+        "confirmed": 77,
+        "old": "1",
+        "new": "3"
+      },
+      {
+        "gt_id": "3",
+        "start": 73,
+        "confirmed": 77,
+        "old": "3",
+        "new": "4"
+      },
+      {
+        "gt_id": "3",
+        "start": 101,
+        "confirmed": 105,
+        "old": "4",
+        "new": "7"
+      },
+      {
+        "gt_id": "3",
+        "start": 114,
+        "confirmed": 118,
+        "old": "7",
+        "new": "8"
+      },
+      {
+        "gt_id": "3",
+        "start": 138,
+        "confirmed": 142,
+        "old": "8",
+        "new": "9"
+      },
+      {
+        "gt_id": "3",
+        "start": 145,
+        "confirmed": 149,
+        "old": "9",
+        "new": "7"
+      }
+    ]
+  },
+  {
+    "event_id": "O10",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 605,
+        "end": 630
+      },
+      {
+        "gt_id": "1",
+        "start": 633,
+        "end": 677
+      },
+      {
+        "gt_id": "1",
+        "start": 679,
+        "end": 690
+      },
+      {
+        "gt_id": "2",
+        "start": 590,
+        "end": 640
+      },
+      {
+        "gt_id": "2",
+        "start": 647,
+        "end": 690
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S01",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "0",
+        "start": 104,
+        "end": 120
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S02",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 355,
+        "end": 390
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S03",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 178,
+        "end": 270
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S04",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "S05",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L01",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 128,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L02",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L03",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L04",
+    "variant": "distance_80",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 1851,
+        "end": 1862
+      },
+      {
+        "gt_id": "1",
+        "start": 1878,
+        "end": 1910
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L05",
+    "variant": "distance_80",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M01",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M02",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M03",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M04",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M05",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M06",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M07",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 378,
+        "end": 445
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M08",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M09",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 105,
+        "end": 125
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M10",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 468,
+        "end": 480
+      },
+      {
+        "gt_id": "2",
+        "start": 493,
+        "end": 506
+      },
+      {
+        "gt_id": "2",
+        "start": 516,
+        "end": 535
+      },
+      {
+        "gt_id": "2",
+        "start": 538,
+        "end": 560
+      },
+      {
+        "gt_id": "2",
+        "start": 562,
+        "end": 582
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O01",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 163,
+        "end": 174
+      },
+      {
+        "gt_id": "1",
+        "start": 187,
+        "end": 203
+      },
+      {
+        "gt_id": "1",
+        "start": 220,
+        "end": 231
+      },
+      {
+        "gt_id": "3",
+        "start": 155,
+        "end": 222
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 228,
+        "confirmed": 232,
+        "old": "4",
+        "new": "2"
+      }
+    ]
+  },
+  {
+    "event_id": "O02",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 151,
+        "end": 168
+      },
+      {
+        "gt_id": "1",
+        "start": 184,
+        "end": 196
+      },
+      {
+        "gt_id": "1",
+        "start": 209,
+        "end": 222
+      },
+      {
+        "gt_id": "2",
+        "start": 26,
+        "end": 77
+      },
+      {
+        "gt_id": "2",
+        "start": 97,
+        "end": 122
+      },
+      {
+        "gt_id": "2",
+        "start": 128,
+        "end": 167
+      },
+      {
+        "gt_id": "2",
+        "start": 196,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "2",
+        "start": 175,
+        "confirmed": 179,
+        "old": "6",
+        "new": "10"
+      },
+      {
+        "gt_id": "2",
+        "start": 184,
+        "confirmed": 188,
+        "old": "10",
+        "new": "5"
+      },
+      {
+        "gt_id": "2",
+        "start": 189,
+        "confirmed": 193,
+        "old": "5",
+        "new": "2"
+      }
+    ]
+  },
+  {
+    "event_id": "O03",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 25,
+        "end": 98
+      },
+      {
+        "gt_id": "1",
+        "start": 185,
+        "end": 209
+      },
+      {
+        "gt_id": "2",
+        "start": 51,
+        "end": 98
+      },
+      {
+        "gt_id": "2",
+        "start": 148,
+        "end": 158
+      },
+      {
+        "gt_id": "2",
+        "start": 204,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O04",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "6",
+        "start": 129,
+        "end": 147
+      },
+      {
+        "gt_id": "7",
+        "start": 25,
+        "end": 88
+      },
+      {
+        "gt_id": "7",
+        "start": 127,
+        "end": 157
+      },
+      {
+        "gt_id": "7",
+        "start": 187,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "6",
+        "start": 148,
+        "confirmed": 152,
+        "old": "1",
+        "new": "2"
+      }
+    ]
+  },
+  {
+    "event_id": "O05",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "3",
+        "start": 154,
+        "end": 172
+      },
+      {
+        "gt_id": "4",
+        "start": 25,
+        "end": 49
+      },
+      {
+        "gt_id": "4",
+        "start": 180,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 173,
+        "confirmed": 177,
+        "old": "1",
+        "new": "4"
+      }
+    ]
+  },
+  {
+    "event_id": "O06",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "7",
+        "start": 141,
+        "end": 224
+      },
+      {
+        "gt_id": "9",
+        "start": 25,
+        "end": 54
+      },
+      {
+        "gt_id": "9",
+        "start": 141,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O07",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 31,
+        "end": 137
+      },
+      {
+        "gt_id": "1",
+        "start": 192,
+        "end": 201
+      },
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 113
+      },
+      {
+        "gt_id": "2",
+        "start": 121,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O08",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 47,
+        "end": 60
+      },
+      {
+        "gt_id": "1",
+        "start": 80,
+        "end": 141
+      },
+      {
+        "gt_id": "2",
+        "start": 25,
+        "end": 34
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 142,
+        "confirmed": 146,
+        "old": "2",
+        "new": "10"
+      },
+      {
+        "gt_id": "2",
+        "start": 89,
+        "confirmed": 93,
+        "old": "3",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O09",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 95
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "2",
+        "start": 73,
+        "confirmed": 77,
+        "old": "1",
+        "new": "4"
+      },
+      {
+        "gt_id": "3",
+        "start": 73,
+        "confirmed": 77,
+        "old": "4",
+        "new": "3"
+      },
+      {
+        "gt_id": "3",
+        "start": 101,
+        "confirmed": 105,
+        "old": "3",
+        "new": "1"
+      },
+      {
+        "gt_id": "3",
+        "start": 114,
+        "confirmed": 118,
+        "old": "1",
+        "new": "7"
+      },
+      {
+        "gt_id": "3",
+        "start": 138,
+        "confirmed": 142,
+        "old": "7",
+        "new": "3"
+      },
+      {
+        "gt_id": "3",
+        "start": 145,
+        "confirmed": 149,
+        "old": "3",
+        "new": "8"
+      }
+    ]
+  },
+  {
+    "event_id": "O10",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 605,
+        "end": 630
+      },
+      {
+        "gt_id": "1",
+        "start": 633,
+        "end": 677
+      },
+      {
+        "gt_id": "1",
+        "start": 679,
+        "end": 690
+      },
+      {
+        "gt_id": "2",
+        "start": 590,
+        "end": 640
+      },
+      {
+        "gt_id": "2",
+        "start": 647,
+        "end": 690
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S01",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "0",
+        "start": 104,
+        "end": 120
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S02",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 355,
+        "end": 390
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S03",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 178,
+        "end": 270
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S04",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "S05",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L01",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 128,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L02",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L03",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L04",
+    "variant": "missing_30",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 1851,
+        "end": 1862
+      },
+      {
+        "gt_id": "1",
+        "start": 1878,
+        "end": 1910
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L05",
+    "variant": "missing_30",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M01",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M02",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M03",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M04",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M05",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M06",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M07",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 378,
+        "end": 445
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M08",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "M09",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 105,
+        "end": 125
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "M10",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 468,
+        "end": 480
+      },
+      {
+        "gt_id": "2",
+        "start": 493,
+        "end": 506
+      },
+      {
+        "gt_id": "2",
+        "start": 516,
+        "end": 535
+      },
+      {
+        "gt_id": "2",
+        "start": 538,
+        "end": 560
+      },
+      {
+        "gt_id": "2",
+        "start": 562,
+        "end": 582
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O01",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 163,
+        "end": 174
+      },
+      {
+        "gt_id": "1",
+        "start": 187,
+        "end": 203
+      },
+      {
+        "gt_id": "1",
+        "start": 220,
+        "end": 231
+      },
+      {
+        "gt_id": "3",
+        "start": 155,
+        "end": 222
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 209,
+        "confirmed": 213,
+        "old": "2",
+        "new": "6"
+      },
+      {
+        "gt_id": "3",
+        "start": 228,
+        "confirmed": 232,
+        "old": "4",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O02",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 151,
+        "end": 168
+      },
+      {
+        "gt_id": "1",
+        "start": 184,
+        "end": 196
+      },
+      {
+        "gt_id": "1",
+        "start": 209,
+        "end": 222
+      },
+      {
+        "gt_id": "2",
+        "start": 26,
+        "end": 77
+      },
+      {
+        "gt_id": "2",
+        "start": 97,
+        "end": 122
+      },
+      {
+        "gt_id": "2",
+        "start": 128,
+        "end": 167
+      },
+      {
+        "gt_id": "2",
+        "start": 196,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 110,
+        "confirmed": 114,
+        "old": "5",
+        "new": "14"
+      },
+      {
+        "gt_id": "2",
+        "start": 175,
+        "confirmed": 179,
+        "old": "13",
+        "new": "21"
+      },
+      {
+        "gt_id": "2",
+        "start": 184,
+        "confirmed": 188,
+        "old": "21",
+        "new": "12"
+      },
+      {
+        "gt_id": "2",
+        "start": 189,
+        "confirmed": 193,
+        "old": "12",
+        "new": "18"
+      }
+    ]
+  },
+  {
+    "event_id": "O03",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 25,
+        "end": 98
+      },
+      {
+        "gt_id": "1",
+        "start": 185,
+        "end": 209
+      },
+      {
+        "gt_id": "2",
+        "start": 51,
+        "end": 98
+      },
+      {
+        "gt_id": "2",
+        "start": 148,
+        "end": 158
+      },
+      {
+        "gt_id": "2",
+        "start": 204,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O04",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "6",
+        "start": 129,
+        "end": 147
+      },
+      {
+        "gt_id": "7",
+        "start": 25,
+        "end": 88
+      },
+      {
+        "gt_id": "7",
+        "start": 127,
+        "end": 157
+      },
+      {
+        "gt_id": "7",
+        "start": 187,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "6",
+        "start": 148,
+        "confirmed": 152,
+        "old": "1",
+        "new": "3"
+      }
+    ]
+  },
+  {
+    "event_id": "O05",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "3",
+        "start": 154,
+        "end": 172
+      },
+      {
+        "gt_id": "4",
+        "start": 25,
+        "end": 49
+      },
+      {
+        "gt_id": "4",
+        "start": 180,
+        "end": 224
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 173,
+        "confirmed": 177,
+        "old": "1",
+        "new": "6"
+      }
+    ]
+  },
+  {
+    "event_id": "O06",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "7",
+        "start": 141,
+        "end": 224
+      },
+      {
+        "gt_id": "9",
+        "start": 25,
+        "end": 54
+      },
+      {
+        "gt_id": "9",
+        "start": 141,
+        "end": 224
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O07",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 31,
+        "end": 137
+      },
+      {
+        "gt_id": "1",
+        "start": 192,
+        "end": 201
+      },
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 113
+      },
+      {
+        "gt_id": "2",
+        "start": 121,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "O08",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 47,
+        "end": 60
+      },
+      {
+        "gt_id": "1",
+        "start": 80,
+        "end": 141
+      },
+      {
+        "gt_id": "2",
+        "start": 25,
+        "end": 34
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "1",
+        "start": 142,
+        "confirmed": 146,
+        "old": "2",
+        "new": "14"
+      },
+      {
+        "gt_id": "2",
+        "start": 89,
+        "confirmed": 93,
+        "old": "3",
+        "new": "8"
+      }
+    ]
+  },
+  {
+    "event_id": "O09",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "2",
+        "start": 79,
+        "end": 95
+      }
+    ],
+    "switches": [
+      {
+        "gt_id": "3",
+        "start": 73,
+        "confirmed": 77,
+        "old": "3",
+        "new": "2"
+      },
+      {
+        "gt_id": "3",
+        "start": 101,
+        "confirmed": 105,
+        "old": "2",
+        "new": "8"
+      },
+      {
+        "gt_id": "3",
+        "start": 114,
+        "confirmed": 118,
+        "old": "8",
+        "new": "2"
+      },
+      {
+        "gt_id": "3",
+        "start": 138,
+        "confirmed": 142,
+        "old": "2",
+        "new": "11"
+      },
+      {
+        "gt_id": "3",
+        "start": 145,
+        "confirmed": 149,
+        "old": "11",
+        "new": "12"
+      }
+    ]
+  },
+  {
+    "event_id": "O10",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 605,
+        "end": 630
+      },
+      {
+        "gt_id": "1",
+        "start": 633,
+        "end": 677
+      },
+      {
+        "gt_id": "1",
+        "start": 679,
+        "end": 690
+      },
+      {
+        "gt_id": "2",
+        "start": 590,
+        "end": 640
+      },
+      {
+        "gt_id": "2",
+        "start": 647,
+        "end": 690
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S01",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "0",
+        "start": 104,
+        "end": 120
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S02",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 355,
+        "end": 390
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S03",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 178,
+        "end": 270
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "S04",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "S05",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L01",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 128,
+        "end": 137
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L02",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L03",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  },
+  {
+    "event_id": "L04",
+    "variant": "velocity",
+    "failures": [
+      {
+        "gt_id": "1",
+        "start": 1851,
+        "end": 1862
+      },
+      {
+        "gt_id": "1",
+        "start": 1878,
+        "end": 1910
+      }
+    ],
+    "switches": []
+  },
+  {
+    "event_id": "L05",
+    "variant": "velocity",
+    "failures": [],
+    "switches": []
+  }
+]

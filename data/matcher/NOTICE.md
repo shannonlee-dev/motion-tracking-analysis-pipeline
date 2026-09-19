@@ -12,7 +12,7 @@ CC BY 4.0에 따라 이 저장소의 `Jogging.zip`에서 추출한 프레임·GT
 - `reference/Jogging/`: 원본 ZIP을 그대로 압축 해제한 JPG·GT.
 - `generated/selected_frames/`: `target` 및 조건별 프레임 6개를 원본에서 복사.
 - `data/matcher/inputs/`: 첫 프레임 GT bbox를 회색조·4배 확대해 만든 `target.png`와 JPG를 25 fps로 연결한 `jogging.mp4`. 조건 crop은 평가 시 생성한다.
-- `results/matcher/baseline/roi/`: GT 시각화, 특징점과 매칭 결과.
+- `docs/evidence/matching-roi/`: GT 시각화, 특징점과 매칭 결과.
 
 원본 ZIP의 바이트 수·SHA-256·출처·인용은 `data/matcher/reference/sources.json`에 기록했다. 원본 ZIP은 `data/matcher/raw/Jogging.zip`에 두며, 재생성 가능한 원본이므로 Git에서 제외한다. 원본 JPG·GT와 선택 근거는 이 폴더에 보관한다.
 
