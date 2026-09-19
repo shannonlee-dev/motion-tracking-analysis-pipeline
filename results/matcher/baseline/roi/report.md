@@ -1,6 +1,6 @@
 # 참고용 ROI 실험: Jogging-1 ORB / SIFT 특징점 매칭
 
-최종 제출 성능표는 `../application/features.csv`와 `../../../docs/report.md`를 사용한다. 이 표는 기존 대응점 수를 보존하고 등록 이미지 고정 분모로만 수정했다.
+최종 제출 성능표는 `../application/features.csv`와 `../../../../docs/report.md`를 사용한다. 이 표는 기존 대응점 수를 보존하고 등록 이미지 고정 분모로만 수정했다.
 
 GT: `groundtruth_rect.1.txt`. target: 0001번. 프레임 번호는 원본 JPG의 1-based 번호.
 

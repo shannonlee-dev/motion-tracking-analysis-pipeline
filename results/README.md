@@ -10,5 +10,5 @@
 | `<목적>/runs` | 새 실행의 자동 생성 결과; Git 제외 |
 | `detection` | Oxford 로컬 전용 결과; 전체 Git 제외 |
 
-사람이 작성한 분석은 [docs/report.md](../docs/report.md), 복사할 명령은 [실행 지침](../docs/workflows.md)에 있다.
+사람이 작성한 분석과 복사할 명령은 [docs/report.md](../docs/report.md)에 있다.
 주석·사건 정의는 `data/tracker/reference/`에 둔다. `baseline`은 이전 실험의 증거이며 새 실행 결과가 아니다. 추적 집계의 수동 검토 한계는 보고서에 유지했다.

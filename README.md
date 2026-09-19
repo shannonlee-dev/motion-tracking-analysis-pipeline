@@ -85,7 +85,7 @@ python -m experiments.feature_matching
 Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 
 결과: `results/<목적>/runs/latest/`. 이전 측정: `results/{tracker,matcher}/baseline/`.
-[분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md), [코드 책임](docs/code-organization.md).
+[분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md).
 
 ## 개발 검증
 
