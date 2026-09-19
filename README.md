@@ -46,6 +46,8 @@ python -m pip install -r requirements.txt
 Windows에서는 `.venv\Scripts\activate`로 활성화합니다.
 원본 RAR 재구성에는 OS `libarchive`가 필요합니다.
 이미 보존된 입력이 정상이라면 다시 다운로드하거나 변환하지 않습니다.
+macOS에서 Python의 기본 CA 인증서가 비어 있으면 시스템 인증서 파일을 자동으로 사용합니다.
+직접 지정한 `SSL_CERT_FILE`·`SSL_CERT_DIR` 설정과 SSL 인증서 검증은 유지합니다.
 
 ## 데이터 준비
 

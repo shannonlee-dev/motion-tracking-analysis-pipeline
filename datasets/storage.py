@@ -2,8 +2,11 @@
 
 import hashlib
 import json
+import os
 import shutil
+import ssl
 import stat
+import sys
 import tempfile
 import urllib.request
 import zipfile
@@ -44,6 +47,21 @@ def atomic_bytes(path: Path, content: bytes) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def download_ssl_context() -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    # python.org macOS installs can have no CA bundle until their certificate
+    # installer is run. Use the OS bundle, preserving explicit trust settings.
+    if (
+        sys.platform == "darwin"
+        and "SSL_CERT_FILE" not in os.environ
+        and "SSL_CERT_DIR" not in os.environ
+        and not context.cert_store_stats()["x509_ca"]
+        and Path("/etc/ssl/cert.pem").is_file()
+    ):
+        context.load_verify_locations(cafile="/etc/ssl/cert.pem")
+    return context
+
+
 def download(path: Path, url: str, record: dict, *, offline: bool = False) -> Path:
     if path.exists():
         verify(path, record)
@@ -56,7 +74,9 @@ def download(path: Path, url: str, record: dict, *, offline: bool = False) -> Pa
     try:
         print(f"Downloading {path.name}", flush=True)
         with (
-            urllib.request.urlopen(url, timeout=120) as response,
+            urllib.request.urlopen(
+                url, timeout=120, context=download_ssl_context()
+            ) as response,
             temporary.open("wb") as stream,
         ):
             shutil.copyfileobj(response, stream)

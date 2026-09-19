@@ -1,6 +1,7 @@
 """Preparation rejects changed inputs and never rewrites healthy cached bytes."""
 
 import json
+import ssl
 import subprocess
 import sys
 import zipfile
@@ -12,6 +13,35 @@ import pytest
 from datasets import detection, tracker
 from datasets.paths import ROOT, tracker_input
 from datasets.storage import download, extract, sha256, verify
+
+
+def test_download_uses_macos_ca_when_python_has_no_certificates(tmp_path, monkeypatch):
+    from io import BytesIO
+    from pathlib import Path
+
+    from datasets import storage
+
+    if not Path("/etc/ssl/cert.pem").is_file():
+        pytest.skip("macOS system CA bundle is not available")
+    monkeypatch.setattr(sys, "platform", "darwin")
+    monkeypatch.delenv("SSL_CERT_FILE", raising=False)
+    monkeypatch.delenv("SSL_CERT_DIR", raising=False)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    monkeypatch.setattr(ssl, "create_default_context", lambda: context)
+
+    def open_verified(url, *, timeout, context=None):
+        assert context is not None
+        assert context.cert_store_stats()["x509_ca"] > 0
+        assert context.verify_mode == ssl.CERT_REQUIRED
+        assert context.check_hostname
+        return BytesIO(b"source")
+
+    monkeypatch.setattr(storage.urllib.request, "urlopen", open_verified)
+    expected = tmp_path / "expected"
+    expected.write_bytes(b"source")
+    output = tmp_path / "download"
+    download(output, "https://example.invalid/source", dict(sha256=sha256(expected)))
+    assert output.read_bytes() == b"source"
 
 
 def test_cached_download_is_pinned_and_idempotent(tmp_path, monkeypatch):
@@ -29,6 +59,20 @@ def test_cached_download_is_pinned_and_idempotent(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="Checksum"):
         download(path, "https://unused.invalid", record)
     assert path.read_bytes() == b"corrupted"
+
+
+@pytest.mark.parametrize("variable", ["SSL_CERT_FILE", "SSL_CERT_DIR"])
+def test_download_preserves_explicit_ca_configuration(monkeypatch, variable):
+    from datasets.storage import download_ssl_context
+
+    monkeypatch.setattr(sys, "platform", "darwin")
+    monkeypatch.setenv(variable, "/custom/trust")
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    monkeypatch.setattr(ssl, "create_default_context", lambda: context)
+    configured = download_ssl_context()
+    assert configured.cert_store_stats()["x509_ca"] == 0
+    assert configured.verify_mode == ssl.CERT_REQUIRED
+    assert configured.check_hostname
 
 
 def test_failed_download_does_not_publish_partial_file(tmp_path, monkeypatch):
