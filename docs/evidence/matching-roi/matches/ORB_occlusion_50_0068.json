@@ -1,0 +1,15 @@
+[
+  {
+    "condition_keypoint": 5,
+    "target_keypoint": 11,
+    "condition_xy": [
+      48.96000289916992,
+      360.0
+    ],
+    "target_xy": [
+      45.60000228881836,
+      327.6000061035156
+    ],
+    "distance": 57.0
+  }
+]
