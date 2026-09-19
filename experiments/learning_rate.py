@@ -19,7 +19,7 @@ def validate_inputs() -> None:
         raise ValueError(
             "Learning-rate ground truth is missing.\n"
             "Run:\n"
-            "python scripts/01_setup_data.py --purpose tracker --raw"
+            "python scripts/01_setup_data.py --purpose tracker"
         )
     gt_paths = sorted(gt_directory.glob("*.png"))
     if len(gt_paths) != 525:
@@ -27,7 +27,7 @@ def validate_inputs() -> None:
             "Learning-rate ground truth must contain exactly 525 frames; "
             f"found {len(gt_paths)}.\n"
             "Run:\n"
-            "python scripts/01_setup_data.py --purpose tracker --raw"
+            "python scripts/01_setup_data.py --purpose tracker"
         )
     for path in (gt_paths[0], gt_paths[-1]):
         if cv2.imread(str(path)) is None:

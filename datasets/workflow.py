@@ -44,11 +44,10 @@ def check_video(path: Path, expected_frames: int | None = None) -> dict:
 def setup(
     *,
     offline: bool = False,
-    raw: bool = False,
     purpose: str = "all",
 ) -> None:
     if purpose in ("all", "tracker"):
-        tracker.prepare(offline=offline, raw=raw)
+        tracker.prepare(offline=offline)
     if purpose in ("all", "matcher"):
         jogging.prepare(offline=offline)
     if purpose in ("all", "detection"):
@@ -150,11 +149,6 @@ def main(stage: str) -> None:
     if stage == "setup":
         parser.add_argument(
             "--offline", action="store_true", help="Use cached local sources only"
-        )
-        parser.add_argument(
-            "--raw",
-            action="store_true",
-            help="Also download/extract tracker source archives and GT for full measurements",
         )
     args = vars(parser.parse_args())
     try:

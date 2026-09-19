@@ -44,7 +44,7 @@ def encode_clip(source: Path, output: Path, start: int, count: int, fps: float) 
             writer.release()
 
 
-def prepare(*, offline: bool = False, raw: bool = False) -> None:
+def prepare(*, offline: bool = False) -> None:
     pinned = {
         r["path"]: r
         for r in json.loads((TRACKER / "reference/input_integrity.json").read_text())
@@ -67,8 +67,6 @@ def prepare(*, offline: bool = False, raw: bool = False) -> None:
             key = str(output.relative_to(ROOT))
             if output.exists():
                 verify(output, generated.get(key, pinned[key]))
-                if not raw:
-                    continue
             raw_dir = TRACKER / "raw" / ("caviar" if group == "overlap" else group)
             if group == "overlap":
                 source = download(

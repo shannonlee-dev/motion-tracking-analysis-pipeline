@@ -45,7 +45,8 @@ python -m pip install -r requirements.txt
 
 Windows에서는 `.venv\Scripts\activate`로 활성화합니다.
 원본 RAR 재구성에는 OS `libarchive`가 필요합니다.
-이미 보존된 입력이 정상이라면 다시 다운로드하거나 변환하지 않습니다.
+기본 준비 명령은 실험에 필요한 원본과 GT까지 다운로드·압축 해제합니다.
+이미 보존된 입력 영상은 검증 후 유지하며, 캐시된 원본은 다시 다운로드하지 않습니다.
 macOS에서 Python의 기본 CA 인증서가 비어 있으면 시스템 인증서 파일을 자동으로 사용합니다.
 직접 지정한 `SSL_CERT_FILE`·`SSL_CERT_DIR` 설정과 SSL 인증서 검증은 유지합니다.
 
@@ -81,8 +82,8 @@ python -m experiments.learning_rate
 python -m experiments.feature_matching
 ```
 
-`learning_rate` 실험은 LASIESTA 원본과 525개 GT frame이 필요하므로 먼저
-`python scripts/01_setup_data.py --purpose tracker --raw`를 실행합니다.
+`learning_rate` 실험에 필요한 LASIESTA GT 525장은 기본 준비 명령인
+`python scripts/01_setup_data.py`로 함께 저장됩니다.
 위 명령은 보고서의 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric만 재현합니다.
 Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 

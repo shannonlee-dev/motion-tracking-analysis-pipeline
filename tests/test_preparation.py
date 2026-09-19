@@ -102,6 +102,50 @@ def test_zip_extraction_is_safe_and_idempotent(tmp_path):
     assert not (tmp_path / "escape.txt").exists()
 
 
+@pytest.mark.parametrize("offline", [False, True])
+def test_tracker_setup_prepares_gt_even_when_video_exists(tmp_path, monkeypatch, offline):
+    from datasets import workflow
+
+    directory = tmp_path / "data/tracker"
+    video = directory / "inputs/17.mp4"
+    video.parent.mkdir(parents=True)
+    video.write_bytes(b"preserved video")
+    before = video.stat().st_mtime_ns
+    reference = directory / "reference"
+    reference.mkdir()
+    key = "data/tracker/inputs/17.mp4"
+    (reference / "input_integrity.json").write_text(
+        json.dumps([dict(path=key, sha256=sha256(video))])
+    )
+    source = tmp_path / "I_IL_02.zip"
+    with zipfile.ZipFile(source, "w") as archive:
+        archive.writestr("I_IL_02-GT/I_IL_02-GT_1.png", b"ground truth")
+    recipe = dict(
+        file=source.name, url=source.as_uri(), local_file=key, sha256=sha256(source)
+    )
+    if offline:
+        cached = directory / "raw/lasiesta" / source.name
+        cached.parent.mkdir(parents=True)
+        cached.write_bytes(source.read_bytes())
+    monkeypatch.setattr(tracker, "ROOT", tmp_path)
+    monkeypatch.setattr(tracker, "TRACKER", directory)
+    monkeypatch.setattr(workflow, "ROOT", tmp_path)
+    monkeypatch.setattr(
+        tracker, "records", lambda name: [recipe] if name == "lasiesta" else []
+    )
+
+    workflow.setup(purpose="tracker", offline=offline)
+
+    gt = directory / "raw/lasiesta/I_IL_02-GT/I_IL_02-GT_1.png"
+    assert gt.read_bytes() == b"ground truth"
+    assert video.read_bytes() == b"preserved video"
+    assert video.stat().st_mtime_ns == before
+    gt.write_bytes(b"damaged")
+    workflow.setup(purpose="tracker", offline=True)
+    assert gt.read_bytes() == b"ground truth"
+    assert video.stat().st_mtime_ns == before
+
+
 def test_tracker_paths_do_not_depend_on_working_directory(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     assert tracker_input(1) == ROOT / "data/tracker/inputs/01.mpg"

@@ -11,7 +11,7 @@ Computer Vision and Image Understanding, 2016. DOI: 10.1016/j.cviu.2016.08.005.
 
 I_IL_01.rar, I_IL_02.rar, I_OC_01.rar, I_OC_02.rar, I_CA_01.rar을 준비 스크립트에서 사용한다.
 파일별 공식 URL·바이트 수·SHA-256은 `data/tracker/reference/manifests/lasiesta_sources.json`에 있다.
-`python scripts/01_setup_data.py --purpose tracker --raw`로 원본 RAR과 BMP 프레임·GT·XML을 `data/tracker/raw/lasiesta/`에 원본 ID 그대로 저장하고,
+`python scripts/01_setup_data.py --purpose tracker`로 원본 RAR과 BMP 프레임·GT·XML을 `data/tracker/raw/lasiesta/`에 원본 ID 그대로 저장하고,
 BMP 프레임은 `data/tracker/inputs/15.mp4`부터 `19.mp4`까지 자동 변환한다.
 OS libarchive와 Python libarchive-c가 필요하다.
 `data/tracker/raw/`는 재생성할 수 있으므로 Git에서 제외한다. 앱 입력은 `data/tracker/inputs/`에 둔다. 원본의 가공물에도 같은 CC BY-SA 4.0 조건을 유지한다.

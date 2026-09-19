@@ -33,7 +33,7 @@ Oxford Town Centre 영상과 여기서 추출한 등록 이미지는 [Oxford Tow
 출처·변경 내용을 표시하고 가공물에도 같은 라이선스를 유지한다.
 
 I_IL_01·I_IL_02·I_OC_01·I_OC_02·I_CA_01의 원본 RAR과 추출 BMP 프레임·GT·XML은 재생성할 수 있으므로 Git에서 제외합니다.
-`python scripts/01_setup_data.py --purpose tracker --raw`로 `data/tracker/raw/lasiesta/`에 원본 ID를 유지해 풀고, BMP 프레임을
+`python scripts/01_setup_data.py --purpose tracker`로 `data/tracker/raw/lasiesta/`에 원본 ID를 유지해 풀고, BMP 프레임을
 `data/tracker/inputs/15.mp4`부터 `19.mp4`까지 변환합니다. OS libarchive와 Python libarchive-c가 필요합니다.
 논문 출처와 원본·가공물 구분은 [LASIESTA 안내](tracker/reference/licenses/NOTICE.md)에 있습니다.
 
