@@ -36,15 +36,22 @@ def test_target_box_is_absent_when_match_is_not_found_and_clipped_at_frame_edges
     polygon = np.array([[[-10, 30]], [[20, 30]], [[20, 60]], [[-10, 60]]], np.int32)
 
     absent = draw_overlay(
-        frame, {}, fps=30.0, frame_number=1, match=MatchResult(found=False, polygon=polygon)
+        frame,
+        {},
+        fps=30.0,
+        frame_number=1,
+        match=MatchResult(found=False, polygon=polygon),
     )
     present = draw_overlay(
-        frame, {}, fps=30.0, frame_number=1, match=MatchResult(found=True, polygon=polygon)
+        frame,
+        {},
+        fps=30.0,
+        frame_number=1,
+        match=MatchResult(found=True, polygon=polygon),
     )
 
     assert not np.any(np.all(absent == (0, 0, 255), axis=2))
     assert tuple(present[30, 0]) == (0, 0, 255)
-
 
 
 def test_controls_pause_resume_snapshot_quit(tmp_path):
@@ -71,9 +78,7 @@ def test_closing_a_display_window_stops_playback(
     tmp_path, monkeypatch, show_mask, closed_title
 ):
     source = tmp_path / "input.avi"
-    writer = cv2.VideoWriter(
-        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
-    )
+    writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24))
     assert writer.isOpened()
 
     for _ in range(3):
@@ -100,9 +105,7 @@ def test_closing_a_display_window_stops_playback(
 
 def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):
     source = tmp_path / "input.avi"
-    writer = cv2.VideoWriter(
-        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
-    )
+    writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24))
     assert writer.isOpened()
 
     for _ in range(3):
@@ -126,11 +129,24 @@ def test_closing_the_window_while_paused_stops_playback(tmp_path, monkeypatch):
 
 
 def test_file_gui_adds_timeline_and_seeks_to_selected_frame(tmp_path, monkeypatch):
+    import motion_tracking.runner as runner
+
+    resets = {"detector": 0, "tracker": 0}
+    detector_class, tracker_class = runner.MotionDetector, runner.Tracker
+
+    def detector(*args):
+        resets["detector"] += 1
+        return detector_class(*args)
+
+    def tracker(*args):
+        resets["tracker"] += 1
+        return tracker_class(*args)
+
+    monkeypatch.setattr(runner, "MotionDetector", detector)
+    monkeypatch.setattr(runner, "Tracker", tracker)
     source = tmp_path / "input.avi"
     trace = tmp_path / "trace.csv"
-    writer = cv2.VideoWriter(
-        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
-    )
+    writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24))
     assert writer.isOpened()
 
     for value in range(4):
@@ -174,6 +190,7 @@ def test_file_gui_adds_timeline_and_seeks_to_selected_frame(tmp_path, monkeypatc
     assert created == [
         ("Timeline (frame)", "Motion analysis | q quit, p pause, s snapshot", 0, 3)
     ]
+    assert resets == {"detector": 2, "tracker": 2}
     assert positions == [0, 3]
     assert stats["frames"] == 2
 
@@ -183,9 +200,7 @@ def test_file_gui_adds_timeline_and_seeks_to_selected_frame(tmp_path, monkeypatc
 
 def test_timeline_updates_an_adjacent_frame_while_paused(tmp_path, monkeypatch):
     source = tmp_path / "input.avi"
-    writer = cv2.VideoWriter(
-        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24)
-    )
+    writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (32, 24))
     assert writer.isOpened()
 
     for value in range(3):

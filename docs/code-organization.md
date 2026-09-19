@@ -1,13 +1,23 @@
-# 상수와 공통 코드
+# 코드 책임
 
-| 위치 | 책임 |
+| 모듈 | 책임 |
 | --- | --- |
-| `motion_tracking/config.py` | 실행 설정, 불변 DEFAULT_CONFIG, CLI 노출 필드와 검증 |
-| `motion_tracking/constants.py` | 영상 코덱, FPS 대체값, 스냅샷 경로, 시간 단위 |
-| `motion_tracking/features.py` | 특징점 수·매칭 기준, ratio test와 중복 대응 제거 |
-| `motion_tracking/geometry.py` | 박스 좌표 타입 BBox |
-| `motion_tracking/vision.py` | 전경 분리와 타깃 검출 판정 기준 |
-| `motion_tracking/display.py` | 화면 스타일과 키보드 제어 |
+| `app.py`, `motion_tracking/cli.py` | 사용자 CLI, 설정·오류 해석 |
+| `motion_tracking/runner.py` | 영상 입출력·프레임 루프·타임라인 reset·CSV/MP4 수명 |
+| `motion_tracking/motion.py` | MOG2·마스크·contour/bbox |
+| `motion_tracking/tracker.py` | 거리 매칭·ID·누락·궤적 |
+| `motion_tracking/matching.py` | 앱의 전체 프레임 ORB·homography 판정 |
+| `motion_tracking/features.py` | 공통 ratio test·descriptor 중복 제거 |
+| `motion_tracking/display.py` | 해상도별 글꼴·라벨 배경·bbox·키 제어·창/타임라인 UI |
+| `motion_tracking/config.py`, `constants.py` | 알고리즘 설정/검증, 영상 입출력 공통값 |
+| `motion_tracking/vision.py` | 기존 Python import 호환용 재노출 |
+| `datasets/paths.py` | 저장소 기준 경로, Tracker case 해석 |
+| `datasets/storage.py`, `media.py` | 고정 해시 다운로드·안전한 압축 해제·원자적 파일 교체·BMP 변환 |
+| `datasets/{tracker,jogging,detection}.py` | 목적별 원본·입력 준비 |
+| `datasets/workflow.py` | 준비/검증 두 단계 조합 |
+| `datasets/annotations.py` | 기존 raw GT에서 bbox를 재구성하는 검증 함수 |
+| `evaluation/cli.py` | 세 평가 목적별 실행 조합 |
+| `evaluation/{measurements,tracker,background,review,matcher}.py` | 측정·집계·시각 근거 생성 |
 
-실행별 설정은 Config 또는 dataclasses.replace로 지정한다.
-스냅샷과 상대 출력 경로는 현재 작업 디렉터리를 기준으로 한다.
+앱은 `datasets`나 `evaluation`을 import하지 않는다. 실험이 앱 알고리즘을 가져다 쓴다.
+MOG2·Tracker·ORB 임곗값과 매칭 순서는 기존과 동일하다. 데이터를 준비하는 것만으로 측정을 재실행하거나 보존 결과를 덮어쓰지 않는다.

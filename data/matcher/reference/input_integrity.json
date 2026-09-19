@@ -1,0 +1,1562 @@
+[
+  {
+    "path": "data/matcher/inputs/jogging.mp4",
+    "bytes": 1382246,
+    "sha256": "d4c17dc7077578462d506f7079d925b5687a4ff0ed8f4cfaea63aca17073906c"
+  },
+  {
+    "path": "data/matcher/inputs/target.png",
+    "bytes": 20330,
+    "sha256": "ded26718594e7c6ea969cab687bd27da747a2a8e62abd76574a63de1cd3ac88d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/groundtruth_rect.1.txt",
+    "bytes": 4700,
+    "sha256": "634b450c421c0c9dd30493e147eef15ae6cd4d078445206994ff7e6e9530ca96"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/groundtruth_rect.2.txt",
+    "bytes": 4336,
+    "sha256": "20b701fb57ef97155ccf59112e7343a54473b18f8eeb8e5c45b269e5aee6e3b1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/.DS_Store",
+    "bytes": 6148,
+    "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0001.jpg",
+    "bytes": 13834,
+    "sha256": "73ced6111c448386c988f1bc6f1ee14dbe4d39bfde705ca2e0fdb09913374e9c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0002.jpg",
+    "bytes": 24848,
+    "sha256": "5b800baa6af7e918f3df3c371a4090827fff9840ffb6c6bcc81284872d04c7c2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0003.jpg",
+    "bytes": 26083,
+    "sha256": "bb5fda28f7be02dbecab061e3da9ea7d8e345c80681ada5922342f69191dc4b7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0004.jpg",
+    "bytes": 25916,
+    "sha256": "dfc6f4cdcc1a2e2b7c46f5d79657fffd84a238b1d60150cf4e296a5d2e105191"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0005.jpg",
+    "bytes": 26455,
+    "sha256": "0d28adccbcdbe8786393632ba02eacb9f40121dbf6e5fefd5a69d9df8587e073"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0006.jpg",
+    "bytes": 26282,
+    "sha256": "8723c3e2e3cfdabd33d0eafa53403d11663a32e8080004f8440d6bb110b5f52c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0007.jpg",
+    "bytes": 26640,
+    "sha256": "29b5e9593bef39c3673ee0c4436aeca6a0c46e81794c7303160fee34cf25518d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0008.jpg",
+    "bytes": 26500,
+    "sha256": "15db0a6b80bcca5b99dadeb67c7bfccfe098195f457006fb0a4e645531319412"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0009.jpg",
+    "bytes": 26858,
+    "sha256": "49a36277ff0c5a8080c3ec38c223acabcecf30c19136349467e598c36cc1d3be"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0010.jpg",
+    "bytes": 26873,
+    "sha256": "a88be969edd546a14200079efbe75051d5b87426303a5ef711179eb8787f562c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0011.jpg",
+    "bytes": 25870,
+    "sha256": "f890e51c8f3191156a58936514059935a0978e04239b25d8229ccf905b5887ec"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0012.jpg",
+    "bytes": 25659,
+    "sha256": "4811faade993d5dccf9d53317d7a5e40ce715c0bf8689f667259756f2f36ab20"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0013.jpg",
+    "bytes": 25987,
+    "sha256": "e9ced51f699fe3c0a72fc6b72b54e3ad7fc070d531768cdcfc0868db8fd7f77f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0014.jpg",
+    "bytes": 26130,
+    "sha256": "9d9937bb7fea26654f3b7b7a330dc62831b0bce4225b65c19873555fc7308773"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0015.jpg",
+    "bytes": 26972,
+    "sha256": "4ee996c00be30cbdfa0a3ebed0dfedc927e53e46f1db0b953b6d1423a4b39347"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0016.jpg",
+    "bytes": 27760,
+    "sha256": "579c3c21f0c5cea1c19ddab1f214f3e3b8ffb41f8d300fcf17757819ad584171"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0017.jpg",
+    "bytes": 27136,
+    "sha256": "7060d891747d19145857f7608bef9a673d2261620cc087eb050b8b4198227e61"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0018.jpg",
+    "bytes": 27295,
+    "sha256": "2656d7014d7c3ed283f065a10e52c947c3c9b9b32de633e2cef7aa787f52d04f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0019.jpg",
+    "bytes": 28964,
+    "sha256": "f3a26e2e1a8a209f35be6288444b9806c953988f61bc4ccebea5a00dfaefc26a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0020.jpg",
+    "bytes": 27212,
+    "sha256": "b0db5363ffb87a01c1bc15638d3f669b9a14b5c240de0a11aee7486183239fe6"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0021.jpg",
+    "bytes": 28215,
+    "sha256": "1d300044fd04285ef184403a98cc6aac3f1235f861ca2a7df3a381cf6c1adcfb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0022.jpg",
+    "bytes": 28810,
+    "sha256": "86658e8d726472dfe20457dce754993f05126630f6d399419ce37384de008e80"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0023.jpg",
+    "bytes": 29340,
+    "sha256": "2c1034b9d980cc2547b33fc68669826b8468cf1ab05fbd2f5ed8f95e09155c51"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0024.jpg",
+    "bytes": 28895,
+    "sha256": "3715208c6b93241acc6778eab90753f929446fcd8b8fa5890041f24d14f973fb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0025.jpg",
+    "bytes": 28458,
+    "sha256": "990391c47af1dcfbb9630786d6c27510ed123b1442d5b4ae99a4ea7d73caf258"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0026.jpg",
+    "bytes": 27913,
+    "sha256": "f12c17798f8dd2a9e65063312bf88945c5c710fc2e5c238ddca0989f03adbc43"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0027.jpg",
+    "bytes": 27867,
+    "sha256": "a613947daa6bc42fb5e61de0ee269d2d40169c7b991a15359675dace6d9c58c9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0028.jpg",
+    "bytes": 28162,
+    "sha256": "8b5c808736e44ccdea2c026063149672218cf091defdba18717aec76c24c178a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0029.jpg",
+    "bytes": 27905,
+    "sha256": "ee73751b81d327ac43ebac205dbf7295ae5e1dcdc28a1968b2e20f81d84eef01"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0030.jpg",
+    "bytes": 27367,
+    "sha256": "de5205c2221fc3353a2980ae4e7669072e4a31c0ac5822d7e031ed51505885f4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0031.jpg",
+    "bytes": 27170,
+    "sha256": "0cf78c8797444cf75db279c25c2b78f153044424de8d77e767f02e5663fa8c32"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0032.jpg",
+    "bytes": 27223,
+    "sha256": "dc34615c3abb0d95baf4268551cf948d4430bcf22f9312cf05be4afe335581e7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0033.jpg",
+    "bytes": 26981,
+    "sha256": "9d6a332b17136d4dee10f38715c7de65656057b24998792f790e2af3cf117f92"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0034.jpg",
+    "bytes": 27296,
+    "sha256": "397bcc8716add780e9e9b9eebabb53a39300c7e2a9c2772f59b492a1fcf3f196"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0035.jpg",
+    "bytes": 26954,
+    "sha256": "e7834f3d2a74d7a1ee9ba877e09a91e1230b2dd3d736b4c3134dda522b7c9d92"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0036.jpg",
+    "bytes": 26776,
+    "sha256": "9260ad1a65bd65e6c5e603f99395439578fe86e347edec6fc3657a4270691bb3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0037.jpg",
+    "bytes": 26976,
+    "sha256": "312f171f42d4691086cfd1b30d82af2104a27b75528554917fcd621d3fe4b0b7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0038.jpg",
+    "bytes": 26928,
+    "sha256": "5f4360a3d019393459a04c934b42fba916609094e533fecef7d5368d70f57f53"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0039.jpg",
+    "bytes": 26507,
+    "sha256": "0f940486e0a448a865471e035395b3a74eed6c4cee0a6de3203ac479a7d99dc1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0040.jpg",
+    "bytes": 27164,
+    "sha256": "d82b2f6803477875d0b09f1d2c9bee5086ee94a367c70731d662877e3df2639e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0041.jpg",
+    "bytes": 26280,
+    "sha256": "a666096fdc8236b6aca87881dbb1f82fc5d4e4aa293e5f0bdf69cef5b2f4376f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0042.jpg",
+    "bytes": 26416,
+    "sha256": "cc17165353fc20a7d8046644e74a5c0b94acd6ed0ab48431ef56246adcb0d639"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0043.jpg",
+    "bytes": 26398,
+    "sha256": "80a3b99f7f867c4be11a303e3329edd17759f56f02a36d8ef847993dc2b18151"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0044.jpg",
+    "bytes": 26061,
+    "sha256": "fc5c67cec6cbac4afe0c92186416069849dc09371d89f49fae8127a452bb9e9e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0045.jpg",
+    "bytes": 25925,
+    "sha256": "5cf34ae6b6e98480e69756e353bdd9ece34cfe18bb5be8a7c57df97d504c5c75"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0046.jpg",
+    "bytes": 25561,
+    "sha256": "a22379d9747d0d1e4e83ccade277b44f046a293db3bfbd76152cc53cff01d6b8"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0047.jpg",
+    "bytes": 25277,
+    "sha256": "5ddf2c2b7bfca4352ddfb9ed9f37f7314fc703fbdf1b387488fb732947cbb6e4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0048.jpg",
+    "bytes": 25178,
+    "sha256": "c9c43e8ede48347e234390eb631590f18a25ce8f432ba6525391c01a10eed29f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0049.jpg",
+    "bytes": 25743,
+    "sha256": "f6f49a4fb7ec79e69e012f0322a0fc16a37e7730b06711965c0990f40a768924"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0050.jpg",
+    "bytes": 25257,
+    "sha256": "8745fd6a6dfa1bca285e5fa8a014a73f0e6949246deec1e8a26f42fcc72b7222"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0051.jpg",
+    "bytes": 25785,
+    "sha256": "8ab13bd7b4f6a6d228bbf19259a78410ec685169edff42066fd10a535de35bb8"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0052.jpg",
+    "bytes": 26781,
+    "sha256": "f43807e3baf1e157dd028b0188f0e90b7d7dd2b33bfd4b7c035d93787723724d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0053.jpg",
+    "bytes": 26704,
+    "sha256": "6eb4458d5c5c84cffb21d6c8fabfe475414a85c3d7ded586e3d156cbca4f6af2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0054.jpg",
+    "bytes": 26163,
+    "sha256": "9daf46052ef2b3a68ea203e0f38f5c962ec6e307d2560f0aaf6ad4ad28c5c09f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0055.jpg",
+    "bytes": 26485,
+    "sha256": "e4dd430228b1838bca3a6de1c99f26769c048d09be9d86e167094f2a203d705a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0056.jpg",
+    "bytes": 27401,
+    "sha256": "1beaa282602aa504590bddaf7ebc4521325e9d2a6103ed2873e4648cf8c81e4b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0057.jpg",
+    "bytes": 26791,
+    "sha256": "d45422fb7a14e052e29b0f51a66c2ead0c60902cd0ef6258d941964174683b42"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0058.jpg",
+    "bytes": 26746,
+    "sha256": "cd2f5774a8b28858fe9630907f1b50cf14764fab17b5db1de1b654553ad13d1f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0059.jpg",
+    "bytes": 27184,
+    "sha256": "b444aa2e30ebbdb6bbed42b7414e9b3db0d11d0e7b9c9dd370d51d8fd1118ce1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0060.jpg",
+    "bytes": 27277,
+    "sha256": "fa066fcc1f1c3241797f0a8d9047d7f0805df31c41de5da619b21240ca9c4ae9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0061.jpg",
+    "bytes": 27741,
+    "sha256": "9cfdd42e2b9dc84d797252c5bb2df271259c708cc1c5fdb660044cdb0015cdb6"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0062.jpg",
+    "bytes": 26820,
+    "sha256": "fb234161b8a147af0e10e263ceda9e973111525fe4f0d08b044bf81cc0475d9d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0063.jpg",
+    "bytes": 27405,
+    "sha256": "a3ae620ad55583b65b312c1f676cb3e51abcb695aa0d0b45f0063d3f2b4dced4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0064.jpg",
+    "bytes": 27444,
+    "sha256": "fb43559c3961fb0a4db881f2eac5a12506661fe5678e42351eecbed40f5b7526"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0065.jpg",
+    "bytes": 28022,
+    "sha256": "489349536a98af67983fe09e6da4d993ca4c15d25bdc3f193b0b3a65d626bcc5"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0066.jpg",
+    "bytes": 27595,
+    "sha256": "2541633fedae9a42fdfdb61bef35d34bd3e214c9181422e8d61a3505eb31b77e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0067.jpg",
+    "bytes": 27495,
+    "sha256": "a653401051e13c15edf44dd05403d798f795f342b5ec6bfcbf7dfe03a1b02461"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0068.jpg",
+    "bytes": 27000,
+    "sha256": "3ee246119c5e26e2685c8d170a114d2c4f68489ebc19044c3a0aa78a56134272"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0069.jpg",
+    "bytes": 27648,
+    "sha256": "a3ff07ecd4c769435d0cfbfc1207b15ca569e68dc37ff3de8f21aff4d23b48e0"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0070.jpg",
+    "bytes": 26708,
+    "sha256": "555f3c554ae91b2edd671fc922982b88f2c7824169d268e36e2d1d774bfc7888"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0071.jpg",
+    "bytes": 26816,
+    "sha256": "df7d484ddbdc6c382de8b5e6f1647a8eb1c87fcae1396c9d418c87ce2ab1d4f7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0072.jpg",
+    "bytes": 26095,
+    "sha256": "f97df8c1ec3fc2e777de6cae4d21e853091cfb86ce6ebbf9603ed20c325e8e9a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0073.jpg",
+    "bytes": 26428,
+    "sha256": "5a2dcc2a7a4828415c5bf246f95683519232ece57d00670bdd008d66e46eb9a8"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0074.jpg",
+    "bytes": 26340,
+    "sha256": "f9eee0713de894ad6a15fa65536eaa6baec0d6192f3f9a30cb8c84eee19a005c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0075.jpg",
+    "bytes": 26644,
+    "sha256": "dab8d1e327e98b7eb56a54a3dd442050f70a4f57f68834f5f919d49f2ab53d7a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0076.jpg",
+    "bytes": 26977,
+    "sha256": "e47328da58ec5ae2d26ff5a40144949169208de2298ef2e02c71477ea80a581f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0077.jpg",
+    "bytes": 26668,
+    "sha256": "268e543273743b6e3ad1d8dbff1a338d5f94c35ffd3dc08a584bff4d5d7ba111"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0078.jpg",
+    "bytes": 25615,
+    "sha256": "cddfd82b8daad7037986293862d6a032063a9f2ccabe48ccda098e745267aed4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0079.jpg",
+    "bytes": 24615,
+    "sha256": "10a674649106141332bc4ea4fd7b2dedaf73ac14dee311484e06a67c02e925e1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0080.jpg",
+    "bytes": 26623,
+    "sha256": "37e74644488cc4efafc69eafb9a67e54c501cfa9aa270ef561275ece7a53c5aa"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0081.jpg",
+    "bytes": 26916,
+    "sha256": "d31f24ebbab1a0b2df3623366f1fbd3dceb65e0e7fd47199407da248ff304641"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0082.jpg",
+    "bytes": 26957,
+    "sha256": "5fd31448e64351134e2283675e6ea802d25dc85d8c6db7721f4ab529beb70c0d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0083.jpg",
+    "bytes": 27061,
+    "sha256": "47707281de29aa934d51beca189f02576da5ed88cd2c303b22c9912afe94371e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0084.jpg",
+    "bytes": 27912,
+    "sha256": "9842c5f8040f850025ae893ae6e8e6d8ebade3c53aeea1739690822c4d28dc96"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0085.jpg",
+    "bytes": 28577,
+    "sha256": "2209abd0a4f597725d8de53b6e1e81d99ec659cdebc00d2eca3beb5537dcb163"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0086.jpg",
+    "bytes": 27892,
+    "sha256": "3815172f4362ad870f49faf9d86ab52474cc6980380e02600ccd1c13adc73883"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0087.jpg",
+    "bytes": 28154,
+    "sha256": "75d2dabbf1e3c7a923d47aacfd9789f29b59815d320a4e8a4e2482d5ac884563"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0088.jpg",
+    "bytes": 28074,
+    "sha256": "98055df5d75cd4bd115a37d50f895d932fb405518759f88a779b91b6c7c9b102"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0089.jpg",
+    "bytes": 27696,
+    "sha256": "dae1ac0298872da0d485ad7c6a18a57e1b4024f224caec18be4b124bb6a5254b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0090.jpg",
+    "bytes": 28384,
+    "sha256": "4b63692230f3bfa7b2348e6ed750111b7ac1f0c9f73ae66dba9391a08f8e1dd2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0091.jpg",
+    "bytes": 28299,
+    "sha256": "06ab0ce678224caa3af8aaad2a4dd585fe16ee845d50f987208ac49598d2ebf9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0092.jpg",
+    "bytes": 27986,
+    "sha256": "3c352535bf22b1868b65a4bd1fc4dff6b872285f0c6a40940e5ddbe58424acc5"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0093.jpg",
+    "bytes": 28091,
+    "sha256": "d72e68ef9886aa136e442fce9945719c4df264de0f98920ff86ea376b4a79804"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0094.jpg",
+    "bytes": 27688,
+    "sha256": "85e1ffd2edb5e73ac3e798fd3d7d2ca07d939ae7d888de425165a7a649571532"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0095.jpg",
+    "bytes": 27489,
+    "sha256": "33208d636d18c272b206862f76d007015b694ac63e4576ee842d23cc315206e1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0096.jpg",
+    "bytes": 27673,
+    "sha256": "54a1a3073cc44e530a615c700ac74bcaf0aa988a450cbd26a8936203415c6403"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0097.jpg",
+    "bytes": 26670,
+    "sha256": "16eaf1ff892e560a8340bfba48f3ffd61cc5d05e5bf6554d6649f562b59b6275"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0098.jpg",
+    "bytes": 27065,
+    "sha256": "559a2ba148e9dfe45d6fcf88a8beebbbf11c71e6f154f2fc26841878fa57d2ad"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0099.jpg",
+    "bytes": 27414,
+    "sha256": "4781abbe32c56591b6afb2edb5152b72803c84985c39fe85fa7cbe731dba2c61"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0100.jpg",
+    "bytes": 26981,
+    "sha256": "00969c05624bfa1dd55a51a3e6468212fb2fb6002a08f48cab5140db3d2236cb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0101.jpg",
+    "bytes": 27406,
+    "sha256": "0f4eab7595602564e1652ed5f7651d90177e0daec1ab816c55b48618b5e2c210"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0102.jpg",
+    "bytes": 26401,
+    "sha256": "37eaba22943f5d0f3a9b736e687baabda531ca6d0becabc531484d275fe3b322"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0103.jpg",
+    "bytes": 26779,
+    "sha256": "4f38cee6fbbd48e7942b2e7cc532b3c4c2ede2004cee3431d5035786e2b73c30"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0104.jpg",
+    "bytes": 26742,
+    "sha256": "4090cc2b4c27ef028f2bfe4bc7bf8e3de54efe4e7de0c3542b42af268ad28728"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0105.jpg",
+    "bytes": 26402,
+    "sha256": "9a8566f15d8c4ad34c4915f8da6f4b8f55fb6b17baf72f709138c2951d80aa81"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0106.jpg",
+    "bytes": 25941,
+    "sha256": "1f96c667abe1e77eb8f252c3e37ff13c4ea2988679f515b0fc19238623a9135e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0107.jpg",
+    "bytes": 26004,
+    "sha256": "de548418c09c69bd7468e612400cc1ae72014f753ffd6ed3dc7c7f0863b1ae09"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0108.jpg",
+    "bytes": 25008,
+    "sha256": "8b2c82d52f18e528d7acedef1255c18a507b446384fe8536a9c10b92e6203dc4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0109.jpg",
+    "bytes": 25024,
+    "sha256": "9ddb68aa96d9f69d6460e20d2afc844c28c8197ef6d1afdc88d82ac71989adb3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0110.jpg",
+    "bytes": 25322,
+    "sha256": "a3acc1a01e1ca3d3357625e0788e558c687e4e6c8164380afc4467e9a8ee3ee5"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0111.jpg",
+    "bytes": 25238,
+    "sha256": "6af1444bbb636be8971a7c58321e421864c774d7bfedefaf19840e53e9a88c7c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0112.jpg",
+    "bytes": 24707,
+    "sha256": "69d8f69500feed539e9272d35ef1faddda2c46df64dbf4651b4d76da6421dcf4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0113.jpg",
+    "bytes": 24564,
+    "sha256": "4124b92ae90b001524da53037fc16510e50b24749c3596e7b34fe315d531568c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0114.jpg",
+    "bytes": 24361,
+    "sha256": "fe364ae8f5bc242f702c6a77d1aa6ed75ca4d0b2b99b2d98e4f9f1a1b6d263cf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0115.jpg",
+    "bytes": 23704,
+    "sha256": "856d486fc4d46f6397e53804a3bd0035c52c7639e4419b72d6f39697b63d2ced"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0116.jpg",
+    "bytes": 23999,
+    "sha256": "2b274c74e180f12d08a2d9190578571f754693dee73b556dde6dfb296d51d7bd"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0117.jpg",
+    "bytes": 24240,
+    "sha256": "d5adb99873ac0a784dafd2b0a9cfd38ef1e97c984768e9820532b7f68b7f0f2b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0118.jpg",
+    "bytes": 24086,
+    "sha256": "05cc8901c50cc4b1d90ae343c0c361474c38f00dfa2ec777024bc6bce0068da7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0119.jpg",
+    "bytes": 24203,
+    "sha256": "2edce11e42741d4ac3bb17b74162670364e308c3e8337e8b6855fe64c7e9b7f3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0120.jpg",
+    "bytes": 25246,
+    "sha256": "cfa61ce2d617d1382e9c1582d5d693012e8187ff05f0c7c52f9f7ed39088af26"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0121.jpg",
+    "bytes": 25895,
+    "sha256": "426dedc32f746dd938382dea0fef2fcc375afae60eb1e5bf39c830b6e2aa9a6e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0122.jpg",
+    "bytes": 25524,
+    "sha256": "8b9d46ff193343616e0ccea9c548ba66ff7bed880a62ec20a9cac47629914e6a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0123.jpg",
+    "bytes": 25946,
+    "sha256": "fbdd32e73b3aecc6d8621e6c37893a47fc4b50d587cb1e325046ef62cd90bcc7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0124.jpg",
+    "bytes": 25785,
+    "sha256": "b531610bf0b969761a20fff332de597aba847b6e101e31f58c538d810c580e41"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0125.jpg",
+    "bytes": 25932,
+    "sha256": "a6429f15bd719254120b1899018ebf889ad97db212633b5ccba44aea2d5ee647"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0126.jpg",
+    "bytes": 26059,
+    "sha256": "89089b03d15d652972e8b9e5b145f77bab55f97f0451990552c1254ed5cb1e63"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0127.jpg",
+    "bytes": 25558,
+    "sha256": "53bf2df3d552171c76c736ead2232d699b6770f5c2b5aa8d295862dc7150a86a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0128.jpg",
+    "bytes": 25591,
+    "sha256": "9636c548c7e4f6da3fde3d54bc6d12739dce38fcb4bf96d19b910f186d56b21c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0129.jpg",
+    "bytes": 26194,
+    "sha256": "3785617d4c5ed47d595a79c9d9ee67bdcefe6c0ef9fe5742262dd111c311f1ae"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0130.jpg",
+    "bytes": 26249,
+    "sha256": "40eb8ecef224fd52a294aebc40cd3d1e2904ae958b75715cac0a4d931f98b015"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0131.jpg",
+    "bytes": 25481,
+    "sha256": "85b3f09c7d91a9ff85061a445adc095bc4b41ba35f70bc1460bf34fb1d91911a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0132.jpg",
+    "bytes": 25119,
+    "sha256": "0978eb18e88b1bcbf211483c48f5b2be653531b850bb2e8f7d68a0b7024a30a9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0133.jpg",
+    "bytes": 25707,
+    "sha256": "b8fcc9598162ac2b775cf1595a7cac507ccf2410c857e68136b5b7c6a26f7f09"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0134.jpg",
+    "bytes": 25310,
+    "sha256": "c68f163bd769b460497f870b9be3e55a3d5ef90038350ab032e0770d35c7848e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0135.jpg",
+    "bytes": 25534,
+    "sha256": "477957720324bdd45018de818751e4bedf93f70823275af70708a719432a7d9f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0136.jpg",
+    "bytes": 25079,
+    "sha256": "5a45df4f98d91f5fd653b8884bddc2562262266bda0718970cb7ef53abfac2f9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0137.jpg",
+    "bytes": 25429,
+    "sha256": "e9a3b976ff94965190492c958ac42c98b081ffaaf408f1b0bde422214768f851"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0138.jpg",
+    "bytes": 26220,
+    "sha256": "5fa5e279778a521752081e4eb69f22a164462c13489198a9a9605527f7ceb7b4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0139.jpg",
+    "bytes": 25631,
+    "sha256": "f86604fa30ddc76ee9bd4dc433aac0b2c0ced0ca3b5b1ec40919e51b8eb949e4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0140.jpg",
+    "bytes": 25825,
+    "sha256": "6cf1215b08113141b111ea331ea6104fd71fcaadd2cb5b3b0ded02d1b4df8eb2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0141.jpg",
+    "bytes": 25743,
+    "sha256": "c5753302fdc7405f3ebc88180cab94cdea06afb9e5fa35c83a79130c6e90cb64"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0142.jpg",
+    "bytes": 26324,
+    "sha256": "92b996ba5f3901c9967b67d7ed9cfc13c3159c1229105a6de22b38c1a3c02da0"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0143.jpg",
+    "bytes": 26658,
+    "sha256": "c8e9b91bcbf1638c73ac0f97e6011f2be4e6bac0d010da36ae8b605dcc8ad0ca"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0144.jpg",
+    "bytes": 26558,
+    "sha256": "15da01a0322dc713628a34f0ba27bf18e0743278b6cecdfb5ac0ea0cadcf94ac"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0145.jpg",
+    "bytes": 26930,
+    "sha256": "c3a001ae862e265e27123492b63cd6434f7efd3d1a0a1373aa33e3d21b445877"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0146.jpg",
+    "bytes": 26578,
+    "sha256": "b48ae9969da591dbe916bf99ffd0a3b9204bcb7c01e944ff5789bf64e2e3af1e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0147.jpg",
+    "bytes": 25765,
+    "sha256": "e99cf529eda79a3316a691d41d7f56faed1e3dcc453dc490288c9b933e14f162"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0148.jpg",
+    "bytes": 25686,
+    "sha256": "550b3d0d2e280c9a71be6240fb4f263061cbe7183c8aad09d1a1d6167974e9a3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0149.jpg",
+    "bytes": 26294,
+    "sha256": "504e5931a0487d76d105c875bff145d522cc624b9cee7f23b57b88ba6b4a0412"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0150.jpg",
+    "bytes": 26116,
+    "sha256": "dd004746237d9fbcc21cdee60547e087b2c756917b4602a5bcda4b967646c89e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0151.jpg",
+    "bytes": 26093,
+    "sha256": "1c1238641b8456c4f6e798c020bcd40b982f33b441fc02a6652389d08382dda3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0152.jpg",
+    "bytes": 25557,
+    "sha256": "f10e6a63d2de66a474b6f47fd4e51b2863776cc4e40008db074681fc45fff9bb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0153.jpg",
+    "bytes": 25987,
+    "sha256": "5d087b057c9b75116693670c1f9df963677caad4a901512787e11a8ff71ce78b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0154.jpg",
+    "bytes": 25507,
+    "sha256": "447869030e3f48949d1e65fc130e2274f01ca593e1aa5fb67503f5b3f88f998f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0155.jpg",
+    "bytes": 25477,
+    "sha256": "b6a52db0dba9cad69e13e628bc7216e3ae89f83eb2caba30596832c98d46b570"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0156.jpg",
+    "bytes": 25024,
+    "sha256": "da3194d8267bfd441931eab462bf51796f98d8952a120a670b01e8e6a0d5c864"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0157.jpg",
+    "bytes": 24995,
+    "sha256": "01a5439c981e5a176d2aed0a8ac4e9a2445bd80bc382c7c975af098a23722ff4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0158.jpg",
+    "bytes": 25341,
+    "sha256": "dc6a030da88bb1dd19672750d716763de6bcb4c757d7bf0770c82280fba4f3a9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0159.jpg",
+    "bytes": 25257,
+    "sha256": "105cde746da77d1e578a4fd34a860fdd2dbec4d8c7d574de26c7b9015975f12e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0160.jpg",
+    "bytes": 25192,
+    "sha256": "5cc7d855c5d82f8a89ea7efb352058ef4f9fe9b1744203db06fce5d1263440bf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0161.jpg",
+    "bytes": 25760,
+    "sha256": "6653f33c431ca31d98670aee014e35cb01138ae7d65b77198466e4b2141bb764"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0162.jpg",
+    "bytes": 25286,
+    "sha256": "fb0a555b4e759d611db86744da03919c4d016d1ca52f512eabc21a28d301b902"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0163.jpg",
+    "bytes": 25617,
+    "sha256": "272e13eb84b61bb4eeadcaf7462da830c57fb5474d0d9403c540df80ad4c6279"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0164.jpg",
+    "bytes": 26442,
+    "sha256": "8d4bc86cbb7a9d48071c29ea57f21efc77cf443cca540296aa6f3ac93bf5578f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0165.jpg",
+    "bytes": 26427,
+    "sha256": "af75119a630de9d6810719f39a172bae98c61b2df7ab8753e5760908e46f3c00"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0166.jpg",
+    "bytes": 26759,
+    "sha256": "0757415a78b39a4991ae22a3825c139e1b4fd7039068f5d57a56bacee3aca990"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0167.jpg",
+    "bytes": 26400,
+    "sha256": "74ef0907ba6f39540e014c02f9fe290d1ee4cd7fdbbe898775c1e4bab6782599"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0168.jpg",
+    "bytes": 26020,
+    "sha256": "6d184ccdfe153299fb1e00729aa5ebb18ed1dcb51d6c93aaa921cf071992d8db"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0169.jpg",
+    "bytes": 25949,
+    "sha256": "0718c17bfbb3506a9008492e456bc6a39f9059e6ba9b4339fc5c254113296b28"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0170.jpg",
+    "bytes": 26255,
+    "sha256": "fe8f2c79d4f8e85abe3fb8317423f027296e5c735371a7d7f2c06537d261f7be"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0171.jpg",
+    "bytes": 25628,
+    "sha256": "f14e4ce3d3cc8e7eba658bd55f060c696bf5ffba5537acb6e37658092e465c58"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0172.jpg",
+    "bytes": 25730,
+    "sha256": "a970b080fc3cd0dfb83ab1584acf9fbd22d24e7bf58deeedaf0a35dd428c24bf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0173.jpg",
+    "bytes": 25284,
+    "sha256": "bda1272e52e18c0e0f3976ce431934d2481202dab44747b845ab3dda8b07ee12"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0174.jpg",
+    "bytes": 25587,
+    "sha256": "0feeca64072051d2505c9122f7f2f4100c58aa3a864f850452073bedbd27c90c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0175.jpg",
+    "bytes": 25473,
+    "sha256": "095d35daa90eaa8d241cb07f8483a1253148c721505e7d15f7bb4b300e65e60e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0176.jpg",
+    "bytes": 25783,
+    "sha256": "0e9339bcc4e1fcdd1da8ccf2462259433595235feb16707fde0775c6d0f15409"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0177.jpg",
+    "bytes": 25940,
+    "sha256": "089b100827834db65afec0a697a9ebd4e8983f27126383a78b9aa1808774f936"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0178.jpg",
+    "bytes": 26287,
+    "sha256": "6580510f221ef60bc58a92ff46ed497b4ebcf5e22efbb2fb2b4888b81db1f471"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0179.jpg",
+    "bytes": 26141,
+    "sha256": "147c42dfe26a711daaf9583addb79d924a99f6c9e70269f3d4002334cba2d21f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0180.jpg",
+    "bytes": 26202,
+    "sha256": "3c430008c5b3fbe97992198d99777508f28f92c75444f4c322528b44340f546a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0181.jpg",
+    "bytes": 26232,
+    "sha256": "bf0fbd3bdacd20b8fab352fc339c75fcd10552a8471b0c873e9886dc5275883a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0182.jpg",
+    "bytes": 26584,
+    "sha256": "cac56d4d53898389d8f53b8bc5227c5f7760759d48ed94d37879bdc846c637ff"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0183.jpg",
+    "bytes": 26905,
+    "sha256": "99270e867fa9b0001fc8526e503830058e90337912e8adb67db2be2e5a735d60"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0184.jpg",
+    "bytes": 25673,
+    "sha256": "310c01e5e864411ef624769af449dfd16910314a70925d17f81311da2fc05a6f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0185.jpg",
+    "bytes": 25461,
+    "sha256": "d10f66a99106deb5899c64f16c975afb17c506c1df8318e05a3ae0bd261bdb7b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0186.jpg",
+    "bytes": 25560,
+    "sha256": "323ecd22ccc65adf6415f76c76106073773a5f1e0d6306ba2df635b8b44b8560"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0187.jpg",
+    "bytes": 25152,
+    "sha256": "ac558cf60cca653dbf01a4a34d53f43129931bc4b69b31ca09433620eba154ac"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0188.jpg",
+    "bytes": 25811,
+    "sha256": "787eaa4638cbf5fba851f34b177510b72bbf3f118eca2a3af29ce52f8f120ab3"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0189.jpg",
+    "bytes": 26223,
+    "sha256": "87d45d66b9bb36a9cd5f83aed9bcd7e8aca78793d43894940317022420b054a1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0190.jpg",
+    "bytes": 25996,
+    "sha256": "bdd2e908e871d4cae6a58626c190ca5a13bf7ec15b4bb7f53f2ba6879273a17e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0191.jpg",
+    "bytes": 25795,
+    "sha256": "5de6a967f4c2a124a3f25f1fb186b640a2b94bf9f6169cb975a32c8a8584df32"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0192.jpg",
+    "bytes": 25430,
+    "sha256": "4159861b015944444943f006ca9c29fbcf640b9f7264423d71496eb2a1aa632b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0193.jpg",
+    "bytes": 25763,
+    "sha256": "4b9a99ccddb386584fcb49c3bb26ce2fd1d7a468222da5fa60d6c4e397b87003"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0194.jpg",
+    "bytes": 26127,
+    "sha256": "bf46f30cf720033ea70bd08f2b37ce457cb1bd800e90cd5b97d138a52ac57c33"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0195.jpg",
+    "bytes": 26702,
+    "sha256": "df1c5c3b3b5e5bfc6e9a5107555a46f3cc085d1d1af9c289d3e29c1028ee4ccb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0196.jpg",
+    "bytes": 26038,
+    "sha256": "b0a329e408b6d7614d592d9cee6ab7f8cf0219186c81fbbd40658cb6e4f559f2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0197.jpg",
+    "bytes": 26937,
+    "sha256": "be7341e77a4c357ee4ef1b929d70eb17f83d3ef8884de34c55212753a7ca1a95"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0198.jpg",
+    "bytes": 27514,
+    "sha256": "4e00908fe14deac0c8a0c66cce440d626d7a0599ed8f3574780f3af5efa00e27"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0199.jpg",
+    "bytes": 26602,
+    "sha256": "282432fcf35099344a8918c879146739041a8a6d549bbb5e83e0cda2f274cc04"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0200.jpg",
+    "bytes": 26309,
+    "sha256": "818d1555c66f8f4b53d1a333423d6cac780e7504223e1d1e8bf2b16ec63c3dcf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0201.jpg",
+    "bytes": 26536,
+    "sha256": "8e16a11f156312636fd136c53b57b97b1296ca14876e8e7624f3be711cd79a83"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0202.jpg",
+    "bytes": 26198,
+    "sha256": "cfcaae81554ecdd3a30c9e413b5961f77252af562927c980703f0910a476b85f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0203.jpg",
+    "bytes": 26680,
+    "sha256": "30325e2722cfa592143597fde8acd021c8189735e3214948eaf2b20492796533"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0204.jpg",
+    "bytes": 26421,
+    "sha256": "99262be344165f043c619aa67d561946d32468fb9d2f1815e287ca08f980e929"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0205.jpg",
+    "bytes": 26193,
+    "sha256": "a0df0e4dffda0d28e8973ea065b9ad3af1301964042693628a42e201a8c9e7bc"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0206.jpg",
+    "bytes": 25822,
+    "sha256": "543d14356e26a4cc07b48191f716111c384dbf42276379a7d6e7ae57821f5653"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0207.jpg",
+    "bytes": 25574,
+    "sha256": "4ec7c03bee18e4f7d0a7e45d8fa782e5a3a390095b957af9a63f15df67cbe262"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0208.jpg",
+    "bytes": 25266,
+    "sha256": "a0e00ebc5a808cecf51c5a2e62509d2958f3633fc98d55d9289ec3e0825ac98c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0209.jpg",
+    "bytes": 25564,
+    "sha256": "a404edb35930a165edc41fe65abc0dfd89ea7b347afe5322c5b552d7da2f50b6"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0210.jpg",
+    "bytes": 26111,
+    "sha256": "d1b7adec5ab35c108a19593def93869ea021ee8750b33f3f248ba7bb3c27eb98"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0211.jpg",
+    "bytes": 26617,
+    "sha256": "aef0c9f32f0881247eacc49940d4b052eb1410615f7886bb6011a633949865ff"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0212.jpg",
+    "bytes": 26021,
+    "sha256": "64dac0117d9c5cf34f087cab9fa883b899e0a5eed9cb2956e2ea51f9caca37f8"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0213.jpg",
+    "bytes": 25867,
+    "sha256": "bb8895161f210a6954d7db0c99dc63925fa98d100e07318f0a04e85e04e2176b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0214.jpg",
+    "bytes": 25711,
+    "sha256": "9cb1a5fee1b631e627839a4ee6770a1f7732a250be1af38aa54c59d25b4001fa"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0215.jpg",
+    "bytes": 25542,
+    "sha256": "47bb5ef77f355b5d86abc8c6db7a3d288725386e90b5be0343d144221b3e3785"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0216.jpg",
+    "bytes": 25205,
+    "sha256": "f45455fd5b726cc47c35f337ebc703cd4ace97d85630f2bd6dfdc72451c4a0cf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0217.jpg",
+    "bytes": 25920,
+    "sha256": "210d5f2d7055b25207ddeeffcbca63e934d7f03ba489d503f7dc7ef442c5473b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0218.jpg",
+    "bytes": 25908,
+    "sha256": "01c3faf6fc06a90c105181e08a08bff03a68a1867c28a63752ee2369129fa9eb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0219.jpg",
+    "bytes": 26187,
+    "sha256": "c3198f5a2e903a8e673909a61ad7da8a8c90c1c4b997cba8751e2fdefb102adb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0220.jpg",
+    "bytes": 26823,
+    "sha256": "2628625028868f670c202543a88de5ee8e0758ca5b0cb51acc4870cada27e94b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0221.jpg",
+    "bytes": 26807,
+    "sha256": "10292bf8b63b949f4fe24be0c6f177923caf3671a5a3d4deef77c994e79e45ff"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0222.jpg",
+    "bytes": 25817,
+    "sha256": "60bd457765bec1eda555498d2b2184c2606a9148d46457c5627084978a693342"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0223.jpg",
+    "bytes": 26060,
+    "sha256": "b7e4f41d15e692e8b14a7c064547205a594cccf6b5f18b679cb2f6a7496f477d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0224.jpg",
+    "bytes": 26196,
+    "sha256": "6e9374a07b347d1c0d432fa2a024928f832ebd3fdfda472cf999e539509323b2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0225.jpg",
+    "bytes": 25718,
+    "sha256": "db9907c9e3ffef163dffdcba68952b47cc74a87d59052b1ff749ea335453cb49"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0226.jpg",
+    "bytes": 26003,
+    "sha256": "6f81540e5e403712b1ebdaffbea5c08a2ddaca87d0ed99d24ef94a240865c9d9"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0227.jpg",
+    "bytes": 25031,
+    "sha256": "232b3088ce6bb32be34066b9bea4895884a4d2a92002c178a38da0b022b8f860"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0228.jpg",
+    "bytes": 25515,
+    "sha256": "fd05aeb8eb30af5859ebbda89017be072b47b9865d4413c66e420f3bc0cd0a2e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0229.jpg",
+    "bytes": 26374,
+    "sha256": "b713e4db4291edf99b099142eaaa865ed1276dac867bc1a6d7ea9d51c83aa398"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0230.jpg",
+    "bytes": 26037,
+    "sha256": "07c5cbff86e32d62be33e6714ba9f61b99accb218b4c849daf27b8291edede6b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0231.jpg",
+    "bytes": 25898,
+    "sha256": "696002ec12f8cd032e097a780446766fe7b2be2c8356c017075c5462dbfe7b69"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0232.jpg",
+    "bytes": 25776,
+    "sha256": "04c38abaf417b0d554b70deda934067b65faff41ffcad6afd6f427f6343a2b9c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0233.jpg",
+    "bytes": 26214,
+    "sha256": "39dbc862f2980c70c426d37fd75b454c8ed1673d54d43f520ebe9067794f711f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0234.jpg",
+    "bytes": 27364,
+    "sha256": "f2e39a45043ffae386dab1617f730902dc528bc03f7d97de253c8ed954cacc53"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0235.jpg",
+    "bytes": 26866,
+    "sha256": "230cee82e292ff84775dfd59c4ee03b0dd032b545b53fbda10670784415596cb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0236.jpg",
+    "bytes": 25135,
+    "sha256": "1c51ded945002b9cea6c8110a2c2c5ef0480735c0997267702f09904c082f0c1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0237.jpg",
+    "bytes": 24321,
+    "sha256": "ff3336a1679c6c8da05711766b4a0eb8fa57f8f830318e268c501717a5008aab"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0238.jpg",
+    "bytes": 24083,
+    "sha256": "c5f37bd5842e739adb75234357cc43e9bf2ed8a672d9c69a988bac372ded87cf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0239.jpg",
+    "bytes": 25385,
+    "sha256": "c97902d76485ef338084e6ea7090ac957ef97ec15ef3feab8c00f7743546045b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0240.jpg",
+    "bytes": 26484,
+    "sha256": "fe996eb7650795ea444a0973d1ff9456bf2a0c9d2eac9ba06c74717dc988a6cd"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0241.jpg",
+    "bytes": 13098,
+    "sha256": "4c91d663e5164a27971781e44433e0608dbcf69e8611e8516365a63fc9185f6b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0242.jpg",
+    "bytes": 23478,
+    "sha256": "0db8124be0ddccb99d8c501166f42f8dba59159a6473bf26dde806076e1c90ba"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0243.jpg",
+    "bytes": 23209,
+    "sha256": "063876963e92adc0a858429c8c56e694fc3d7866e800d7bc4b6fe0066c88a1e7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0244.jpg",
+    "bytes": 23463,
+    "sha256": "c973022a95c55675c77f53a2e354c099a815b4bcec86896cf2f2f44a0f155b4d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0245.jpg",
+    "bytes": 23923,
+    "sha256": "3acfa8f7d624961c273b25da5e3f05afac3f0a482985a0922540dfd07ec0acc8"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0246.jpg",
+    "bytes": 24095,
+    "sha256": "61449a3f8f96323080df874942fe9801881da6d07cc3379aab7d35801d8021aa"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0247.jpg",
+    "bytes": 23630,
+    "sha256": "57cc528627fb2827e78017d607c261b21397ccbcce113afd53e8cec6280eb296"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0248.jpg",
+    "bytes": 23903,
+    "sha256": "9be31508761c513ac88e904ed474a87f9bf1d389d1bf58aa73aa5347e26b22d5"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0249.jpg",
+    "bytes": 24186,
+    "sha256": "59417ac1048ee2d12e6e87404536d271aaec26aecf3acab05e78b4c82358a3f4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0250.jpg",
+    "bytes": 25149,
+    "sha256": "5273180357e45df97c18317ee5a1484db11f3e7664d7198e8309c1a449b114ce"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0251.jpg",
+    "bytes": 26798,
+    "sha256": "6fba0d566a4b57f1388d139572208cba21a2b2ded8b578a471e8cdb15c7716e4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0252.jpg",
+    "bytes": 27285,
+    "sha256": "31db35102bad3475359641e00bad93e9fc3809587c7e273d97a48d0e4dbd4201"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0253.jpg",
+    "bytes": 27126,
+    "sha256": "e0f98013c533e3760945defb840fac6cde067ffd4c4b1335f690225326d552da"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0254.jpg",
+    "bytes": 27313,
+    "sha256": "7c10be5056a841cbf885c875d0a2ca432f4c647774afca376e605346d13de656"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0255.jpg",
+    "bytes": 26596,
+    "sha256": "4eb5514c00b53114d6eac348bad7c744c49dfc65de8b5b4b18baa10caf68c961"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0256.jpg",
+    "bytes": 26887,
+    "sha256": "ebae4239dbce128fcea01699ecd675a7b551246bc541f166c34ef211c1a8e7e4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0257.jpg",
+    "bytes": 26581,
+    "sha256": "e482bb071f2dab3a3a464b4ddd119e4b22b79ba82f9108a3ebed14fed6ccd4db"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0258.jpg",
+    "bytes": 27072,
+    "sha256": "965ab1b307c0cae5405e5d1ea9871060aec58d2a06c67d2145f17d82568d6d23"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0259.jpg",
+    "bytes": 27837,
+    "sha256": "1752d3a0aa6cd2cd3fe2e4ebaf9eb403e528b46ef0eed30b8bb3aee5f2de8337"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0260.jpg",
+    "bytes": 27890,
+    "sha256": "156ffd8d42fde10da0a4314c183d11e6ec91dbcbfa9712a95979bea4725b8145"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0261.jpg",
+    "bytes": 28351,
+    "sha256": "2e58c5a80b3f1339d67000f2d093f454694f513ddc682a31aaf47c3fed3c9c0e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0262.jpg",
+    "bytes": 27930,
+    "sha256": "2088996a2d89dcf7cea83dbc1cf6042977bc306da3c2581094c3e5814390d6b6"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0263.jpg",
+    "bytes": 27775,
+    "sha256": "d161141cac498863afa294bc4afc1280759cf9e8bfb89089e8caf278b04da400"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0264.jpg",
+    "bytes": 27145,
+    "sha256": "8d1d4091edae4eeb20c87b034908e8abfd230eac667ec524af888833aa97614b"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0265.jpg",
+    "bytes": 25766,
+    "sha256": "e663adf22e9de79c78f97f0f6e6402b306c85bb5ab668b1804ab87b25cb69fbf"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0266.jpg",
+    "bytes": 26757,
+    "sha256": "b3937279e6a555315a363f05bc2761573dc6a92fa99f3e2b0773b0fa0edb47a6"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0267.jpg",
+    "bytes": 26870,
+    "sha256": "381977f5e97527edf4b846d14b37d7fc7758cabdd0bb70f53fa68208df6bd8a2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0268.jpg",
+    "bytes": 26880,
+    "sha256": "5b34a831e0227f78b37738850d15e41354eb9de103b547c4d79a6a08cf1c8386"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0269.jpg",
+    "bytes": 27201,
+    "sha256": "91fead255eb051ebaa9b8ec322bba2f3d83915ad7576990508ea464765c9dd8c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0270.jpg",
+    "bytes": 27357,
+    "sha256": "4cfb8a45575112545a5cbe201df594dee51a425eb9e084b4aacf50cc5ab8c47d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0271.jpg",
+    "bytes": 27599,
+    "sha256": "cf50a36bafb5353c7989ad3e8b34ed4dd3a485a11f7a12135f002d09388427d5"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0272.jpg",
+    "bytes": 27164,
+    "sha256": "f5bf7067c44ba10ebe356eb59dc55d0149244b7262b75cfdb35689c73b8c6745"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0273.jpg",
+    "bytes": 27334,
+    "sha256": "f4a753d3347ce36b2ba7f434825be03f2d136da957d0cabc52f91097ebeff34f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0274.jpg",
+    "bytes": 27091,
+    "sha256": "167c8f74a0e48dd575fd1b7532f1fb456faf942d132bc40ba5d12e9612c268fe"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0275.jpg",
+    "bytes": 26536,
+    "sha256": "f83ee9c4e069a58d779e31d5c3f9f31051a4b3fd996d55c0c5e0a3195c251439"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0276.jpg",
+    "bytes": 26517,
+    "sha256": "c4abf5c8bad8dcf4532d6d8a1475933e3721ff5e0d084527248b9f8421bf6fc4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0277.jpg",
+    "bytes": 26742,
+    "sha256": "7f49b5aab1324edbce7285ab6ab80686f9520d09c447e28656ddafda5650c03e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0278.jpg",
+    "bytes": 26916,
+    "sha256": "89a10b0a8c5b4f5956fe1cffaadae30658a75e9a08acc897b6c9be43f7c38a57"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0279.jpg",
+    "bytes": 26911,
+    "sha256": "156e3ad2e236079ebc84b8d1500621954156ae388377489bb53a418fd882cc1c"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0280.jpg",
+    "bytes": 26978,
+    "sha256": "ebfebe8f2a30f0c8d72e21f5a2d730732c2bf6350e7ca0c80ea1e82c66e26cb7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0281.jpg",
+    "bytes": 26603,
+    "sha256": "640af6443f372ac257405f76c9e405cddd22320951aadc42fc10535487de3cf7"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0282.jpg",
+    "bytes": 26647,
+    "sha256": "515fc2f77be6d405f2d6eb13b9ddc317fa462906af1d8a0cdc864f35a1e9b532"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0283.jpg",
+    "bytes": 27604,
+    "sha256": "d41cf3969b9daa3c9d8777b00d9f427e8dadab876f04a9a49634f9011aa07efb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0284.jpg",
+    "bytes": 27311,
+    "sha256": "e6664bfeef260160998cbd2d36f0aea0e491ef840eb8746e96e2967bcd87bb6a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0285.jpg",
+    "bytes": 27983,
+    "sha256": "3a1852b5a9267a08913fbf8bee4dcda96748ba9becbe4939eaafce7951e2baa2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0286.jpg",
+    "bytes": 28278,
+    "sha256": "8a36d39663ca43530de7d06f86d22b38d1dc5729c0d1dca707c84313c7cf8d75"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0287.jpg",
+    "bytes": 28362,
+    "sha256": "32ba03663a3e4785cd9f36a1464bb561fad833b81630d7dbe87df8bb31fe0d5a"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0288.jpg",
+    "bytes": 27744,
+    "sha256": "0f320a2cf2d7a7a361e7acc52c96431d0dde0d4248575b6d42b82e4d2f829b13"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0289.jpg",
+    "bytes": 27510,
+    "sha256": "7554fc41fd3be522f78fe8708f1e3470aba3405118abf48e58a35d7fd80948f1"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0290.jpg",
+    "bytes": 28654,
+    "sha256": "831bc9cd182c3c8b38dae8944b1dc69dc8eedef8230df8dc277ea757b6ed312f"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0291.jpg",
+    "bytes": 28318,
+    "sha256": "5587c3b8409782d253fa20f3943cb5e2ff8e1ae74250c1d25ff373ab6d0b2470"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0292.jpg",
+    "bytes": 28607,
+    "sha256": "52fde5234610a9f02f217e0563b36e7867274c3a18499ca2a656c75d1735cee4"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0293.jpg",
+    "bytes": 28344,
+    "sha256": "a8f5ca5312d25670ba47d8d79b4b52ee87ca9a35e150836e76f03638fef3842e"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0294.jpg",
+    "bytes": 27783,
+    "sha256": "10f18c29772533d9d068c4b18429421ad74dd87b14dcfb462395affafc2f2690"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0295.jpg",
+    "bytes": 27598,
+    "sha256": "29282697dec691601575738a50f2ba8e9596a087e90d0745fd70d432642531f2"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0296.jpg",
+    "bytes": 27607,
+    "sha256": "ffd826b84cb7a137b07e1160822fc5afa1483760821ca9f7343d3bbe90bda160"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0297.jpg",
+    "bytes": 28818,
+    "sha256": "5396816a50b47d21c1fb90e58644bebeafd4a20850ca3ad17ef04641857c1222"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0298.jpg",
+    "bytes": 29606,
+    "sha256": "647af4de445fded10478cbb6302a504c6738bcdd3e4a93b9e9c47694fca0d150"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0299.jpg",
+    "bytes": 28848,
+    "sha256": "4e886e9346ce8656fd57d9f778f6fc067f0948d1838763a4704c27085cbae3cb"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0300.jpg",
+    "bytes": 28430,
+    "sha256": "8fc55d1977d6467cc9a8609d82dcd8ecacf5efcb6e4d751357b8dc1ba632a274"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0301.jpg",
+    "bytes": 27669,
+    "sha256": "b0471478c5bb1b08999bdb15024b7cea0f1c55438001eb95c5b3cc43df060c09"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0302.jpg",
+    "bytes": 27160,
+    "sha256": "f6461735b8f966bf02e71ad13e365ba9c2dbf5b03a09ae3839dd5208ba7fd65d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0303.jpg",
+    "bytes": 27166,
+    "sha256": "bdbc1f180016d9536199ff3bb4f2b09faae282ced31fd6e9e271bf0c1cdd1813"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0304.jpg",
+    "bytes": 26907,
+    "sha256": "f3c464cb78d101d81dd251f215eeb6c6d100f47a95d1e1d67fc3cb792b0dbd8d"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0305.jpg",
+    "bytes": 26703,
+    "sha256": "1c72fb6abb94fe23f086723dd551ff3c2743d194ce08f1d8f6b995cc256b0d91"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0306.jpg",
+    "bytes": 26293,
+    "sha256": "30f505a8b0ee0227f6b22d86c2ab0ec8cb22fb1a72555e9de25b9af293469b15"
+  },
+  {
+    "path": "data/matcher/reference/Jogging/img/0307.jpg",
+    "bytes": 26038,
+    "sha256": "e973c692efa798dbc3d6373a7477d198815d87efb45ae183a118729a6a0d76b2"
+  }
+]

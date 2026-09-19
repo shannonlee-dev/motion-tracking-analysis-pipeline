@@ -1,6 +1,5 @@
 # Publish source, docs, observation clips and licensed media.
 # Do not ignore data/ or results/ wholesale. See data/NOTICE.md for terms.
-data/raw/
 docs/private/
 
 # Local Python environments and caches
@@ -22,3 +21,12 @@ __pycache__/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Purpose-specific source caches and reproducible derivatives.
+data/*/raw/
+data/*/generated/
+# Oxford source and derivatives: permission for redistribution is unconfirmed.
+data/detection/inputs/
+results/detection/
+# Keep committed baseline evidence; new runs are local artifacts.
+results/*/runs/

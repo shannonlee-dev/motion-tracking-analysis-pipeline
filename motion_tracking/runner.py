@@ -17,16 +17,13 @@ from motion_tracking.constants import (
     MIN_ELAPSED_SECONDS,
     VIDEO_CODEC,
 )
-from motion_tracking.display import Controls, draw_overlay
+from motion_tracking.display import Controls, VideoDisplay, draw_overlay
+from motion_tracking.matching import TargetMatcher
+from motion_tracking.motion import MotionDetector
 from motion_tracking.tracker import Track, Tracker
-from motion_tracking.vision import MotionDetector, TargetMatcher
-
 
 TRACK_CSV_FIELDS = ("frame", "time_s", "track_id", "x", "y", "w", "h", "target_found")
 PAUSED_POLL_MS = 30
-MAIN_WINDOW_TITLE = "Motion analysis | q quit, p pause, s snapshot"
-MASK_WINDOW_TITLE = "Foreground mask"
-TIMELINE_NAME = "Timeline (frame)"
 
 
 def _validate_output_paths(
@@ -92,7 +89,9 @@ def run(
         and os.name == "posix"
         and not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
     ):
-        raise ValueError("No desktop display. Use --headless --output results/manual/videos/demo.mp4")
+        raise ValueError(
+            "No desktop display. Use --headless --output results/tracker/runs/manual/video.mp4"
+        )
 
     _validate_output_paths(source, target, output, csv_path)
 
@@ -108,8 +107,7 @@ def run(
     )
     controls, frame_number, elapsed, target_frames = Controls(), 0, 0.0, 0
     processed_frames = 0
-    timeline_request: int | None = None
-    timeline_syncing = False
+    view: VideoDisplay | None = None
     image = None
 
     try:
@@ -128,35 +126,18 @@ def run(
             csv_writer.writerow(TRACK_CSV_FIELDS)
 
         if not headless:
-            cv2.namedWindow(MAIN_WINDOW_TITLE, cv2.WINDOW_NORMAL)
-
             total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-
-            if not isinstance(source, int) and total_frames > 1:
-                def request_timeline_position(position: int) -> None:
-                    nonlocal timeline_request
-
-                    if not timeline_syncing:
-                        timeline_request = position
-
-                cv2.createTrackbar(
-                    TIMELINE_NAME,
-                    MAIN_WINDOW_TITLE,
-                    0,
-                    total_frames - 1,
-                    request_timeline_position,
-                )
-
-            if show_mask:
-                cv2.namedWindow(MASK_WINDOW_TITLE, cv2.WINDOW_NORMAL)
+            view = VideoDisplay(
+                None if isinstance(source, int) else total_frames, show_mask
+            )
 
         while max_frames is None or processed_frames < max_frames:
             tick = time.perf_counter()
             seeked = False
 
-            if timeline_request is not None:
-                requested_frame = timeline_request
-                timeline_request = None
+            if view is not None and view.seek_request is not None:
+                requested_frame = view.seek_request
+                view.seek_request = None
                 cap.set(cv2.CAP_PROP_POS_FRAMES, requested_frame)
                 detector = MotionDetector(config)
                 tracker = Tracker(
@@ -206,51 +187,27 @@ def run(
                         _track_csv_rows(tracks, frame_number, source_fps, found)
                     )
 
-                if not headless:
-                    cv2.imshow(MAIN_WINDOW_TITLE, image)
-
-                    if not isinstance(source, int) and total_frames > 1:
-                        timeline_syncing = True
-
-                        try:
-                            cv2.setTrackbarPos(
-                                TIMELINE_NAME, MAIN_WINDOW_TITLE, frame_number
-                            )
-                        finally:
-                            timeline_syncing = False
-
-                    if show_mask:
-                        cv2.imshow(MASK_WINDOW_TITLE, mask)
+                if view is not None:
+                    view.show(image, mask, frame_number)
 
                 elapsed += time.perf_counter() - tick
                 frame_number += 1
                 processed_frames += 1
 
-            if not headless:
+            if view is not None:
                 elapsed_ms = (time.perf_counter() - tick) * MILLISECONDS_PER_SECOND
                 delay = (
                     PAUSED_POLL_MS
                     if controls.paused
-                    else max(1, round(MILLISECONDS_PER_SECOND / source_fps - elapsed_ms))
-                )
-                key = cv2.waitKey(delay) & 0xFF
-
-                if (
-                    cv2.getWindowProperty(MAIN_WINDOW_TITLE, cv2.WND_PROP_VISIBLE)
-                    < 1
-                    or (
-                        show_mask
-                        and cv2.getWindowProperty(
-                            MASK_WINDOW_TITLE, cv2.WND_PROP_VISIBLE
-                        )
-                        < 1
+                    else max(
+                        1, round(MILLISECONDS_PER_SECOND / source_fps - elapsed_ms)
                     )
-                ):
+                )
+                key = view.read_key(delay)
+                if key is None:
                     break
 
-                if not controls.handle(
-                    key, image, snapshot_dir, frame_number - 1
-                ):
+                if not controls.handle(key, image, snapshot_dir, frame_number - 1):
                     break
 
         if processed_frames == 0:

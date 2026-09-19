@@ -1,6 +1,0 @@
-﻿condition,video,frame,source_jpg_frame,keypoints,matches,target_keypoints,rate,inliers,found
-정면,data/matching_inputs/jogging.mp4,32,33,686,0,14,0.0,0,False
-약 30도 회전,data/matching_inputs/jogging.mp4,139,140,632,0,14,0.0,0,False
-약 60도 회전,data/matching_inputs/jogging.mp4,299,300,763,0,14,0.0,0,False
-약 30% 가림,data/matching_inputs/jogging.mp4,64,65,757,0,14,0.0,0,False
-약 50% 가림,data/matching_inputs/jogging.mp4,67,68,574,0,14,0.0,0,False

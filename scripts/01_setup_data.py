@@ -1,0 +1,10 @@
+"""Step 1: acquire, verify and prepare inputs for all three evaluation purposes."""
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from datasets.workflow import main
+
+if __name__ == "__main__":
+    main("setup")

@@ -1,1 +1,1 @@
-"""Repository data preparation and evaluation commands."""
+"""Thin user-facing entry points; logic lives in datasets and evaluation."""

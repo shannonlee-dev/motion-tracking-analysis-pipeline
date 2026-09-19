@@ -1,0 +1,24 @@
+{
+  "path": "data/detection/raw/town_centre.mp4",
+  "bytes": 86033276,
+  "sha256": "988263dd7aa8dd52f03f052d13c81d57239c6d0ef3478e9c17a10ef3d0fa41f2",
+  "source_page": "https://academictorrents.com/details/35e83806d9362a57be736f370c821960eb2f2a01",
+  "torrent": "https://academictorrents.com/download/35e83806d9362a57be736f370c821960eb2f2a01.torrent",
+  "original_name": "TownCentreXVID.mp4",
+  "frames": 7502,
+  "width": 1920,
+  "height": 1080,
+  "target": {
+    "path": "data/detection/inputs/target.png",
+    "frame": 5800,
+    "frame_numbering": "zero-based",
+    "bbox_xywh": [
+      1680,
+      452,
+      162,
+      322
+    ],
+    "bytes": 64152,
+    "sha256": "9be4f4424914e4f9e81fe3a441f682a80428557fbdb132eb545bda1fdf63904c"
+  }
+}

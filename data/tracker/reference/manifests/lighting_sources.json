@@ -1,0 +1,54 @@
+[
+  {
+    "local_file": "data/tracker/inputs/12.mp4",
+    "source_dataset": "CSIRO Light Change Dataset v4",
+    "source_sequence": "human_door_8cdd.mp4",
+    "raw_file": "human_door_8cdd.mp4",
+    "source_url": "https://data.csiro.au/dap/ws/v2/collections/58155/data/64560626",
+    "landing_page": "https://data.csiro.au/collection/csiro:58155",
+    "bytes": 3998600,
+    "sha256": "5163483f5977a009b3bc726f6b68dc548af93ba7bfba5db100b1d6faf5981336",
+    "license": "CC BY-NC-SA 4.0",
+    "event_counts": {
+      "single_object_movement": 1,
+      "lighting_change": 1
+    },
+    "description": "A person crosses an indoor robotics hall while an open doorway causes a large global illumination change."
+  },
+  {
+    "local_file": "data/tracker/inputs/13.mp4",
+    "source_dataset": "CSIRO Light Change Dataset v4",
+    "source_sequence": "human_light_0d2f.mp4",
+    "raw_file": "human_light_0d2f.mp4",
+    "source_url": "https://data.csiro.au/dap/ws/v2/collections/58155/data/64561146",
+    "landing_page": "https://data.csiro.au/collection/csiro:58155",
+    "bytes": 6593810,
+    "sha256": "02a1b9ce5f4d137256a90da2079e5ab345b82521761f3e46557d640ec19e7a4d",
+    "license": "CC BY-NC-SA 4.0",
+    "event_counts": {
+      "single_object_movement": 2,
+      "lighting_change": 2
+    },
+    "description": "A person makes two separate passes through a fixed indoor camera view while carrying a bright portable light."
+  },
+  {
+    "local_file": "data/tracker/inputs/14.mp4",
+    "source_dataset": "Microsoft Research Wallflower Test Images",
+    "source_sequence": "LightSwitch",
+    "raw_file": "LightSwitch.zip",
+    "source_url": "https://download.microsoft.com/download/E/7/6/E76CBD7B-7C3A-4D18-AA87-FC4B57DCCDAA/WallFlower/LightSwitch.zip",
+    "landing_page": "https://legacyupdate.net/download-center/download/54651/test-images-for-wallflower-paper",
+    "source_bytes": 108368846,
+    "source_sha256": "2e0294fffa0bb08ac5f7628221da46370be5c6216daaeea5125c43783c1c3b95",
+    "output_bytes": 6614053,
+    "output_sha256": "fad583b791e4b1e48054892a11d8a07e40dc239540e706a96f5ad483e663d3cf",
+    "license": "Microsoft Research License Terms — non-commercial or research purposes only",
+    "event_counts": {
+      "single_object_movement": 2,
+      "stationary_object": 1,
+      "lighting_change": 3
+    },
+    "description": "Two people enter at different times; the room lights switch off, on, and off, and one person sits at a computer.",
+    "derivative_notice": "Modified on 2026-09-18: 2,715 source BMP frames were assembled at 5 fps and encoded as H.264 MP4."
+  }
+]
