@@ -8,8 +8,8 @@ import numpy as np
 
 from datasets.paths import TRACKER
 from experiments.storage import environment, initialize_reproducibility, write_csv
+from motion_tracking import runner
 from motion_tracking.config import DEFAULT_CONFIG
-from motion_tracking.motion import MotionDetector
 
 
 def validate_inputs() -> None:
@@ -48,68 +48,58 @@ def validate_inputs() -> None:
 def run(details: Path | None = None):
     summary, images = [], {}
     for rate in (0.001, 0.01, 0.1):
-        cap = cv2.VideoCapture(str(TRACKER / "inputs/17.mp4"))
-        detector = MotionDetector(replace(DEFAULT_CONFIG, learning_rate=rate))
-        # An identical separate model exposes labels before threshold/morphology.
-        raw_model = cv2.createBackgroundSubtractorMOG2(
-            history=DEFAULT_CONFIG.history,
-            varThreshold=DEFAULT_CONFIG.var_threshold,
-            detectShadows=True,
-        )
         rows, observations, tiles = [], [], []
-        try:
-            while True:
-                ok, frame = cap.read()
-                if not ok:
-                    break
-                index = len(rows)
-                boxes, mask = detector.detect(frame)
-                if details is not None:
-                    observations.append(
-                        dict(
-                            frame=index,
-                            foreground_pixels=int(np.count_nonzero(mask)),
-                            foreground_fraction=float(np.mean(mask > 0)),
-                            boxes=len(boxes),
-                            mean_gray=float(
-                                cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).mean()
-                            ),
-                        )
-                    )
-                if index in (100, 170, 190, 210, 240, 270, 300, 350, 420):
-                    im = frame.copy()
-                    for x, y, w, h in boxes:
-                        cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                    a = cv2.resize(im, (320, 240))
-                    b = cv2.resize(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR), (320, 240))
-                    cv2.putText(
-                        a, f"LR {rate} f{index}", (5, 20), 0, 0.6, (0, 255, 255), 1
-                    )
-                    tiles.append(np.hstack([a, b]))
-                raw = raw_model.apply(frame, learningRate=rate)
-                gt = cv2.imread(
-                    str(TRACKER / f"raw/lasiesta/I_IL_02-GT/I_IL_02-GT_{index + 1}.png")
-                )
-                if gt is None or gt.shape != frame.shape:
-                    raise ValueError(f"Missing or mismatched GT at {index}")
-                foreground = np.all(gt == (0, 0, 255), axis=2) | np.all(
-                    gt == 255, axis=2
-                )
-                background = np.all(gt == 0, axis=2)
-                rows.append(
+
+        def collect(result: runner.FrameResult):
+            index = result.frame_number
+            frame, mask, raw = result.frame, result.mask, result.raw_mask
+            boxes = [
+                track.bbox for track in result.tracks.values() if track.missing == 0
+            ]
+            if details is not None:
+                observations.append(
                     dict(
                         frame=index,
-                        tp=int(((mask > 0) & foreground).sum()),
-                        fg_pixels=int(foreground.sum()),
-                        fp=int(((mask > 0) & background).sum()),
-                        bg_pixels=int(background.sum()),
-                        person_raw_background=int(((raw == 0) & foreground).sum()),
-                        person_raw_shadow=int(((raw == 127) & foreground).sum()),
-                        person_raw_foreground=int(((raw == 255) & foreground).sum()),
+                        foreground_pixels=int(np.count_nonzero(mask)),
+                        foreground_fraction=float(np.mean(mask > 0)),
+                        boxes=len(boxes),
+                        mean_gray=float(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).mean()),
                     )
                 )
-        finally:
-            cap.release()
+            if index in (100, 170, 190, 210, 240, 270, 300, 350, 420):
+                im = frame.copy()
+                for x, y, w, h in boxes:
+                    cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                a = cv2.resize(im, (320, 240))
+                b = cv2.resize(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR), (320, 240))
+                cv2.putText(a, f"LR {rate} f{index}", (5, 20), 0, 0.6, (0, 255, 255), 1)
+                tiles.append(np.hstack([a, b]))
+            gt = cv2.imread(
+                str(TRACKER / f"raw/lasiesta/I_IL_02-GT/I_IL_02-GT_{index + 1}.png")
+            )
+            if gt is None or gt.shape != frame.shape:
+                raise ValueError(f"Missing or mismatched GT at {index}")
+            foreground = np.all(gt == (0, 0, 255), axis=2) | np.all(gt == 255, axis=2)
+            background = np.all(gt == 0, axis=2)
+            rows.append(
+                dict(
+                    frame=index,
+                    tp=int(((mask > 0) & foreground).sum()),
+                    fg_pixels=int(foreground.sum()),
+                    fp=int(((mask > 0) & background).sum()),
+                    bg_pixels=int(background.sum()),
+                    person_raw_background=int(((raw == 0) & foreground).sum()),
+                    person_raw_shadow=int(((raw == 127) & foreground).sum()),
+                    person_raw_foreground=int(((raw == 255) & foreground).sum()),
+                )
+            )
+
+        runner.run(
+            TRACKER / "inputs/17.mp4",
+            replace(DEFAULT_CONFIG, learning_rate=rate),
+            headless=True,
+            on_frame=collect,
+        )
         if len(rows) != 525:
             raise ValueError(f"Expected 525 frames, got {len(rows)}")
         image = np.vstack(tiles)

@@ -87,6 +87,23 @@ def test_invalid_config_rejected():
         Config(kernel_size=0)
 
 
+@pytest.mark.parametrize("field", Config.__dataclass_fields__)
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -float("inf")])
+def test_config_rejects_nonfinite_values(field, value):
+    with pytest.raises(ValueError, match=field):
+        Config(**{field: value})
+
+
+@pytest.mark.parametrize(
+    "field",
+    ["history", "kernel_size", "warmup_frames", "max_missing", "trail_length"],
+)
+@pytest.mark.parametrize("value", [1.5, True])
+def test_config_requires_integer_counts(field, value):
+    with pytest.raises(ValueError, match=field):
+        Config(**{field: value})
+
+
 def test_missing_frames_match_last_observed_position_without_extrapolation():
     tracker = Tracker(max_distance=11, max_missing=3)
     tracker.update([(0, 0, 10, 10)])

@@ -20,11 +20,6 @@
     "sha256": "20b701fb57ef97155ccf59112e7343a54473b18f8eeb8e5c45b269e5aee6e3b1"
   },
   {
-    "path": "data/matcher/reference/Jogging/img/.DS_Store",
-    "bytes": 6148,
-    "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
-  },
-  {
     "path": "data/matcher/reference/Jogging/img/0001.jpg",
     "bytes": 13834,
     "sha256": "73ced6111c448386c988f1bc6f1ee14dbe4d39bfde705ca2e0fdb09913374e9c"

@@ -168,7 +168,6 @@ SIFT 확대 후 대응점 합계는 **7→19개**, 방향 변화·가림 네 조
 python -m experiments.tracker_metrics --details
 python -m experiments.learning_rate
 python -m experiments.feature_matching
-python -m experiments.matching_preprocessing
 ```
 
-현재 코드에는 SIFT 전환·추적 규칙 변경이 있으므로 위 명령의 새 결과가 과거 표와 같다고 보장하지 않는다. 학습률 GT 등 입력 준비는 [README](../README.md), 사건 정의는 [events.json](../data/tracker/reference/events.json), 데이터 출처·사용 조건은 [data/NOTICE.md](../data/NOTICE.md)를 따른다.
+현재 실험은 모두 앱 실행 함수의 측정 결과만 집계한다. 실험 전용 ORB/ROI 전처리 코드는 제거했고 관련 과거 표는 고정 기록으로 보존한다. 현재 코드에는 SIFT 전환·추적 규칙 변경이 있으므로 위 명령의 새 결과가 과거 표와 같다고 보장하지 않는다. 학습률 GT 등 입력 준비는 [README](../README.md), 사건 정의는 [events.json](../data/tracker/reference/events.json), 데이터 출처·사용 조건은 [data/NOTICE.md](../data/NOTICE.md)를 따른다.

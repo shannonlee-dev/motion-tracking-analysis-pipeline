@@ -7,11 +7,11 @@ import cv2
 import pytest
 
 from datasets.paths import ROOT, TRACKER_REFERENCE
+from experiments.measurements import measure_application_matcher
 from experiments.tracker_metrics import associate, count_runs
 from motion_tracking.matching import TargetMatcher
 
 OUT = ROOT / "docs/evidence/tracking"
-MATCHER_OUT = ROOT / "docs/evidence/matching"
 
 
 def rows(identities, excluded=()):
@@ -53,10 +53,12 @@ def test_one_detection_cannot_identify_two_people():
     assert list(assigned.values()).count("7") == 1
 
 
-def test_recorded_feature_rows_equal_unmodified_app():
-    recorded = list(
-        csv.DictReader((MATCHER_OUT / "features.csv").open(encoding="utf-8-sig"))
-    )
+def test_exported_feature_rows_equal_unmodified_app(tmp_path):
+    # Historical evidence used ORB; validate today's exported SIFT measurements.
+    measure_application_matcher(tmp_path)
+    with (tmp_path / "application__features.csv").open(encoding="utf-8-sig") as stream:
+        recorded = list(csv.DictReader(stream))
+    assert len(recorded) == 5
     matcher = TargetMatcher(cv2.imread("data/matcher/inputs/target.png"))
     selected = {int(row["frame"]): row for row in recorded}
     cap = cv2.VideoCapture("data/matcher/inputs/jogging.mp4")

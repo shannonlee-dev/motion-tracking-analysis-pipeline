@@ -22,11 +22,15 @@ class MotionDetector:
             cv2.MORPH_ELLIPSE, (self.config.kernel_size, self.config.kernel_size)
         )
         self.frame_count = 0
+        self.raw_mask: np.ndarray | None = None
 
-    def detect(self, frame: np.ndarray) -> tuple[list[BBox], np.ndarray]: # boxes,binary mask
+    def detect(
+        self, frame: np.ndarray
+    ) -> tuple[list[BBox], np.ndarray]:  # boxes,binary mask
         raw = self.model.apply(
             frame, learningRate=self.config.learning_rate
         )  # one channel mask, 0=background, 127=shadow, 255=foreground
+        self.raw_mask = raw
         mask = cv2.threshold(
             raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY
         )[1]  # binary mask

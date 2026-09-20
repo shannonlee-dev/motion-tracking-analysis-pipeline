@@ -206,12 +206,19 @@ def main(argv: list[str] | None = None) -> None:
     initialize_reproducibility()
     events = json.loads((TRACKER_REFERENCE / "events.json").read_text())
     gt = json.loads((TRACKER_REFERENCE / "ground_truth.json").read_text())
+    inputs = [
+        TRACKER / "inputs" / (name + (".mpg" if name in ("01", "02", "03") else ".mp4"))
+        for name in sorted({event["video"] for event in events})
+    ]
+    missing = [str(path) for path in inputs if not path.is_file()]
+    if missing:
+        raise ValueError("Missing tracking inputs: " + ", ".join(missing))
     with result_directory(args.output, "tracking") as output:
         details = output / "details" if args.details else None
         if details is not None:
             details.mkdir()
         results, traces, counted, images = [], [], [], {}
-        for name, records in measure_tracks(details):
+        for name, records in measure_tracks(inputs, details):
             relevant = [event for event in events if event["video"] == name]
             measured, assigned, runs = evaluate(
                 relevant, gt, records, keep_traces=args.details
@@ -245,7 +252,7 @@ def main(argv: list[str] | None = None) -> None:
             "tracking",
             summarize(events, results),
             images,
-            environment(sorted((TRACKER / "inputs").glob("*"))),
+            environment(inputs),
             details=args.details,
         )
 

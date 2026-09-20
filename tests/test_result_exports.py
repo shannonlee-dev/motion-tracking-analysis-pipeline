@@ -104,7 +104,6 @@ def test_matching_default_does_not_write_intermediate_files(tmp_path, monkeypatc
     assert sorted(written) == [
         "comparison.jpg",
         "metadata.json",
-        "roi-summary.csv",
         "summary.csv",
     ]
 
@@ -115,11 +114,11 @@ def test_matching_details_preserve_compact_measurements(tmp_path):
     compact, detailed = tmp_path / "compact", tmp_path / "detailed"
     feature_matching.main(["--output", str(compact)])
     feature_matching.main(["--details", "--output", str(detailed)])
-    for name in ("summary.csv", "roi-summary.csv", "comparison.jpg"):
+    for name in ("summary.csv", "comparison.jpg"):
         assert (compact / name).read_bytes() == (detailed / name).read_bytes()
     assert not (compact / "details").exists()
-    assert (detailed / "details/roi__keypoints__ORB_target.png").is_file()
-    assert (detailed / "details/roi__matches__SIFT_front_0033.json").is_file()
+    assert (detailed / "details/application__features.csv").is_file()
+    assert (detailed / "details/application__feature_front.png").is_file()
     assert all(path.is_file() for path in (detailed / "details").iterdir())
 
 

@@ -69,7 +69,12 @@ def test_controls_pause_resume_snapshot_quit(tmp_path):
 
 @pytest.mark.parametrize(
     ("platform", "display_variable"),
-    [("darwin", None), ("win32", None), ("linux", "DISPLAY"), ("linux", "WAYLAND_DISPLAY")],
+    [
+        ("darwin", None),
+        ("win32", None),
+        ("linux", "DISPLAY"),
+        ("linux", "WAYLAND_DISPLAY"),
+    ],
 )
 @pytest.mark.parametrize(
     ("show_mask", "closed_title"),
@@ -361,3 +366,45 @@ def test_invalid_cli_config_returns_clean_error(entrypoint):
     assert result.returncode == 2
     assert "learning_rate" in result.stderr
     assert "Traceback" not in result.stderr
+
+
+def test_frame_observer_receives_the_same_tracks_as_csv(tmp_path):
+    source = tmp_path / "input.avi"
+    writer = cv2.VideoWriter(
+        str(source), cv2.VideoWriter_fourcc(*"MJPG"), 10, (160, 120)
+    )
+    assert writer.isOpened()
+    for index in range(15):
+        frame = np.zeros((120, 160, 3), np.uint8)
+        if index >= 5:
+            frame[40:70, 20 + index * 3 : 40 + index * 3] = 255
+        writer.write(frame)
+    writer.release()
+    observed = []
+
+    def collect(result):
+        assert result.frame.shape == (120, 160, 3)
+        assert result.mask.shape == result.raw_mask.shape == (120, 160)
+        assert set(np.unique(result.raw_mask)) <= {0, 127, 255}
+        observed.extend(
+            (result.frame_number, tid, *track.bbox)
+            for tid, track in result.tracks.items()
+            if track.missing == 0
+        )
+
+    trace = tmp_path / "tracks.csv"
+    stats = run(
+        source,
+        Config(warmup_frames=5, min_area=30),
+        headless=True,
+        csv_path=trace,
+        on_frame=collect,
+    )
+    with trace.open() as stream:
+        exported = [
+            tuple(int(row[key]) for key in ("frame", "track_id", "x", "y", "w", "h"))
+            for row in csv.DictReader(stream)
+            if row["track_id"]
+        ]
+    assert stats["frames"] == 15
+    assert observed and observed == exported

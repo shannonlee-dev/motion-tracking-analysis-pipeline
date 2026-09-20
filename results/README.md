@@ -6,7 +6,7 @@
 | --- | --- | --- | --- |
 | 추적 | [tracking/summary.csv](tracking/summary.csv) | [comparison.jpg](tracking/comparison.jpg) | `python -m experiments.tracker_metrics` |
 | 학습률 | [learning-rate/summary.csv](learning-rate/summary.csv) | [comparison.jpg](learning-rate/comparison.jpg) | `python -m experiments.learning_rate` |
-| 매칭 | [matching/summary.csv](matching/summary.csv), [ROI 비교](matching/roi-summary.csv) | [comparison.jpg](matching/comparison.jpg) | `python -m experiments.feature_matching` |
+| 매칭 | [matching/summary.csv](matching/summary.csv) | [comparison.jpg](matching/comparison.jpg) | `python -m experiments.feature_matching` |
 | 대상 검출 | [detection/summary.json](detection/summary.json) | [video.mp4](detection/video.mp4) | 아래 앱 명령 |
 
 ```bash
@@ -16,7 +16,7 @@ python app.py --source data/detection/raw/town_centre.mp4 --target data/detectio
 대상 검출은 앱의 영상 저장 기능을 사용한다. `summary.json`은 기존 실행의 집계이며 위 명령으로 갱신되지 않는다.
 Oxford 영상과 결과는 로컬 전용이다.
 
-- 기본 실험 결과는 3개 파일이며 매칭만 앱·ROI 요약을 분리해 4개다.
+- 기본 실험 결과는 요약·비교 이미지·메타데이터 3개 파일이다. 모든 측정은 앱 실행 함수의 결과이며 매칭은 전체 프레임 SIFT만 평가한다.
 - 세 실험 명령은 `--details`를 지정할 때만 상세 CSV·JSON·개별 이미지를 `details/` 한 단계에 저장한다. 비교 이미지는 탐색용 축소본이며, 정밀한 검토에는 상세 이미지를 사용한다. 공통 실행 정보와 요약은 상위 폴더에만 둔다.
 - 재실행에 성공하면 해당 실험 폴더를 교체한다. 기본 모드로 재실행하면 이전 `details/`도 제거한다. 실패하면 기존 결과를 유지한다.
 - 실행을 별도로 보존하려면 `--output /tmp/matching-check`처럼 다른 경로를 지정한다.

@@ -16,7 +16,6 @@ ASSETS = MATCHER / "reference"
 SELECTED_FRAMES = MATCHER / "generated/selected_frames"
 TARGET_FRAME = 1
 SCALE = 4
-RATIO = 0.75
 # Fixed after inspecting all 307 frames, before measuring matches.
 SELECTIONS = [
     (

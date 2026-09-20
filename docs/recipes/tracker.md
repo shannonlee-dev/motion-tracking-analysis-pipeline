@@ -15,7 +15,7 @@
 | 열림·닫힘과 커널 크기의 영향을 보여 달라 | 11.mp4, 커널 1 / 3 / 5 | 1–6초, f25–149 | [H](#h) |
 | 면적 임계값을 왜 설정하는가 | 11.mp4, 면적 20 / 80 / 200 | 1–6초, f25–149 | [I](#i) |
 | 실제 가림으로 관측이 사라지는 예는 무엇인가 | 15.mp4 기둥, 16.mp4 벽 | 각각 약 6.3–8.2초 / 5.4–7.2초 | [J](#j) |
-| 회전·가림에서 특징점 매칭과 개선 결과는 어떠한가 | **Jogging**, ORB/SIFT ROI 비교 | f32·64·67·139·299 | [K](#k) |
+| 회전·가림에서 특징점 매칭과 개선 결과는 어떠한가 | **Jogging**, 전체 프레임 SIFT | f32·64·67·139·299 | [K](#k) |
 | 등록 대상 인식이 되는 장면도 보여 달라 | **Town Centre** | 약 3:50–3:53, f5750–5820 | [L](#l) |
 | ID Switch 횟수·조건별 실패율의 근거는 무엇인가 | 추적 집계·사건별 로그 | 개별 영상 재생 + 집계 | [M](#m) |
 | Tracker·메인 루프·기능·설정은 어떻게 분리했는가 | 코드 + 02.mpg 실행 | 클래스와 호출 지점 | [N](#n) |
@@ -213,16 +213,15 @@ python app.py --source data/matcher/inputs/jogging.mp4 --target data/matcher/inp
 
 다섯 순간 모두 `TARGET DETECTED`가 나오지 않았다. 단, 전체 307프레임 중 f0·1·18에서는 `found=True`였으므로 “영상 전체에서 한 번도 인식되지 않는다”고 설명하지 않는다. 초기 등록 장면과 가까운 프레임의 성공이 자세·가림 전반의 강건함을 의미하지도 않는다.
 
-현재 앱은 **SIFT**다. ORB와 SIFT, 원본·회색조·확대를 정량 비교하려면 다음 실험을 사용한다. 앱에는 `--algorithm ORB` 옵션이 없다.
+현재 앱은 **SIFT**다. 다음 실험은 앱 실행 함수를 호출해 전체 프레임 매칭 결과를 집계한다.
 
 ```bash
 python -m experiments.feature_matching --output results/demo-matching --details
-python -m experiments.matching_preprocessing
 ```
 
-첫 명령은 `results/demo-matching/summary.csv`의 현재 앱 측정, `roi-summary.csv`의 ORB/SIFT ROI 비교, `details/`의 특징점·매칭 이미지를 만든다. 두 번째는 **`docs/evidence/matching-preprocessing/` 기록을 재작성**하므로 기존 제출 근거를 유지하려면 먼저 [보존 CSV](../evidence/matching-preprocessing/metrics.csv)를 열어 설명한다.
+`results/demo-matching/summary.csv`에 현재 앱 측정을, `details/`에 선택 프레임과 상세 CSV를 저장한다. 실험 전용 ORB·ROI 전처리 경로는 제거했다. 과거 전처리 비교는 [보존 CSV](../evidence/matching-preprocessing/metrics.csv)로만 확인한다.
 
-설명할 수치는 SIFT 확대 전후 대응점 합계 **7→19개**, 평균 매칭률 **5.83→3.80%**, 50% 가림의 대응 **0→0개**다. 등록 특징점 분모가 24→100으로 커졌으므로 대응 수 증가와 매칭률 개선은 다르다. 이 수치는 위치를 아는 GT crop의 실험이며 전체 프레임 인식률이 아니다. 회색조 변환만으로는 개선되지 않았고 확대는 사라진 원본 디테일을 복원하지 않는다.
+과거 ROI 실험의 수치는 SIFT 확대 전후 대응점 합계 **7→19개**, 평균 매칭률 **5.83→3.80%**, 50% 가림의 대응 **0→0개**다. 등록 특징점 분모가 24→100으로 커졌으므로 대응 수 증가와 매칭률 개선은 다르다. 이 수치는 위치를 아는 GT crop의 실험이며 전체 프레임 인식률이 아니다. 회색조 변환만으로는 개선되지 않았고 확대는 사라진 원본 디테일을 복원하지 않는다.
 
 <a id="l"></a>
 ## L. 등록 대상 인식 시연과 실제 CCTV 장면: Town Centre

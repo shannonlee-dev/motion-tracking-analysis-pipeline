@@ -3,14 +3,14 @@
 ## 프로젝트 소개
 
 OpenCV MOG2로 움직임을 검출하고 객체 ID·궤적을 추적하는 Python 앱입니다.
-등록 이미지는 ORB로 전체 프레임에서 찾습니다. 딥러닝은 사용하지 않습니다.
+등록 이미지는 SIFT로 전체 프레임에서 찾습니다. 딥러닝은 사용하지 않습니다.
 
 ## 핵심 특징
 
 | 평가 목적 | 데이터 | 확인 항목 |
 | --- | --- | --- |
 | **Tracker Test** | 01–19: CAVIAR·LASIESTA·조명 영상 | MOG2, bbox, ID·궤적, ID switch·추적 실패, learning rate |
-| **Matcher Test** | OTB Jogging | ORB/SIFT 특징점·매칭률, 회전·가림 조건의 ROI 비교 |
+| **Matcher Test** | OTB Jogging | 앱의 전체 프레임 SIFT 특징점·매칭률·기하 검증, 회전·가림 조건 |
 | **Target Detection Test** | Oxford Town Centre | 실제 앱 전체 프레임 TargetMatcher, 특정 사람 등록, `TARGET DETECTED` 시연 |
 
 웹캠·영상, GUI 타임라인, headless 실행, MP4·CSV 저장을 지원합니다.
@@ -74,6 +74,16 @@ python app.py --help
 
 화면이 없는 환경에서는 `--headless`를 추가합니다. 처리 FPS는 원본 재생 FPS와 다릅니다.
 
+영상과 프레임별 CSV를 함께 저장하려면 다음처럼 실행합니다.
+
+```bash
+python app.py --source data/tracker/inputs/01.mpg --headless --output results/tracking/output.mp4 --csv results/tracking/tracks.csv
+```
+
+CSV의 `frame`은 0부터 시작하며 `time_s`는 원본 FPS 기준입니다.
+탐색 실패와 카메라 연결 끊김은 오류로 보고합니다. 첫 프레임 처리에 실패하면 기존 CSV를 보존하며,
+처리가 시작된 실행은 지정한 결과 파일을 덮어쓰므로 비교할 결과는 별도 경로에 저장하세요.
+
 ## 보고서 실험
 
 ```bash
@@ -84,15 +94,20 @@ python -m experiments.feature_matching
 
 `learning_rate` 실험에 필요한 LASIESTA GT 525장은 기본 준비 명령인
 `python scripts/01_setup_data.py`로 함께 저장됩니다.
-위 명령은 보고서의 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric만 재현합니다.
+위 명령은 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric을 측정합니다.
+세 실험 모두 CLI와 같은 `motion_tracking.runner.run()`을 실행합니다.
+`experiments/`는 앱이 제공하는 프레임별 추적·SIFT 매칭·마스크를 GT와 비교하고 집계·저장하며,
+자체 검출기·매처·전처리 알고리즘을 만들지 않습니다. 학습률의 원시 라벨도 앱의 동일한 MOG2 모델에서 받습니다.
+추적 설정 비교는 앱을 설정별로 독립 실행합니다.
 Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
 
 결과: [results 안내](results/README.md). 실험별 폴더에 `summary.csv`, `comparison.jpg`,
-`metadata.json`을 저장하며, matching에는 `roi-summary.csv`도 저장합니다.
+`metadata.json`을 저장합니다. 매칭 실험은 전체 프레임 SIFT 결과만 저장합니다.
 기본 실행은 중간 데이터를 메모리로 전달하고 최종 파일만 저장합니다.
 `--details`를 추가할 때만 개별 trace·이미지를 `details/`에 저장합니다.
 재실행은 해당 실험의 이전 결과를 교체합니다. 비교할 실행은 `--output /tmp/matching-check`처럼 별도 경로에 저장하세요.
 보고서의 고정 측정 근거는 `docs/evidence/`에 보존하며 새 실행과 섞이지 않습니다.
+과거 ORB/ROI 전처리 비교는 보존 기록이며 현재 실험 명령으로 재실행하지 않습니다.
 [분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md).
 
 ## 개발 검증

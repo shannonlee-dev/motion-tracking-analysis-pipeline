@@ -1,6 +1,8 @@
 """Motion/tracker configuration; CLI overrides are documented in README."""
 
-from dataclasses import dataclass
+import math
+from dataclasses import dataclass, fields
+from numbers import Integral
 
 
 @dataclass(frozen=True)
@@ -22,6 +24,17 @@ class Config:
     trail_length: int = 80
 
     def __post_init__(self) -> None:
+        for field in fields(self):
+            if not math.isfinite(getattr(self, field.name)):
+                raise ValueError(f"{field.name} must be finite")
+
+        for name in (
+            "history", "kernel_size", "warmup_frames", "max_missing", "trail_length"
+        ):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, Integral):
+                raise ValueError(f"{name} must be an integer")
+
         if not 0 <= self.learning_rate <= 1:
             raise ValueError("learning_rate must be in [0, 1]")
 

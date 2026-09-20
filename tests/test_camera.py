@@ -87,3 +87,52 @@ def test_empty_file_still_fails_without_camera_retries(camera, monkeypatch):
         runner.run("empty.mp4", headless=True)
 
     assert capture.released
+
+
+def test_camera_disconnect_is_not_reported_as_success(camera):
+    capture = camera([np.zeros((24, 32, 3), np.uint8), None])
+
+    with pytest.raises(ValueError, match=r"Camera 0.*frames"):
+        runner.run(0, headless=True)
+
+    assert capture.released
+
+
+@pytest.mark.parametrize("source", [0, "empty.mp4"])
+def test_failed_startup_preserves_existing_csv(camera, tmp_path, source):
+    camera([])
+    trace = tmp_path / "trace.csv"
+    trace.write_text("previous results\n")
+
+    with pytest.raises(ValueError):
+        runner.run(source, headless=True, csv_path=trace)
+
+    assert trace.read_text() == "previous results\n"
+
+
+def test_failed_seek_does_not_export_incorrect_frame_numbers(camera, monkeypatch, tmp_path):
+    capture = camera([np.zeros((24, 32, 3), np.uint8)] * 2)
+    monkeypatch.setattr(capture, "set", lambda *_: False, raising=False)
+    monkeypatch.setenv("DISPLAY", ":test")
+    monkeypatch.setattr(cv2, "destroyAllWindows", lambda: None)
+
+    class Display:
+        seek_request = None
+
+        def __init__(self, *_):
+            pass
+
+        def show(self, *_):
+            self.seek_request = 10
+
+        def read_key(self, _):
+            return -1
+
+    monkeypatch.setattr(runner, "VideoDisplay", Display)
+    trace = tmp_path / "trace.csv"
+
+    with pytest.raises(ValueError, match="seek"):
+        runner.run("input.mp4", csv_path=trace, max_frames=2)
+
+    assert len(trace.read_text().splitlines()) == 2
+    assert capture.released

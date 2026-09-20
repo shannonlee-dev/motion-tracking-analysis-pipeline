@@ -1,1 +1,1 @@
-"""Small, report-focused experiments built on the application modules."""
+"""Small, report-focused experiments collecting results from the application runner."""

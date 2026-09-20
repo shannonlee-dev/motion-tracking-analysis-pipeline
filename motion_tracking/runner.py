@@ -4,7 +4,8 @@ import csv
 import os
 import sys
 import time
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
+from dataclasses import dataclass
 from pathlib import Path
 
 import cv2
@@ -19,7 +20,7 @@ from motion_tracking.constants import (
     VIDEO_CODEC,
 )
 from motion_tracking.display import Controls, VideoDisplay, draw_overlay
-from motion_tracking.matching import TargetMatcher
+from motion_tracking.matching import MatchResult, TargetMatcher
 from motion_tracking.motion import MotionDetector
 from motion_tracking.tracker import Track, Tracker
 
@@ -27,6 +28,22 @@ TRACK_CSV_FIELDS = ("frame", "time_s", "track_id", "x", "y", "w", "h", "target_f
 PAUSED_POLL_MS = 30
 CAMERA_STARTUP_TIMEOUT_SECONDS = 10.0
 CAMERA_RETRY_INTERVAL_SECONDS = 0.1
+
+
+@dataclass(frozen=True)
+class FrameResult:
+    """App measurements for synchronous observers; copy data before retaining it.
+
+    Arrays and tracks belong to the running app and must not be mutated.
+    """
+
+    frame_number: int
+    frame: np.ndarray
+    mask: np.ndarray
+    raw_mask: np.ndarray
+    tracks: Mapping[int, Track]
+    match: MatchResult | None
+    target_keypoints: int
 
 
 def _camera_error(source: int, reason: str) -> ValueError:
@@ -102,6 +119,7 @@ def run(
     max_frames: int | None = None,
     snapshot_dir: str | Path = DEFAULT_SNAPSHOT_DIR,
     show_mask: bool = False,
+    on_frame: Callable[[FrameResult], None] | None = None,
 ) -> dict[str, int | float]:
     config = config or DEFAULT_CONFIG
 
@@ -145,12 +163,6 @@ def run(
         if not np.isfinite(source_fps) or source_fps <= 0:
             source_fps = DEFAULT_VIDEO_FPS
 
-        if csv_path:
-            Path(csv_path).parent.mkdir(parents=True, exist_ok=True)
-            csv_file = open(csv_path, "w", newline="")
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow(TRACK_CSV_FIELDS)
-
         if not headless:
             total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
             view = VideoDisplay(
@@ -164,7 +176,8 @@ def run(
             if view is not None and view.seek_request is not None:
                 requested_frame = view.seek_request
                 view.seek_request = None
-                cap.set(cv2.CAP_PROP_POS_FRAMES, requested_frame)
+                if not cap.set(cv2.CAP_PROP_POS_FRAMES, requested_frame):
+                    raise ValueError(f"Cannot seek to frame {requested_frame}")
                 detector = MotionDetector(config)
                 tracker = Tracker(
                     config.max_distance,
@@ -182,7 +195,9 @@ def run(
                 else:
                     ok, frame = cap.read()
 
-                if not ok:
+                if not ok or frame is None or frame.size == 0:
+                    if isinstance(source, int):
+                        raise _camera_error(source, "no frames received during capture")
                     break
 
                 boxes, mask = detector.detect(frame)
@@ -212,13 +227,31 @@ def run(
 
                     writer.write(image)
 
-                if csv_file:
+                if csv_path:
+                    if csv_file is None:
+                        Path(csv_path).parent.mkdir(parents=True, exist_ok=True)
+                        csv_file = open(csv_path, "w", newline="", encoding="utf-8")
+                        csv_writer = csv.writer(csv_file)
+                        csv_writer.writerow(TRACK_CSV_FIELDS)
                     csv_writer.writerows(
                         _track_csv_rows(tracks, frame_number, source_fps, found)
                     )
 
                 if view is not None:
                     view.show(image, mask, frame_number)
+
+                if on_frame is not None:
+                    on_frame(
+                        FrameResult(
+                            frame_number=frame_number,
+                            frame=frame,
+                            mask=mask,
+                            raw_mask=detector.raw_mask,
+                            tracks=tracks,
+                            match=match,
+                            target_keypoints=len(matcher.target_kp) if matcher else 0,
+                        )
+                    )
 
                 elapsed += time.perf_counter() - tick
                 frame_number += 1
