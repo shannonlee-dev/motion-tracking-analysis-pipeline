@@ -1,330 +1,123 @@
-# 사례 요구별 영상·실행 명령 가이드
+# 실행·평가 가이드
 
+설치는 [README](../../README.md), 측정 결과·평가 정의는 [분석 보고서](../report.md)를 따른다.
+아래 명령은 저장소 루트와 활성화된 Python 가상환경을 기준으로 한다. 프레임 번호는 0부터 시작한다.
 
-## 2. 질문을 받았을 때 바로 찾는 표
-
-| 사례·설명 요구 | 먼저 보여줄 자료 | 볼 구간 | 실행·설명 |
-| --- | --- | --- | --- |
-| 객체 이동과 ID·궤적 추적을 보여 달라 | 02.mpg의 첫 파란 상의 사람 | 1.2–3.4초, f30–85 | [A](#a) |
-| 두 사람이 겹칠 때 ID Switch가 나는가 | **11.mp4** 출입 교차 | 1.6–3.2초, f40–80 | [B](#b) |
-| 거리를 넓히면 ID Switch가 해결되는가 | 11.mp4, 거리 50 / 80 | 같은 f40–80 | [C](#c) |
-| 사라진 객체와 새 객체를 어떻게 구분하는가 | **02.mpg**, missing 15 / 30 | 3.8–5.2초, f95–130 | [D](#d) |
-| 멈춘 사람을 왜 놓치는가 | **19.mp4** 빨간 문 앞 정지 | 6.4–10.9초, f159–273 | [E](#e) |
-| 학습률을 낮추거나 높이면 무엇이 달라지는가 | **17.mp4**, 0.001 / 0.01 / 0.1 | 정지 7.1–10.2초, 조명 8.2–10.0초 | [F](#f) |
-| 조명 변화의 구체적인 실패 장면을 보여 달라 | **18.mp4** 스위치, 보조 12·13·14 | 5.12초 f128 전후 | [G](#g) |
-| 열림·닫힘과 커널 크기의 영향을 보여 달라 | 11.mp4, 커널 1 / 3 / 5 | 1–6초, f25–149 | [H](#h) |
-| 면적 임계값을 왜 설정하는가 | 11.mp4, 면적 20 / 80 / 200 | 1–6초, f25–149 | [I](#i) |
-| 실제 가림으로 관측이 사라지는 예는 무엇인가 | 15.mp4 기둥, 16.mp4 벽 | 각각 약 6.3–8.2초 / 5.4–7.2초 | [J](#j) |
-| 회전·가림에서 특징점 매칭과 개선 결과는 어떠한가 | **Jogging**, 전체 프레임 SIFT | f32·64·67·139·299 | [K](#k) |
-| 등록 대상 인식이 되는 장면도 보여 달라 | **Town Centre** | 약 3:50–3:53, f5750–5820 | [L](#l) |
-| ID Switch 횟수·조건별 실패율의 근거는 무엇인가 | 추적 집계·사건별 로그 | 개별 영상 재생 + 집계 | [M](#m) |
-| Tracker·메인 루프·기능·설정은 어떻게 분리했는가 | 코드 + 02.mpg 실행 | 클래스와 호출 지점 | [N](#n) |
-| CCTV에서 무엇부터 실패하며 왜 딥러닝이 필요한가 | 11 → 19 → 17 → Jogging | 위 대표 구간 | [O](#o) |
-
-<a id="a"></a>
-## A. 정상 이동: 02.mpg
-
-```bash
-python app.py --source data/tracker/inputs/02.mpg --show-mask
-```
-
-**1.2–3.4초(f30–85)**에 중앙의 파란 상의 사람을 본다. 이동하는 사람의 bbox와 ID·궤적이 따라간다. 처음 약 1초는 25프레임 warmup이므로 박스가 없어도 정상이다. 화면 가장자리 배경 인물의 박스와 주 대상의 박스를 혼동하지 않는다.
-
-설명: “검출기는 현재 bbox를 만들고, Tracker는 이전 중심과 연결해 ID와 궤적을 유지합니다.” 이어서 같은 영상의 f95–130을 보면 [D](#d)의 짧은 정지·재연결까지 설명할 수 있다.
-
-<a id="b"></a>
-## B. 가장 짧고 명확한 ID Switch: 11.mp4
+## 앱 실행과 설정
 
 ```bash
 python app.py --source data/tracker/inputs/11.mp4 --show-mask
-```
-
-1. **f42, 1.68초:** 밝은 상의 사람의 ID 1, 매장에서 나오는 어두운 옷 사람의 ID 4를 기억한다.
-2. **f53–72, 2.12–2.88초:** 두 사람이 겹치면서 마스크와 bbox가 합쳐지거나 신체 조각으로 나뉜다.
-3. **f73–77, 2.92–3.08초:** 밝은 상의는 ID 4, 어두운 옷 상체는 ID 3으로 대응된다. 다른 작은 조각에 이전 ID가 남아 있어도 동일인 추적이 유지된 것은 아니다.
-
-설명: “중심 위치만 비교하므로 겹침 후 어느 사람이 원래 대상인지 구분하지 못합니다. 한 사람에게 여러 조각 ID가 붙거나 기존 ID가 다른 사람으로 넘어갑니다.” 이번 기본 설정의 O09 관찰창에서는 5프레임 확정 규칙으로 ID 변경 5회가 집계됐다. 두 사람의 ID가 정확히 서로 맞바뀌는 경우만 ID Switch인 것은 아니다.
-
-보조 사례는 **06.mp4**다. 3.6–5.2초(f90–130) 접촉 후, 약 5.88초(f147)부터 ID 1→3으로 바뀌는 사례를 볼 수 있다.
-
-```bash
-python app.py --source data/tracker/inputs/06.mp4 --show-mask
-```
-
-<a id="c"></a>
-## C. 거리 임계값을 늘려도 겹침이 해결되지 않는 이유
-
-```bash
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --max-distance 50
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --max-distance 80
-```
-
-두 번 모두 **f42 → f73**을 비교한다. 거리 50에서는 밝은 상의 1→4, 어두운 옷 4→3이고, 거리 80에서는 각각 1→3, 3→4다. 이번 O09 집계는 두 설정 모두 ID 변경 5회·연속 누락 1구간이었다. 검출 마스크는 동일하다.
-
-설명: “80픽셀로 늘리면 연결 가능한 범위가 넓어질 뿐, 같은 사람인지 판단할 외형 정보는 추가되지 않습니다. 오연결도 허용할 수 있습니다.” `max_distance`는 화면 픽셀 단위이므로 해상도와 프레임 간 이동량이 바뀌면 재조정해야 한다.
-
-<a id="d"></a>
-## D. missing 보존과 새 ID 발급: 02.mpg
-
-```bash
-python app.py --source data/tracker/inputs/02.mpg --show-mask --max-missing 15
-python app.py --source data/tracker/inputs/02.mpg --show-mask --max-missing 30
-```
-
-**중앙 파란 상의 사람, f95–130(3.8–5.2초)**만 비교한다.
-
-| 순간 | missing 15 | missing 30 |
-| --- | --- | --- |
-| f102, 4.08초 | ID 1 관측 | ID 1 관측 |
-| f103–124 | 22프레임 검출 공백; f118에서 내부 ID 1 삭제 | 공백 중에도 내부 ID 1 보관 |
-| f125, 5.00초 | 다시 검출되며 **새 ID 4** | 보관한 **ID 1로 재연결** |
-
-설명: “관측되지 않은 트랙은 missing을 누적하고, 한도를 초과하면 삭제합니다. 아직 살아 있는 트랙과 거리 조건을 만족하면 재연결하고, 연결되지 않은 검출은 새 ID를 받습니다.” 30으로 늘려도 공백 동안 화면에 사람의 박스를 복원해 주지는 않는다. 오래 보관하면 다른 사람이 옛 ID를 가져갈 가능성도 있다.
-
-이는 01번 후반의 작은 조각을 보는 것보다 보존·삭제의 차이가 명확한 시연이다. 코드에서는 [tracker.py의 `Tracker.update`](../../motion_tracking/tracker.py)를 함께 연다.
-
-<a id="e"></a>
-## E. 사람이 멈추면 배경에 흡수되는 사례: 19.mp4
-
-```bash
-python app.py --source data/tracker/inputs/19.mp4 --show-mask --learning-rate 0.01
-python app.py --source data/tracker/inputs/19.mp4 --show-mask --learning-rate 0.001
-```
-
-**3.6–6초**에 빨간 상의 사람이 문으로 다가오고, **6.4–10.9초(f159–273)**에 문 앞에 머물다가 다시 이동한다.
-
-- 기본 0.01: f150에는 큰 신체 bbox, f180에는 다리 조각만 남고, f220에는 사람이 보이는데 박스가 없다. 재이동한 f280에는 여러 새 ID가 붙는다.
-- 0.001: f220에도 큰 신체 영역이 유지된다. 대신 이전 위치·배경 조각도 더 오래 남아, 검출 보존이 곧 정체성 유지나 정확도 향상을 뜻하지는 않는다.
-
-이번 정지 관찰창 115프레임 중 **화면 전체에 bbox가 하나도 없는 프레임은 83→0개**였다. 이는 전경 유지의 시연 지표이며, GT 기반 실패율이나 정확히 사람을 검출한 비율은 아니다.
-
-설명: “MOG2는 ‘사람’이 아니라 배경과 달라진 픽셀을 찾습니다. 움직이지 않는 사람은 배경으로 학습될 수 있습니다.” `max_missing`을 늘려도 이미 사라진 전경을 만들어내지는 못한다.
-
-<a id="f"></a>
-## F. 학습률의 양쪽 실패를 한 영상으로 비교: 17.mp4
-
-아래 세 번은 **학습률만** 다르게 실행한다. 모두 약 21초짜리 영상이다.
-
-```bash
-python app.py --source data/tracker/inputs/17.mp4 --show-mask --learning-rate 0.001
-python app.py --source data/tracker/inputs/17.mp4 --show-mask --learning-rate 0.01
-python app.py --source data/tracker/inputs/17.mp4 --show-mask --learning-rate 0.1
-```
-
-| 관찰 순서 | 시간·프레임 | 볼 것 |
-| --- | --- | --- |
-| 접근 | 3.2–6.8초, f80–169 | 움직이는 사람도 0.1에서 거의 사라지는가 |
-| 위치 정지·블라인드 조작 | 7.1–10.2초, f177–256 | 신체가 마스크에 얼마나 오래 남는가; 팔 동작은 계속 있을 수 있다 |
-| 밝기 변화 | 8.2–10.0초, f205–249 | 0.001에서 창·벽까지 넓게 전경으로 잡히는가 |
-| 돌아오는 사람 | 10.8–15.2초, f270–379 | 배경 잔상과 재검출 상태가 어떻게 다른가 |
-
-설명: “낮은 학습률은 사람을 오래 보존하지만 조명 변화에 늦게 적응하고, 높은 학습률은 조명에 빨리 적응하는 대신 사람도 배경에 흡수합니다.”
-
-보고서의 고정 픽셀 측정에서 정지 전경 recall은 0.001 / 0.01 / 0.1 순으로 **97.43% / 26.19% / 0%**, 조명 구간 배경 오검출률은 **53.82% / 14.35% / 0.01%**였다. 낮은 오검출률만 보고 0.1이 우수하다고 말하면 안 된다. 사람이 검출되지 않기 때문이다. [측정 근거](../evidence/learning-rate/learning_rate_summary.csv).
-
-<a id="g"></a>
-## G. 스위치·문·휴대 조명에 따른 환경 변화
-
-짧은 발표에는 **18.mp4**를 먼저 사용한다.
-
-```bash
-python app.py --source data/tracker/inputs/18.mp4 --show-mask
-```
-
-**4.8–6.2초(f120–155)**를 본다. f128(5.12초)에 스위치를 조작하며 화면 밝기가 바뀌고, 현재 기본 설정의 GT 대조에서는 f128–137에 사람 대응이 10프레임 연속 누락됐다. 손 움직임과 조명 변화가 섞여 있으므로 순수 정지 실험에는 19번을 사용한다.
-
-다른 환경까지 요구하면 다음 영상을 추가한다. 모두 기본값으로 실행하고 마스크가 사람 밖으로 번지는지 본다.
-
-```bash
-python app.py --source data/tracker/inputs/12.mp4 --show-mask
-python app.py --source data/tracker/inputs/13.mp4 --show-mask
-python app.py --source data/tracker/inputs/14.mp4 --show-mask
-```
-
-| 영상 | 관찰 시간 | 설명 포인트 |
-| --- | --- | --- |
-| 12: 문 개방·외부광 | 약 27–50초, f675–1250 | 사람이 문 쪽을 오가는 동안 문 주변·바닥의 밝기가 변한다. 1280×720이라 작은 영상과 면적·거리 임계값의 상대적 크기도 다르다. |
-| 13: 사람이 든 밝은 조명 | 약 60–75초와 105–115초, f1500–1875 / f2625–2875 | 이동하는 광원과 반사 때문에 실제 신체 밖의 바닥도 변한다. 단순한 전역 밝기 보정만으로 처리하기 어려운 사례다. |
-| 14: 방 소등·점등 | **2:42.4(f812), 6:10.6(f1853), 7:17.6(f2188)** | 방 전체의 분포가 급변한다. 이 파일만 **5 fps**이며 전체 9분 3초라 짧은 발표의 첫 영상으로는 부적합하다. |
-
-12·13번에는 이 프로젝트의 사건별 GT 평가가 없어 장면 관찰용으로 사용한다. 원본 시계와 파일 재생 시간은 다를 수 있다. 14번을 반복해서 보여줄 때는 처음부터 처리해 결과 영상을 저장한 뒤 플레이어로 해당 시간을 찾는다.
-
-<a id="h"></a>
-## H. 열림·닫힘, 커널 크기: 11.mp4
-
-```bash
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --kernel-size 1
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --kernel-size 3
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --kernel-size 5
-```
-
-**f25–149(1–6초)**의 마스크에서 작은 흰 점, 다리 조각, 사람 사이의 연결을 비교한다. 1×1은 열림·닫힘에 의한 변화가 없는 기준이다. 열림은 작은 전경 조각을 제거하고, 닫힘은 작은 구멍·틈을 메운다.
-
-| 커널 | 평균 전경 픽셀 | 평균 bbox/프레임 | bbox 없는 프레임 |
-| --- | ---: | ---: | ---: |
-| 1 | 1,574.54 | 2.000 | 0 |
-| 3 | 1,290.57 | 1.976 | 0 |
-| 5 | 1,061.85 | 1.824 | 1 |
-
-이번 재실행에서도 [커널 비교 기록](../evidence/morphology/comparison.json)과 일치했다. 설명: “큰 커널은 잡음과 함께 작은 신체 영역도 지울 수 있습니다. bbox가 적어진 것만으로 검출이 좋아졌다고 판단하지 않습니다.”
-
-<a id="i"></a>
-## I. 면적 임계값: 11.mp4
-
-```bash
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --min-area 20
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --min-area 80
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --min-area 200
-```
-
-**f25–149**에서 20은 작은 신체·배경 조각까지 ID가 붙고, 200은 작은 검출을 버려 공백이 늘어나는지 본다. 이번 평균 bbox는 **2.896 / 1.976 / 1.288개**, bbox 없는 프레임은 **0 / 0 / 7개**였다.
-
-설명: “면적 필터는 마스크 처리 이후 contour를 고릅니다. 따라서 세 실행의 전경 마스크 자체는 같고, bbox와 ID만 달라집니다.” 임계값은 bbox 사각형 넓이가 아니라 **contour 면적**에 적용한다. 이를 H의 커널 비교와 구분하면 모듈 역할도 설명하기 쉽다.
-
-<a id="j"></a>
-## J. 실제 구조물 가림: 15·16번
-
-```bash
-python app.py --source data/tracker/inputs/15.mp4 --show-mask
-python app.py --source data/tracker/inputs/16.mp4 --show-mask
-```
-
-- **15번, 약 6.3–8.2초(f158–205):** 빨간 상의 사람이 큰 기둥 뒤로 들어갔다 반대편에 나타난다. 가림 전·후의 ID를 비교한다.
-- **16번, 약 5.4–7.2초(f135–180):** 계단을 내려온 사람이 벽 뒤로 사라지고 다시 나타난다. 난간·신체 조각도 함께 관찰한다.
-
-설명: “19번은 사람이 보이는데 전경이 사라지는 사례이고, 여기서는 구조물 때문에 관측 자체가 없습니다. 외형이나 운동 예측이 있어도 완전 가림 중의 위치·정체성을 확정할 수는 없습니다.” 이 구간은 기존 이동 평가창 밖이므로 보고서의 단일 객체 이동 실패율과 바로 대응시키지 않는다.
-
-<a id="k"></a>
-## K. 회전·가림과 특징점 매칭: Jogging
-
-```bash
+python app.py --source data/tracker/inputs/11.mp4 --headless --output results/demo-11.mp4 --csv results/demo-11.csv
 python app.py --source data/matcher/inputs/jogging.mp4 --target data/matcher/inputs/target.png
 ```
 
-등록 대상은 화면 왼쪽의 어두운 하의를 입은 러너다. 다음 순간에 자세와 전봇대 가림을 본다. 각도·가림률은 육안 근사이며 정밀한 회전각 실험이 아니다.
+| 옵션 | 기본값 | 의미 |
+| --- | ---: | --- |
+| `--learning-rate` | 0.01 | MOG2 배경 학습률 |
+| `--min-area` | 80 | 최소 contour 면적. bbox 사각형 면적이 아님 |
+| `--open-kernel-size` | 3 | OPEN 타원 커널 크기 |
+| `--kernel-size` | 3 | CLOSE 타원 커널 크기 |
+| `--warmup-frames` | 25 | 시작 시 bbox를 내보내지 않는 프레임 수 |
+| `--max-distance` | 50 | 중심점 대응 거리 상한, 픽셀 단위 |
+| `--max-missing` | 15 | 연속 누락이 이 값을 초과하면 내부 트랙 삭제 |
+| `--compose-fragments` | 0 | `1`이면 시간적 조각 재구성 후보 사용. 교차·가림 회귀로 기본 적용 보류 |
 
-| 조건 | 앱 프레임 | 재생 시간 | 이번 전체 프레임 SIFT 대응점 / inlier |
-| --- | ---: | ---: | ---: |
-| 정면 | 32 | 1.28초 | 2 / 0 |
-| 약 30% 가림 | 64 | 2.56초 | 4 / 0 |
-| 약 50% 가림 | 67 | 2.68초 | 5 / 0 |
-| 약 30도 방향 변화 | 139 | 5.56초 | 2 / 0 |
-| 약 60도 방향 변화 | 299 | 11.96초 | 1 / 0 |
-
-다섯 순간 모두 `TARGET DETECTED`가 나오지 않았다. 단, 전체 307프레임 중 f0·1·18에서는 `found=True`였으므로 “영상 전체에서 한 번도 인식되지 않는다”고 설명하지 않는다. 초기 등록 장면과 가까운 프레임의 성공이 자세·가림 전반의 강건함을 의미하지도 않는다.
-
-현재 앱은 **SIFT**다. 다음 실험은 앱 실행 함수를 호출해 전체 프레임 매칭 결과를 집계한다.
-
-```bash
-python -m experiments.feature_matching --output results/demo-matching --details
-```
-
-`results/demo-matching/summary.csv`에 현재 앱 측정을, `details/`에 선택 프레임과 상세 CSV를 저장한다. 실험 전용 ORB·ROI 전처리 경로는 제거했다. 과거 전처리 비교는 [보존 CSV](../evidence/matching-preprocessing/metrics.csv)로만 확인한다.
-
-과거 ROI 실험의 수치는 SIFT 확대 전후 대응점 합계 **7→19개**, 평균 매칭률 **5.83→3.80%**, 50% 가림의 대응 **0→0개**다. 등록 특징점 분모가 24→100으로 커졌으므로 대응 수 증가와 매칭률 개선은 다르다. 이 수치는 위치를 아는 GT crop의 실험이며 전체 프레임 인식률이 아니다. 회색조 변환만으로는 개선되지 않았고 확대는 사라진 원본 디테일을 복원하지 않는다.
-
-<a id="l"></a>
-## L. 등록 대상 인식 시연과 실제 CCTV 장면: Town Centre
+OPEN/CLOSE 크기를 함께 바꾸던 이전 실험은 **두 옵션을 같은 값**으로 지정한다.
+커널은 양의 홀수다. 면적·거리의 기본값은 해상도나 화면 속 사람 크기에 자동 정규화되지 않는다.
+MOG2 history=500, varThreshold=16, 그림자 검출을 사용하며 contour 면적은 화면의 50% 이하만 허용한다.
 
 ```bash
-python app.py --source data/detection/raw/town_centre.mp4 --target data/detection/inputs/target.png
+# 1·3·5 중 하나를 양쪽에 적용해 형태학 영향 비교
+python app.py --source data/tracker/inputs/11.mp4 --show-mask --open-kernel-size 5 --kernel-size 5
+# 조각 재구성 후보
+python app.py --source data/tracker/inputs/19.mp4 --show-mask --compose-fragments 1
 ```
 
-**약 3:50–3:53, f5750–5820**을 본다. 등록 대상은 화면 오른쪽의 어두운 상의·밝은 바지 보행자다. 샘플 f5750·5780·5800·5820에서 `TARGET DETECTED`를 확인했다. f5800은 등록 이미지를 뽑은 원본 프레임이므로 다른 장면의 일반화 성능을 증명하는 결과는 아니다. f5850에서는 대응 8개 중 inlier 4개라 인식하지 못했다.
+원인 비교는 한 설정씩 바꾼다. 17번 학습률은 0.001/0.01/0.1, 11번 거리는 50/80,
+02번 missing은 15/30, 11번 면적은 20/80/200으로 비교할 수 있다.
+면적 필터는 마스크를 바꾸지 않는다. missing 연장은 사라진 전경을 복원하지 않는다.
 
-**이 절의 특징점 인식만 볼 때는** 타임라인으로 f5700 부근을 찾아도 된다. `TargetMatcher`는 프레임별 매칭이라 MOG2·Tracker 초기화와 분리되어 있다. 반면 해당 위치에서 새로 만들어진 ID를 원래 영상의 추적 결과로 설명하면 안 된다. 1920×1080 전체 프레임 SIFT라 처리 FPS가 낮을 수 있으며 `--max-frames 300`으로 앞부분만 돌리면 이 대상은 나오지 않는다.
+타임라인 탐색은 MOG2·Tracker를 초기화하므로 추적 비교는 **처음부터 처리한 출력 영상**으로 한다.
+SIFT는 프레임별 매칭이어서 이 초기화와 독립적이다. 출력 MP4는 원본 FPS로 재생되며 별도 마스크 창은 저장하지 않는다.
+CSV의 `time_s`는 원본 FPS 기준이고 현재 관측된 트랙만 기록한다.
+처리 시작 후 지정한 출력은 덮어쓰므로 설정별 파일명을 구분한다. 첫 프레임 처리 실패 시 기존 CSV는 보존한다.
 
-화면에 `TARGET DETECTED`가 표시되는 것은 등록 이미지의 기하 검증을 통과했다는 뜻이다. 사람 전체의 장기 Re-ID나 고정된 추적 ID와 같은 기능은 아니다.
+## 영상별 관찰 구간
 
-<a id="m"></a>
-## M. “몇 번 실패했는가”에 답하는 집계 명령
+01–03은 `.mpg`, 04–19는 `.mp4`이며 `data/tracker/inputs/`에 있다.
+MPEG 컨테이너의 추정 프레임 수가 부정확할 수 있어 실제 디코딩 프레임을 기준으로 본다.
+관찰 구간이 모두 정량 평가창인 것은 아니다. 정확한 평가창은 [events.json](../../data/tracker/reference/events.json)에 있다.
 
-```bash
-python -m experiments.tracker_metrics --output results/demo-tracking --details
-python -m experiments.learning_rate --output results/demo-learning-rate --details
-```
-
-| 생성 파일 | 질문에 답하는 용도 |
-| --- | --- |
-| `results/demo-tracking/summary.csv` | 조건별 테스트 수·ID Switch·실패·실패율 |
-| `results/demo-tracking/details/event_log.csv` | 영상·사건별 ID 변경과 누락 프레임 |
-| `results/demo-tracking/details/counted_runs.json` | 변경 전후 ID와 확정 시점 |
-| `results/demo-tracking/details/review__O09.jpg` | 11번 교차의 GT·검출·ID 비교 |
-| `results/demo-learning-rate/summary.csv` | 학습률별 픽셀 지표 |
-
-기준을 먼저 말한다. **ID 변경은 5프레임 확정, 실패는 10프레임 연속 미대응, 실패율은 실패 사건 수/전체 사건 수**다. bbox 하나가 사라진 순간을 매 프레임 실패 1회로 세지 않는다. 위 추적 집계는 12·13번을 제외하며 가림 제외 후보·IoU 대응의 한계가 있다. 새 실행을 보고서의 고정 표와 혼합하지 않는다.
-
-<a id="n"></a>
-## N. 구조·설정·새 환경 질문에 함께 열 코드
-
-영상은 [A](#a)를 실행한 상태로 두고 아래 코드 링크를 연다.
-
-| 요구 | 지목할 코드 | 짧은 설명 |
+| 영상 | 관찰 구간 | 확인할 현상 |
 | --- | --- | --- |
-| Tracker를 왜 별도 파일로 분리했는가 | [tracker.py · `Tracker.update`](../../motion_tracking/tracker.py) | bbox를 받아 시간에 따른 ID·중심·궤적·missing 상태만 관리한다. |
-| 메인 루프와 역할은 어떻게 다른가 | [runner.py · `run`](../../motion_tracking/runner.py) | 읽기 → `detect` → `update` → 선택적 `match` → 표시·저장 순서를 담당한다. |
-| 배경 차분·검출은 어디 있는가 | [motion.py · `MotionDetector.detect`](../../motion_tracking/motion.py) | MOG2 → 그림자 제거 → 열림·닫힘 → contour 필터. I·H 비교로 차이를 보여준다. |
-| 거리 행렬은 어떻게 ID에 쓰이는가 | [tracker.py](../../motion_tracking/tracker.py)의 `np.linalg.norm`, `np.argsort` | 모든 중심 쌍 거리를 만든 뒤 가까운 순서로 아직 쓰지 않은 쌍을 연결한다. 거리 상한을 넘으면 연결하지 않는다. |
-| 특징점 기능은 왜 별도인가 | [matching.py](../../motion_tracking/matching.py), [features.py](../../motion_tracking/features.py) | 등록 이미지 대응·기하 검증은 추적 ID 갱신과 독립적이다. 공통 매칭 필터를 재사용한다. |
-| 파라미터는 어디서 관리하는가 | [config.py · `Config`](../../motion_tracking/config.py), [cli.py](../../motion_tracking/cli.py) | 기본값·범위 검증을 모으고 실행별 CLI 값으로 덮어쓴다. |
-| 새 영상·환경에서 무엇을 수정하는가 | A의 `--source`를 다른 파일로 변경 | 영상 경로·CLI 설정만 바꾼다. 공통 기본값은 Config, 알고리즘 교체는 해당 클래스, 새 정량 평가는 GT·사건 정의를 수정한다. |
+| 01 | f110–240 | 두 사람 접근·만남, 작은 검출 조각 |
+| **02** | f30–85, f95–130 | 정상 이동, 짧은 정지·재연결. f103–124 공백 뒤 f125에서 missing 15는 새 ID 4, 30은 ID 1로 재연결한 관측 |
+| 03 | f355–390, f625–660 | 매장 앞 정지, 뒤 사람과 약한 투영 겹침 |
+| 04 | f65–100 | 매장 출입자와 대기자 합류 |
+| 05 | f90–145 | 만남·방향 전환 |
+| 06 | f90–147 | 접촉·분리, 기본 실행에서 ID 1→3 관측 |
+| 07 | f45–155 | 몸싸움·긴 겹침, 평가 제외 구간 주의 |
+| 08 | f50–145 | 큰 겹침과 누락. ID 변경 0이 성공을 뜻하지 않는 사례 |
+| 09 | f65–192 | 접촉·추격·지속 가림 |
+| 10 | f55–85 | 교차 가림, 작은 배경 사람 |
+| **11** | f40–80, f25–149 | 출입 교차·신체 분리. 기본 실행 f73–77에서 ID 1→4, 4→3 관측 |
+| 12 | 약 27–50초 | 문·외부광 변화. 사건별 GT 없음 |
+| 13 | 약 60–75초·105–115초 | 휴대 조명·바닥 반사. 사건별 GT 없음 |
+| 14 | f812·1853·2188 | 소등·점등·소등. 5 FPS, 수동 근사 bbox |
+| 15 | f158–205 | 기둥 뒤 완전 가림 |
+| 16 | f135–180 | 계단·벽 뒤 가림과 복귀 |
+| **17** | f80–169, f177–256, f205–249, f270–379 | 접근·정지·블라인드 조명 변화·복귀 |
+| **18** | f120–155 | f128 스위치 변화, 손 동작과 조명 변화가 혼합됨 |
+| **19** | f159–273 | 문 앞 정지. 사람이 보여도 전경이 사라짐 |
 
-<a id="o"></a>
-## O. CCTV 대응과 딥러닝 필요성을 설명하는 순서
+정지 19번과 구조물 가림 15·16번을 구분한다. 기본값에서 19번 f180은 다리 조각만 남고 f220에는 박스가 없으며,
+낮은 학습률은 사람과 배경 잔상을 함께 오래 남길 수 있다. 박스 수 감소나 검출 유지 자체가 정확도는 아니다.
 
-1. **B의 11번:** 교차 후 ID가 넘어가는 장면 → 위치 외에 학습된 외형·Re-ID 단서와 사람별 검출이 필요하다.
-2. **E의 19번:** 정지자가 계속 보이는데 박스가 사라지는 장면 → 움직임에만 의존하지 않는 사람 검출이 필요하다.
-3. **F의 17번:** 정지 보존과 조명 적응의 상충 → 다양한 조명·그림자·노출을 포함한 데이터로 환경 변화에 대응해야 한다.
-4. **K의 Jogging:** 확대·SIFT로도 남는 가림 실패 → 다양한 자세·부분 가림을 학습한 표현이 필요하다.
+SIFT 관찰 영상은 다음과 같다. 아래 값은 기존 시연 기록이며 현재 실행에서 다시 확인할 수 있다.
 
-이번 데이터에서 먼저 대비할 CCTV 조건은 출입구 교차·가림이다. 대응은 ID 불확실 상태 관리, 짧은 단절의 유예, 여러 프레임 확인 후 경보, 원영상·로그 보존 순으로 설명한다. 딥러닝 성능 향상을 직접 측정한 것은 아니며 완전 가림·같은 옷·저해상도 문제까지 해결한다고 주장하지 않는다.
+| 입력 | 관찰 구간·기록 | 해석 |
+| --- | --- | --- |
+| `data/matcher/inputs/jogging.mp4` | f32/64/67/139/299의 대응점 2/4/5/2/1, inlier 모두 0. 전체 영상 f0·1·18에서는 인식 | 방향·가림은 육안 근사. 이동 카메라여서 고정 배경 MOG2 대표 평가에 사용하지 않음 |
+| `data/detection/raw/town_centre.mp4` | f5750·5780·5800·5820 인식, f5850은 대응 8/inlier 4로 실패 | f5800은 등록 원본 프레임. 이 성공은 일반화나 장기 Re-ID를 뜻하지 않음 |
 
-## 3. 전체 보유 영상 목록과 사용 우선순위
+Town Centre는 `--target data/detection/inputs/target.png`를 추가한다.
+앞부분 300프레임만 실행하면 위 등록 대상은 나오지 않는다. 영상·파생물은 로컬 전용이다.
 
-길이는 컨테이너의 추정 프레임 수 대신 **실제로 끝까지 읽은 프레임 수/FPS**로 계산했다. 01–03 MPEG는 메타데이터 프레임 수가 부정확하다. 아래 시간은 해당 조건을 보기 좋은 구간이며 모든 구간이 정량 평가창인 것은 아니다.
+## 평가 재현
 
-| 파일 | 실제 프레임 / 길이 | 확인한 장면·관찰 구간 | 적합한 요구·선택 이유 |
-| --- | --- | --- | --- |
-| 01.mpg | 624 / 24.96초 | 두 사람 접근·만남, 4.4–9.6초 f110–240 | B 보조. 약한 겹침과 작은 검출 조각이 많아 11번보다 설명이 복잡하다. |
-| 02.mpg | 612 / 24.48초 | 첫 이동 1.2–3.4초, 짧은 정지·재이동 3.8–5.2초, 두 번째 인물 12.4–17.8초 | **A·D 우선.** 동일인 ID 보존/재발급을 직접 비교하기 좋다. |
-| 03.mpg | 725 / 29초 | 매장 앞 정지 14.2–15.6초, 뒤 인물과 약한 투영 겹침 25–26.4초 | E·B 보조. 완전한 몸통 겹침보다 부분 중첩이며 bbox 분절이 많다. |
-| 04.mp4 | 225 / 9초 | 매장에서 나온 사람과 대기자 합류, 2.6–4초 | B 보조. 이후에도 검출 조각·ID 변경이 많아 첫 시연은 11번이 명료하다. |
-| 05.mp4 | 225 / 9초 | 두 사람이 만나 방향 전환, 3.6–5.8초 | B 보조. 겹침과 검출 누락이 섞인다. |
-| 06.mp4 | 225 / 9초 | 접근·접촉·분리, 3.6–6.1초 | **B의 두 번째 사례.** 접촉 전후 ID 변화를 보기 쉽다. |
-| 07.mp4 | 225 / 9초 | 몸싸움 동작과 긴 겹침, 1.8–6.2초 | 강한 가림 사례. 정량 평가에서 긴 제외 구간이 있어 ID 변경만으로 설명하지 않는다. |
-| 08.mp4 | 225 / 9초 | 크게 겹친 뒤 떨어짐, 2–5.8초 | 누락 사례. 기본 평가의 ID 변경 0이 추적 성공을 뜻하지 않는 반례다. |
-| 09.mp4 | 207 / 8.28초 | 접촉·추격 중 겹침, 2.6–7.7초 | 누락·지속 가림 보조. 선명한 ID 전환 시연에는 11번이 낫다. |
-| 10.mp4 | 150 / 6초 | 검은 옷 보행자의 교차 가림, 2.2–3.4초 | B 보조. 배경 보행자도 있어 대상 구분이 필요하다. |
-| 11.mp4 | 150 / 6초 | 출입 교차 2.1–3.1초, 이후 신체 분절 | **B·C·H·I 우선.** 짧고 교차 전후 인물 구분이 쉽다. |
-| 12.mp4 | 1,500 / 60초 | 문과 외부광, 약 27–50초 | G 보조. HD 조명 변화 사례, 사건별 평가 GT 없음. |
-| 13.mp4 | 3,100 / 124초 | 휴대 조명·바닥 반사, 약 60–75초·105–115초 | G 보조. 이동 광원 사례, 사건별 평가 GT 없음. |
-| 14.mp4 | 2,715 / 543초 | 소등·점등·소등, 162.4·370.6·437.6초 | G 심화. 5 fps·160×120, 발표에는 사전 결과 영상 준비 권장. |
-| 15.mp4 | 250 / 10초 | 단일 보행 후 기둥 뒤 가림, 약 6.3–8.2초 | **J 우선.** 구조물 가림과 정지 흡수를 구별하기 좋다. |
-| 16.mp4 | 250 / 10초 | 계단 이동·벽 뒤 가림·복귀, 약 5.4–7.2초 | J 보조. 큰 신체·난간으로 검출 분절도 보인다. |
-| 17.mp4 | 525 / 21초 | 블라인드 조작·밝기 변화·복귀 | **F 우선.** 한 영상에서 학습률의 양쪽 실패와 정량 근거를 설명한다. |
-| 18.mp4 | 300 / 12초 | 스위치 조작, 5.12초 | **G 우선.** 조명 변화 시점이 짧고 명확하다. |
-| 19.mp4 | 350 / 14초 | 문 앞 접근·정지·재이동, 6.4–10.9초 정지 | **E 우선.** 사람이 보이는데 검출이 사라지는 장면이 명료하다. |
-| matcher/inputs/jogging.mp4 | 307 / 12.28초 | 전봇대 가림·달리기 자세 변화 | **K 전용.** 이동 카메라 장면이므로 고정 배경 MOG2의 대표 평가에는 쓰지 않는다. |
-| detection/raw/town_centre.mp4 | 7,502 / 약 300.04초 | 다수 보행자·상호 가림, 등록 대상 약 230–233초 | **L 전용.** 실제 CCTV와 인식 표시 시연; 전체 인식률·GT 추적 평가는 별도다. |
-
-다른 번호도 기본 동작을 보고 싶으면 A 명령의 파일명만 바꾼다. 기존의 “영상마다 여러 파라미터를 동시에 바꾼 추천값” 대신, 원인을 설명할 때는 이 문서의 한 변수 비교를 먼저 사용한다.
-
-<a id="save"></a>
-## 4. 발표용 결과를 저장해 반복 재생하기
-
-6초 ID Switch 장면을 먼저 저장한다. `--headless`는 화면을 띄우지 않고 처리하며 결과 영상은 원본 FPS로 저장된다.
+모든 측정은 실제 `runner.run()`을 호출한다. 실험별 파일 구조·덮어쓰기는 [결과 안내](../../results/README.md)를 따른다.
 
 ```bash
-python app.py --source data/tracker/inputs/11.mp4 --headless --output results/demo-11-default.mp4 --csv results/demo-11-default.csv
-python app.py --source data/tracker/inputs/11.mp4 --headless --max-distance 80 --output results/demo-11-distance80.mp4 --csv results/demo-11-distance80.csv
+python -m experiments.tracker_metrics --output results/tracking --details
+python -m experiments.learning_rate --output results/learning-rate --details
+python -m experiments.feature_matching --output results/matching --details
 ```
 
-생성된 MP4를 일반 영상 플레이어로 열면 되감기·일시정지해도 **이미 저장된 ID가 바뀌지 않는다**. CSV는 프레임·시간·관측 ID·bbox를 확인하는 용도이며 내부 missing 트랙은 기록하지 않는다. 결과 MP4에는 오버레이가 저장되고, 별도 마스크 창은 저장되지 않는다.
+학습률 픽셀 평가에는 데이터 준비 단계에서 받는 LASIESTA GT 525장이 필요하다.
+현재 SIFT·추적 구현의 새 결과가 과거 ORB·추적 표와 같다고 가정하지 않는다.
 
-14번처럼 긴 영상도 같은 방법으로 사전 처리한다.
+조각 재구성 비교는 같은 기본 설정에서 활성화 여부만 바꾼다. 아래 출력 디렉터리는 새 경로여야 한다.
 
 ```bash
-python app.py --source data/tracker/inputs/14.mp4 --headless --output results/demo-14-lighting.mp4 --csv results/demo-14-lighting.csv
+python -m experiments.fragmentation --config '{"compose_fragments":0}' --output results/fragmentation/baseline
+python -m experiments.fragmentation --config '{"compose_fragments":1}' --output results/fragmentation/candidate
+python -m experiments.fragmentation_compare \
+  --baseline results/fragmentation/baseline --candidate results/fragmentation/candidate \
+  --output results/fragmentation/comparison
+python -m experiments.fragmentation_benchmark --output results/fragmentation/benchmark
+# 개발 세트에서 기각한 OPEN 제거 실험
+python -m experiments.fragmentation --videos 02 10 18 \
+  --config '{"open_kernel_size":1,"compose_fragments":0}' --output results/fragmentation/open-ablation
 ```
 
-설정마다 출력 파일명을 다르게 쓴다. 입력 영상을 잘라 앞부분을 생략한 뒤 새로 추적하면 배경 학습 이력이 바뀌므로 원래 사례 재현과 달라진다.
+GT 없는 고해상도 영상은 정량 정확도와 분리해 수동 검토한다.
+아래는 이번 환경의 실제 원본 파일명이다. 원본 경로가 다르면 `--manual-source`를 바꾼다.
+
+```bash
+python -m experiments.fragmentation \
+  --manual-source data/detection/raw/TownCentreXVID.mp4 --max-frames 300 --speed-repeats 1 \
+  --config '{"compose_fragments":0}' --output results/detection/fragmentation-baseline
+python -m experiments.fragmentation \
+  --manual-source data/detection/raw/TownCentreXVID.mp4 --max-frames 300 --speed-repeats 1 \
+  --config '{"compose_fragments":1}' --output results/detection/fragmentation-candidate
+```

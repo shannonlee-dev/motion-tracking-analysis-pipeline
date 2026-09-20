@@ -21,8 +21,14 @@ class MotionDetector:
         self.kernel = cv2.getStructuringElement(
             cv2.MORPH_ELLIPSE, (self.config.kernel_size, self.config.kernel_size)
         )
+        self.open_kernel = cv2.getStructuringElement(
+            cv2.MORPH_ELLIPSE,
+            (self.config.open_kernel_size, self.config.open_kernel_size),
+        )
         self.frame_count = 0
         self.raw_mask: np.ndarray | None = None
+        self.binary_mask: np.ndarray | None = None
+        self.opened_mask: np.ndarray | None = None
 
     def detect(
         self, frame: np.ndarray
@@ -34,9 +40,11 @@ class MotionDetector:
         mask = cv2.threshold(
             raw, FOREGROUND_THRESHOLD, MASK_MAX_VALUE, cv2.THRESH_BINARY
         )[1]  # binary mask
+        self.binary_mask = mask
         mask = cv2.morphologyEx(
-            mask, cv2.MORPH_OPEN, self.kernel
+            mask, cv2.MORPH_OPEN, self.open_kernel
         )  # remove white noise, opening = erosion + dilation
+        self.opened_mask = mask
         mask = cv2.morphologyEx(
             mask, cv2.MORPH_CLOSE, self.kernel
         )  # closing fills holes

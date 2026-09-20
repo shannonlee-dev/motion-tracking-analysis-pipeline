@@ -3,37 +3,50 @@
 ## 프로젝트 소개
 
 OpenCV MOG2로 움직임을 검출하고 객체 ID·궤적을 추적하는 Python 앱입니다.
-등록 이미지는 SIFT로 전체 프레임에서 찾습니다. 딥러닝은 사용하지 않습니다.
+등록 대상은 별도의 전체 프레임 SIFT 매칭으로 찾습니다. 딥러닝은 사용하지 않습니다.
 
 ## 핵심 특징
 
-| 평가 목적 | 데이터 | 확인 항목 |
-| --- | --- | --- |
-| **Tracker Test** | 01–19: CAVIAR·LASIESTA·조명 영상 | MOG2, bbox, ID·궤적, ID switch·추적 실패, learning rate |
-| **Matcher Test** | OTB Jogging | 앱의 전체 프레임 SIFT 특징점·매칭률·기하 검증, 회전·가림 조건 |
-| **Target Detection Test** | Oxford Town Centre | 실제 앱 전체 프레임 TargetMatcher, 특정 사람 등록, `TARGET DETECTED` 시연 |
+- 웹캠·영상 입력, GUI 타임라인, 마스크 표시, headless 실행, MP4·CSV 저장
+- 추적·학습률·대상 매칭을 실제 앱 경로로 평가하고 측정 근거 보존
+- 전경 조각 재구성 실험 지원. 교차·가림 회귀가 있어 **기본 비활성화**
 
-웹캠·영상, GUI 타임라인, headless 실행, MP4·CSV 저장을 지원합니다.
-`q` 종료, `p` 일시정지·재개, `s` 스냅샷(`results/tracking-snapshots/`). 탐색하면 MOG2와 추적 ID를 초기화합니다.
+현재 구조로 신체 분리·정지·사람 간 겹침을 함께 안정적으로 해결하지 못했습니다.
+측정 결과와 한계는 [분석 보고서](docs/report.md)에 정리했습니다.
 
 ## 아키텍처
 
-```text
-app.py / motion_tracking/     # CLI, 영상 루프, 검출, 추적, 매칭, 화면
-scripts/                     # 데이터 준비 2단계
-datasets/                    # 다운로드·검증·변환·등록 이미지
-experiments/                 # 보고서 정량 결과를 재현하는 최소 실험
-data/{tracker,matcher,detection}/
-  reference/                 # 출처 manifest, 원본 주석, 고정 실험 조건
-  raw/                       # 로컬 원본 다운로드·압축 해제 (Git 제외)
-  inputs/                    # 앱·평가 입력
-  generated/                 # 준비 상태·재구성 이력 (Git 제외)
-results/{tracking,learning-rate,matching,detection}/
-                             # 최신 요약·비교 이미지·실행 정보 (Git 제외)
-docs/                        # 실행 지침, 분석 보고서, 고정 측정 근거(evidence/)
+```mermaid
+flowchart TD
+    Setup["scripts/ + datasets/<br/>데이터 준비·검증"] --> Data["data/<br/>영상·등록 이미지·GT"]
+    Data -- "영상" --> App["app.py → cli.py → runner.run()"]
+    Camera["웹캠"] --> App
+    Config["config.py<br/>기본값·CLI 설정"] --> App
+
+    subgraph Pipeline["motion_tracking/ · 프레임 처리"]
+        Frame["입력 프레임"] --> Motion["motion.py<br/>MOG2 → 이진화 → OPEN/CLOSE → bbox"]
+        Motion --> Compose{"조각 재구성 활성화?"}
+        Compose -- "예" --> Group["tracker.py · compose()<br/>이전 객체 범위로 조각 구성"]
+        Compose -- "아니요 · 기본" --> Track["tracker.py · update()<br/>중심점 대응 → ID·궤적"]
+        Group --> Track
+        Track -. "이전 프레임 bbox" .-> Group
+        Frame --> Match["matching.py + features.py<br/>등록 대상 SIFT 매칭 · 선택"]
+    end
+
+    App --> Frame
+    Data -. "등록 이미지" .-> Match
+    Track --> Output["display.py + runner.py<br/>화면·MP4·CSV"]
+    Match --> Output
+    App -. "프레임별 결과 제공" .-> Eval["experiments/<br/>GT 비교·집계·시각화"]
+    Data -. "GT" .-> Eval
+    Eval --> Results["results/ · 새 실행 결과"]
+    Results -. "검토 후 보존" .-> Evidence["docs/evidence/ · 고정 측정 근거"]
 ```
 
-## 설치
+검출·추적·SIFT는 앱에만 구현합니다. `experiments/`는 같은 `runner.run()`의 결과를 평가합니다.
+SIFT 매칭은 추적 ID와 독립적이며 전경 마스크를 보정하지 않습니다.
+
+## 설치·데이터 준비
 
 Python 3.11 이상. 저장소 루트에서 실행합니다.
 
@@ -41,74 +54,37 @@ Python 3.11 이상. 저장소 루트에서 실행합니다.
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-```
-
-Windows에서는 `.venv\Scripts\activate`로 활성화합니다.
-원본 RAR 재구성에는 OS `libarchive`가 필요합니다.
-기본 준비 명령은 실험에 필요한 원본과 GT까지 다운로드·압축 해제합니다.
-이미 보존된 입력 영상은 검증 후 유지하며, 캐시된 원본은 다시 다운로드하지 않습니다.
-macOS에서 Python의 기본 CA 인증서가 비어 있으면 시스템 인증서 파일을 자동으로 사용합니다.
-직접 지정한 `SSL_CERT_FILE`·`SSL_CERT_DIR` 설정과 SSL 인증서 검증은 유지합니다.
-
-## 데이터 준비
-
-```bash
 python scripts/01_setup_data.py
 python scripts/02_verify_data.py
 ```
 
-첫 단계는 tracker·matcher 데이터를 준비하고 Oxford 입력용 빈 디렉터리를 만듭니다.
-Oxford 데이터는 다운로드하거나 생성하지 않습니다. 사용자가 직접
-`data/detection/raw/town_centre.mp4`와 `data/detection/inputs/target.png`를 배치해야 합니다.
-두 번째는 영상 전체 디코딩, 고정 해시, 주석·출처 일관성, 앱 등록 이미지를 검사합니다.
-오프라인 재검사는 `--offline`, 한 목적만 준비하려면 `--purpose tracker|matcher|detection`을 사용합니다.
-출처·재배포 제한은 [data/NOTICE.md](data/NOTICE.md)를 따릅니다. Oxford 원본·파생물은 로컬 전용입니다.
+Windows 활성화 명령은 `.venv\Scripts\activate`입니다. 원본 RAR 재구성에는 OS `libarchive`가 필요합니다.
+기존 입력은 검증 후 유지하며, tracker·matcher 원본과 평가 GT를 준비합니다.
+오프라인 검사는 `--offline`, 준비 범위는 `--purpose tracker|matcher|detection`으로 지정합니다.
 
-## 앱 실행
+Oxford 영상·등록 이미지는 직접 `data/detection/raw/town_centre.mp4`와
+`data/detection/inputs/target.png`에 배치합니다. 원본·파생물은 로컬 전용이며
+[데이터 출처·사용 조건](data/NOTICE.md)을 따릅니다.
+
+## 실행
 
 ```bash
-python app.py --source data/tracker/inputs/01.mpg --show-mask
-python app.py --source data/detection/raw/town_centre.mp4 --target data/detection/inputs/target.png
+python app.py --source data/tracker/inputs/11.mp4 --show-mask
+python app.py --source data/matcher/inputs/jogging.mp4 --target data/matcher/inputs/target.png
+python app.py --source data/tracker/inputs/11.mp4 --headless --output results/tracking.mp4 --csv results/tracks.csv
 python app.py --help
 ```
 
-화면이 없는 환경에서는 `--headless`를 추가합니다. 처리 FPS는 원본 재생 FPS와 다릅니다.
+`--source 0`은 기본 웹캠입니다. `q` 종료, `p` 일시정지·재개, `s` 스냅샷 저장을 지원합니다.
+타임라인 탐색은 MOG2와 추적 ID를 초기화합니다. 같은 추적 결과를 반복 확인하려면 저장한 MP4를 재생하세요.
+화면 없는 환경에서는 `--headless`를 사용합니다. 출력 경로는 실행마다 다르게 지정하세요.
 
-영상과 프레임별 CSV를 함께 저장하려면 다음처럼 실행합니다.
-
-```bash
-python app.py --source data/tracker/inputs/01.mpg --headless --output results/tracking/output.mp4 --csv results/tracking/tracks.csv
-```
-
-CSV의 `frame`은 0부터 시작하며 `time_s`는 원본 FPS 기준입니다.
-탐색 실패와 카메라 연결 끊김은 오류로 보고합니다. 첫 프레임 처리에 실패하면 기존 CSV를 보존하며,
-처리가 시작된 실행은 지정한 결과 파일을 덮어쓰므로 비교할 결과는 별도 경로에 저장하세요.
-
-## 보고서 실험
-
-```bash
-python -m experiments.tracker_metrics
-python -m experiments.learning_rate
-python -m experiments.feature_matching
-```
-
-`learning_rate` 실험에 필요한 LASIESTA GT 525장은 기본 준비 명령인
-`python scripts/01_setup_data.py`로 함께 저장됩니다.
-위 명령은 tracker 집계, learning-rate/LASIESTA pixel metric, Jogging 특징점 metric을 측정합니다.
-세 실험 모두 CLI와 같은 `motion_tracking.runner.run()`을 실행합니다.
-`experiments/`는 앱이 제공하는 프레임별 추적·SIFT 매칭·마스크를 GT와 비교하고 집계·저장하며,
-자체 검출기·매처·전처리 알고리즘을 만들지 않습니다. 학습률의 원시 라벨도 앱의 동일한 MOG2 모델에서 받습니다.
-추적 설정 비교는 앱을 설정별로 독립 실행합니다.
-Tracker와 Oxford detection의 일반 실행은 위의 `app.py` 명령을 사용합니다. 등록 프레임이 5800이므로 Oxford 영상은 짧은 앞부분만 실행하면 대상이 나오지 않을 수 있습니다.
-
-결과: [results 안내](results/README.md). 실험별 폴더에 `summary.csv`, `comparison.jpg`,
-`metadata.json`을 저장합니다. 매칭 실험은 전체 프레임 SIFT 결과만 저장합니다.
-기본 실행은 중간 데이터를 메모리로 전달하고 최종 파일만 저장합니다.
-`--details`를 추가할 때만 개별 trace·이미지를 `details/`에 저장합니다.
-재실행은 해당 실험의 이전 결과를 교체합니다. 비교할 실행은 `--output /tmp/matching-check`처럼 별도 경로에 저장하세요.
-보고서의 고정 측정 근거는 `docs/evidence/`에 보존하며 새 실행과 섞이지 않습니다.
-과거 ORB/ROI 전처리 비교는 보존 기록이며 현재 실험 명령으로 재실행하지 않습니다.
-[분석 보고서](docs/report.md), [실험별 설정](docs/recipes/tracker.md).
+| 문서 | 내용 |
+| --- | --- |
+| [실행·평가 가이드](docs/recipes/tracker.md) | 설정, 영상별 관찰 구간, 실험 재현 명령 |
+| [분석 보고서](docs/report.md) | 전경 분리 원인, 개선·회귀, 기존 측정, 다음 대안 |
+| [결과 파일 안내](results/README.md) | 출력 구조와 덮어쓰기 동작 |
+| [보존 근거 목록](docs/evidence/README.md) | 고정 CSV·이미지·환경 기록 |
 
 ## 개발 검증
 
@@ -118,4 +94,4 @@ python -m pytest -q
 python -m ruff check .
 ```
 
-단위·회귀 테스트와 실제 데이터 측정 재현은 별개입니다. 추적 실패 집계의 수동 검토 한계는 보고서에 명시했습니다.
+단위·회귀 테스트와 실제 영상의 품질 평가는 별개입니다.

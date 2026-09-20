@@ -1,0 +1,4 @@
+﻿people,predictions,complete,misses,duplicates,fragmented,merges,unmatched,coverage_sum,switches,video,split,evaluated_frames,decoded_frames,fps
+1551,701,355,1067,5,5,190,214,392.5249001501434,6,02,development,586,612,314.78432996014084
+437,335,65,178,62,56,8,40,125.82266037279803,2,10,development,125,150,388.73419686283614
+102,196,73,24,11,11,0,107,70.74602199373857,1,18,development,275,300,414.50513866097316

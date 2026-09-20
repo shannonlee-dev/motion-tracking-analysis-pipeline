@@ -16,6 +16,9 @@ class Config:
     min_area: float = 80.0
     max_area_fraction: float = 0.5
     kernel_size: int = 3
+    open_kernel_size: int = 3
+    # Opt-in: held-out crossings still show false joins (docs/report.md).
+    compose_fragments: int = 0
     warmup_frames: int = 25
 
     # Tracker
@@ -29,7 +32,13 @@ class Config:
                 raise ValueError(f"{field.name} must be finite")
 
         for name in (
-            "history", "kernel_size", "warmup_frames", "max_missing", "trail_length"
+            "history",
+            "kernel_size",
+            "open_kernel_size",
+            "compose_fragments",
+            "warmup_frames",
+            "max_missing",
+            "trail_length",
         ):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, Integral):
@@ -40,6 +49,10 @@ class Config:
 
         if self.kernel_size < 1 or self.kernel_size % 2 == 0:
             raise ValueError("kernel_size must be positive and odd")
+        if self.open_kernel_size < 1 or self.open_kernel_size % 2 == 0:
+            raise ValueError("open_kernel_size must be positive and odd")
+        if self.compose_fragments not in (0, 1):
+            raise ValueError("compose_fragments must be 0 or 1")
 
         if not 0 < self.max_area_fraction <= 1:
             raise ValueError("max_area_fraction must be in (0, 1]")
@@ -69,6 +82,8 @@ CLI_NUMERIC_FIELDS = (
     "min_area",
     "max_distance",
     "kernel_size",
+    "open_kernel_size",
+    "compose_fragments",
     "max_missing",
     "warmup_frames",
 )

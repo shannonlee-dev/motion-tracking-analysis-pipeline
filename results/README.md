@@ -1,27 +1,20 @@
-# 최신 실험 결과
+# 실험 결과 파일
 
-각 폴더에서 요약 CSV와 비교 이미지를 먼저 확인한다. 실행 환경·입력 해시·설정은 `metadata.json`에 기록한다.
+`results/`는 새 실행 결과를 저장하며 Git에서 제외한다.
+재현 명령은 [실행·평가 가이드](../docs/recipes/tracker.md), 해석은 [분석 보고서](../docs/report.md)에 있다.
 
-| 실험 | 요약 | 비교 이미지 | 재실행 |
-| --- | --- | --- | --- |
-| 추적 | [tracking/summary.csv](tracking/summary.csv) | [comparison.jpg](tracking/comparison.jpg) | `python -m experiments.tracker_metrics` |
-| 학습률 | [learning-rate/summary.csv](learning-rate/summary.csv) | [comparison.jpg](learning-rate/comparison.jpg) | `python -m experiments.learning_rate` |
-| 매칭 | [matching/summary.csv](matching/summary.csv) | [comparison.jpg](matching/comparison.jpg) | `python -m experiments.feature_matching` |
-| 대상 검출 | [detection/summary.json](detection/summary.json) | [video.mp4](detection/video.mp4) | 아래 앱 명령 |
+| 실험 | 주요 산출물 | 재실행 동작 |
+| --- | --- | --- |
+| `tracker_metrics`, `learning_rate`, `feature_matching` | `summary.csv`, `comparison.jpg`, `metadata.json`; `--details` 사용 시 상세 파일 | 성공 시 해당 폴더 교체. 실패 시 기존 결과 유지. 기본 모드 재실행은 이전 `details/`도 제거 |
+| `fragmentation` | `summary.csv`, `events.csv`, 영상별 `*_metrics.csv`, `*_stages.csv`, `*_tracks.json`, `*_stages.jpg`, `metadata.json` | 새 출력 폴더 필요 |
+| `fragmentation` · GT 없는 입력 | `manual.csv`, 영상별 단계 화면·진단·trace, `metadata.json` | 정량 정확도 미집계, 수동 검토용 |
+| `fragmentation_compare` | `comparison.csv`, 영상별 비교 화면, `selection.json` | 저장된 전후 trace 비교, 새 출력 폴더 필요 |
+| `fragmentation_benchmark` | `timings.csv`, `metadata.json` | 앱 AB/BA 반복 속도 측정, 새 출력 폴더 필요 |
+| 앱 `--output`, `--csv` | 지정한 MP4·CSV | 처리 시작 후 지정 파일 덮어쓰기 |
 
-```bash
-python app.py --source data/detection/raw/town_centre.mp4 --target data/detection/inputs/target.png --headless --output results/detection/video.mp4
-```
+`metadata.json`은 실행 설정·환경·입력 및 코드 해시를 기록한다.
+조각 평가 trace의 `components`는 검출 조각, `boxes`는 구성 객체, `tracks`는 실제 활성 ID다.
+축소 비교 화면은 탐색용이며 정확한 위치·ID는 trace와 원영상을 함께 확인한다.
 
-대상 검출은 앱의 영상 저장 기능을 사용한다. `summary.json`은 기존 실행의 집계이며 위 명령으로 갱신되지 않는다.
-Oxford 영상과 결과는 로컬 전용이다.
-
-- 기본 실험 결과는 요약·비교 이미지·메타데이터 3개 파일이다. 모든 측정은 앱 실행 함수의 결과이며 매칭은 전체 프레임 SIFT만 평가한다.
-- 세 실험 명령은 `--details`를 지정할 때만 상세 CSV·JSON·개별 이미지를 `details/` 한 단계에 저장한다. 비교 이미지는 탐색용 축소본이며, 정밀한 검토에는 상세 이미지를 사용한다. 공통 실행 정보와 요약은 상위 폴더에만 둔다.
-- 재실행에 성공하면 해당 실험 폴더를 교체한다. 기본 모드로 재실행하면 이전 `details/`도 제거한다. 실패하면 기존 결과를 유지한다.
-- 실행을 별도로 보존하려면 `--output /tmp/matching-check`처럼 다른 경로를 지정한다.
-- 기본 실행의 중간 데이터와 이미지는 메모리로 전달한다. 추적 기록은 영상 한 편씩 처리하고, 비교용 이미지는 축소해서 모은다. 중간 파일을 저장했다 다시 읽지 않는다.
-- 결과 교체용 임시 폴더에는 최종 파일만 작성한다(`--details` 사용 시 상세 파일 포함). 성공 후 실험 폴더로 옮기며, 최신 산출물은 Git에서 제외한다.
-
-과거 보고서 수치와 검토 근거는 [docs/evidence](../docs/evidence/README.md)에 고정 보존한다.
-해석과 측정 한계는 [분석 보고서](../docs/report.md)를 참고한다.
+실행별 출력 경로를 구분하고 [고정 근거](../docs/evidence/README.md)에 직접 덮어쓰지 않는다.
+Oxford 원본·결과는 로컬 전용이다. 과거 `detection/summary.json`은 앱의 영상 저장 명령으로 갱신되지 않는다.

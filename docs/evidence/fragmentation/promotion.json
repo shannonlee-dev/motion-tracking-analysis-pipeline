@@ -1,0 +1,58 @@
+{
+  "default_config": {
+    "learning_rate": 0.01,
+    "history": 500,
+    "var_threshold": 16.0,
+    "min_area": 80.0,
+    "max_area_fraction": 0.5,
+    "kernel_size": 3,
+    "open_kernel_size": 3,
+    "compose_fragments": 0,
+    "warmup_frames": 25,
+    "max_distance": 50,
+    "max_missing": 15,
+    "trail_length": 80
+  },
+  "evaluated_candidate": {
+    "learning_rate": 0.01,
+    "history": 500,
+    "var_threshold": 16.0,
+    "min_area": 80.0,
+    "max_area_fraction": 0.5,
+    "kernel_size": 3,
+    "open_kernel_size": 3,
+    "compose_fragments": 1,
+    "warmup_frames": 25,
+    "max_distance": 50,
+    "max_missing": 15,
+    "trail_length": 80
+  },
+  "decision": "Candidate remains opt-in after held-out false joins and misses; no threshold changes after holdout.",
+  "checks": [
+    "All 17 pre-change baseline active bbox/ID traces exactly reproduced.",
+    "All 17 foreground-stage diagnostics and component counts unchanged by composition."
+  ],
+  "final_source_sha256": {
+    "motion_tracking/__init__.py": "923cd1cbf8bc1d3ecd867d82946531387faa567054cef158874d5d5a105b6507",
+    "motion_tracking/__main__.py": "119f7cfa4a6e863cdf0c0e13efcab0ffd51a371e764bcf8a853bdc885ee338b3",
+    "motion_tracking/cli.py": "72c0ae552f81205c0ae1157aa9f86f27b837eb5e6326153fe1c20ca97978bbf4",
+    "motion_tracking/config.py": "5844d3e02c5460f4b8f6f000942137a921dfa6bd24a25ed4586d1a217f4e6a13",
+    "motion_tracking/constants.py": "2b0491199a181128d832c5a507663131aace01af1a6b5bb687d63422d8535335",
+    "motion_tracking/display.py": "10498b9492f6fdba439ee141bc370170ed92e3324957eef90c43c32f096513dd",
+    "motion_tracking/features.py": "3b7db75161ccbb21c84d18a5d1d6895ae10a1505010dd4a18b9da7e98ebddde4",
+    "motion_tracking/matching.py": "087910a394079efe2c9f8d84ca1b76c11083ac5965fa028953232d54915531b8",
+    "motion_tracking/motion.py": "adc65a996488c613e0be8addfdfa0c045d080b631958382e8325138c4fb38eb9",
+    "motion_tracking/runner.py": "f22c09d5d1de7432897c792b0e13ec021b6cc51538228489782897ef62f625b9",
+    "motion_tracking/tracker.py": "fe56c4e86e3899b23462d80db27fa1da4a79724b4b2586c174fcbb78a7a83b07",
+    "experiments/__init__.py": "6a709128810463e734541ca4acd73f26fcf3daa453ae005dd67e4953898e07fa",
+    "experiments/feature_matching.py": "ed418a71b4d70ce847e4f4a4ae9ef2cf94017428c187d4920294d1902971557f",
+    "experiments/fragmentation.py": "253701c756ac4894ab30faac50c1636174a1d262b2a2b1886939fc9b3da3c91c",
+    "experiments/fragmentation_benchmark.py": "6abae0c8ea5a4a46c4ff89b9e6715a669d6ee1755fd70f8f94b8ce75ceb1bab4",
+    "experiments/fragmentation_compare.py": "de6f3d20d3f5d1a5dd8f5bf80d03a449719015da3e52f24ad2a9352ddd68a6e2",
+    "experiments/learning_rate.py": "04bdd648b4719c155e6951be650b28b117577424996812eb113183f57bce3498",
+    "experiments/measurements.py": "e3c8efa99cb8d0c713fd571b9f0222c48d2534b066d2feee5bc4a334a05ed1da",
+    "experiments/storage.py": "38a184e56851bb837b530c9a4f19ed2d37ae777420972dbb3799c952e932bc93",
+    "experiments/tracker_metrics.py": "7847de38a59815e08b23a2567a4ac6ed6fea8dc4be93080d50fa219e68e3c714",
+    "experiments/tracker_review.py": "bbf358dd608b7aaa7054139228c667b2facf0496a14dfa91db0f45d47f04b25f"
+  }
+}

@@ -44,6 +44,10 @@ class FrameResult:
     tracks: Mapping[int, Track]
     match: MatchResult | None
     target_keypoints: int
+    binary_mask: np.ndarray | None = None
+    opened_mask: np.ndarray | None = None
+    boxes: tuple = ()
+    component_boxes: tuple = ()
 
 
 def _camera_error(source: int, reason: str) -> ValueError:
@@ -201,6 +205,9 @@ def run(
                     break
 
                 boxes, mask = detector.detect(frame)
+                component_boxes = tuple(boxes)
+                if config.compose_fragments:
+                    boxes = tracker.compose(boxes)
                 tracks = tracker.update(boxes)
 
                 match = matcher.match(frame) if matcher else None
@@ -250,6 +257,10 @@ def run(
                             tracks=tracks,
                             match=match,
                             target_keypoints=len(matcher.target_kp) if matcher else 0,
+                            binary_mask=detector.binary_mask,
+                            opened_mask=detector.opened_mask,
+                            boxes=tuple(boxes),
+                            component_boxes=component_boxes,
                         )
                     )
 

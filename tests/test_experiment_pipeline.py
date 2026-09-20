@@ -18,6 +18,8 @@ class AppDetector:
     def detect(self, frame):
         mask = np.zeros(frame.shape[:2], np.uint8)
         mask[:, :16] = 255
+        self.binary_mask = mask
+        self.opened_mask = mask
         return [(0, 0, 16, 24)], mask
 
 

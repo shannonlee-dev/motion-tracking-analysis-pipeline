@@ -34,6 +34,49 @@ class Tracker:
         self.tracks: dict[int, Track] = {}
         self.next_id = 1
 
+    def compose(self, boxes: Iterable[BBox]) -> list[BBox]:
+        """Reassemble observed pieces only inside one recent object's extent.
+
+        Relative gates use the object's scale, not video coordinates. Ambiguous
+        ownership remains unresolved: do not erase boxes or invent a separation.
+        This cannot reconstruct a person never seen whole, or recover absent pixels.
+        """
+        boxes = list(boxes)
+        groups: dict[int, list[int]] = {}
+        for i, (x, y, w, h) in enumerate(boxes):
+            owners = []
+            for tid, track in self.tracks.items():
+                if track.missing > 2:
+                    continue
+                X, Y, W, H = track.bbox
+                # Modest motion tolerance, proportional to the observed person.
+                dx, dy = 0.15 * W, 0.1 * H
+                overlap = max(0, min(x + w, X + W + dx) - max(x, X - dx)) * max(
+                    0, min(y + h, Y + H + dy) - max(y, Y - dy)
+                )
+                if overlap >= 0.8 * w * h:
+                    owners.append(tid)
+            if len(owners) == 1:
+                groups.setdefault(owners[0], []).append(i)
+        consumed, result = set(), []
+        for tid, indices in groups.items():
+            if len(indices) < 2:
+                continue
+            pieces = [boxes[i] for i in indices]
+            x, y = min(b[0] for b in pieces), min(b[1] for b in pieces)
+            w = max(b[0] + b[2] for b in pieces) - x
+            h = max(b[1] + b[3] for b in pieces) - y
+            _, _, W, H = self.tracks[tid].bbox
+            # Prevent unbounded growth and joining side-by-side person-sized boxes.
+            if not (0.65 * W <= w <= 1.3 * W and 0.65 * H <= h <= 1.2 * H):
+                continue
+            if sum(b[2] * b[3] >= 0.5 * W * H for b in pieces) > 1:
+                continue
+            result.append((x, y, w, h))
+            consumed.update(indices)
+        result.extend(b for i, b in enumerate(boxes) if i not in consumed)
+        return sorted(result)
+
     def update(self, boxes: Iterable[BBox]) -> dict[int, Track]:
         boxes = [tuple(map(int, box)) for box in boxes]
         # 검출 결과가 없어도 배열의 형태를 (0, 2)로 유지한다.
