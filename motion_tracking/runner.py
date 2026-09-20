@@ -25,6 +25,29 @@ from motion_tracking.tracker import Track, Tracker
 
 TRACK_CSV_FIELDS = ("frame", "time_s", "track_id", "x", "y", "w", "h", "target_found")
 PAUSED_POLL_MS = 30
+CAMERA_STARTUP_TIMEOUT_SECONDS = 10.0
+CAMERA_RETRY_INTERVAL_SECONDS = 0.1
+
+
+def _camera_error(source: int, reason: str) -> ValueError:
+    return ValueError(
+        f"Camera {source}: {reason}. Check camera permission for your terminal/IDE "
+        "(macOS: System Settings > Privacy & Security > Camera), close other "
+        "apps using the camera, and check the device connection or --source index."
+    )
+
+
+def _read_camera_startup(cap: cv2.VideoCapture, source: int) -> np.ndarray:
+    # An opened camera can still be starting its asynchronous capture session.
+    deadline = time.monotonic() + CAMERA_STARTUP_TIMEOUT_SECONDS
+    while True:
+        ok, frame = cap.read()
+        if ok and frame is not None and frame.size:
+            return frame
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise _camera_error(source, "no frames received during startup")
+        time.sleep(min(CAMERA_RETRY_INTERVAL_SECONDS, remaining))
 
 
 def _validate_output_paths(
@@ -113,6 +136,8 @@ def run(
 
     try:
         if not cap.isOpened():
+            if isinstance(source, int):
+                raise _camera_error(source, "cannot open device")
             raise ValueError(f"Cannot open video source: {source}")
 
         source_fps = cap.get(cv2.CAP_PROP_FPS)
@@ -150,7 +175,12 @@ def run(
                 seeked = True
 
             if not controls.paused or seeked:
-                ok, frame = cap.read()
+                if isinstance(source, int) and processed_frames == 0:
+                    frame = _read_camera_startup(cap, source)
+                    ok = True
+                    tick = time.perf_counter()
+                else:
+                    ok, frame = cap.read()
 
                 if not ok:
                     break
