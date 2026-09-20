@@ -1,0 +1,42 @@
+{
+  "video": "data/tracker/inputs/11.mp4",
+  "sha256": "c16c5a3a4f5276915bfeb308143be0b993204c1b505a248e05e2e34dcedfd510",
+  "opencv": "4.13.0",
+  "python": "3.14.2",
+  "config": {
+    "learning_rate": 0.01,
+    "history": 500,
+    "var_threshold": 16.0,
+    "min_area": 80.0,
+    "max_area_fraction": 0.5,
+    "kernel_size": 3,
+    "warmup_frames": 25,
+    "max_distance": 50,
+    "max_missing": 15,
+    "trail_length": 80
+  },
+  "method": "For each kernel_size 1,3,5 create a fresh MotionDetector, decode from frame 0; aggregate nonzero final-mask pixels and detected boxes over frames 25..149 inclusive. Elliptical open then close; all other settings unchanged.",
+  "results": [
+    {
+      "kernel_size": 1,
+      "frames": 125,
+      "mean_foreground_pixels": 1574.544,
+      "mean_boxes": 2.0,
+      "frames_without_boxes": 0
+    },
+    {
+      "kernel_size": 3,
+      "frames": 125,
+      "mean_foreground_pixels": 1290.568,
+      "mean_boxes": 1.976,
+      "frames_without_boxes": 0
+    },
+    {
+      "kernel_size": 5,
+      "frames": 125,
+      "mean_foreground_pixels": 1061.848,
+      "mean_boxes": 1.824,
+      "frames_without_boxes": 1
+    }
+  ]
+}
