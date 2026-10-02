@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "영상 특징점 매칭·객체 추적·실험 측정을 재현하는 OpenCV 분석 파이프라인"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = ["numpy==2.4.3", "opencv-python==4.13.0.92", "libarchive-c==5.3"]
+dependencies = ["numpy==2.5.3", "opencv-python==5.0.0.93", "libarchive-c==5.3"]
 
 [project.scripts]
 motion-tracking = "motion_tracking.cli:main"
@@ -16,7 +16,7 @@ motion-data-setup = "motion_tracking.datasets.workflow:setup_main"
 motion-data-verify = "motion_tracking.datasets.workflow:verify_main"
 
 [dependency-groups]
-dev = ["pytest>=8,<10", "ruff==0.16.8"]
+dev = ["pytest>=8,<10", "ruff==0.16.9"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/motion_tracking"]
