@@ -6,9 +6,9 @@
 ## 앱 실행과 설정
 
 ```bash
-python app.py --source data/tracker/inputs/11.mp4 --show-mask
-python app.py --source data/tracker/inputs/11.mp4 --headless --output results/demo-11.mp4 --csv results/demo-11.csv
-python app.py --source data/matcher/inputs/jogging.mp4 --target data/matcher/inputs/target.png
+uv run motion-tracking --source data/tracker/inputs/11.mp4 --show-mask
+uv run motion-tracking --source data/tracker/inputs/11.mp4 --headless --output results/demo-11.mp4 --csv results/demo-11.csv
+uv run motion-tracking --source data/matcher/inputs/jogging.mp4 --target data/matcher/inputs/target.png
 ```
 
 | 옵션 | 기본값 | 의미 |
@@ -28,9 +28,9 @@ MOG2 history=500, varThreshold=16, 그림자 검출을 사용하며 contour 면�
 
 ```bash
 # 1·3·5 중 하나를 양쪽에 적용해 형태학 영향 비교
-python app.py --source data/tracker/inputs/11.mp4 --show-mask --open-kernel-size 5 --kernel-size 5
+uv run motion-tracking --source data/tracker/inputs/11.mp4 --show-mask --open-kernel-size 5 --kernel-size 5
 # 조각 재구성 후보
-python app.py --source data/tracker/inputs/19.mp4 --show-mask --compose-fragments 1
+uv run motion-tracking --source data/tracker/inputs/19.mp4 --show-mask --compose-fragments 1
 ```
 
 원인 비교는 한 설정씩 바꾼다. 17번 학습률은 0.001/0.01/0.1, 11번 거리는 50/80,
@@ -88,9 +88,9 @@ Town Centre는 `--target data/detection/inputs/target.png`를 추가한다.
 모든 측정은 실제 `runner.run()`을 호출한다. 실험별 파일 구조·덮어쓰기는 [결과 안내](../../results/README.md)를 따른다.
 
 ```bash
-python -m experiments.tracker_metrics --output results/tracking --details
-python -m experiments.learning_rate --output results/learning-rate --details
-python -m experiments.feature_matching --output results/matching --details
+uv run python -m motion_tracking.experiments.tracker_metrics --output results/tracking --details
+uv run python -m motion_tracking.experiments.learning_rate --output results/learning-rate --details
+uv run python -m motion_tracking.experiments.feature_matching --output results/matching --details
 ```
 
 학습률 픽셀 평가에는 데이터 준비 단계에서 받는 LASIESTA GT 525장이 필요하다.
@@ -99,14 +99,14 @@ python -m experiments.feature_matching --output results/matching --details
 조각 재구성 비교는 같은 기본 설정에서 활성화 여부만 바꾼다. 아래 출력 디렉터리는 새 경로여야 한다.
 
 ```bash
-python -m experiments.fragmentation --config '{"compose_fragments":0}' --output results/fragmentation/baseline
-python -m experiments.fragmentation --config '{"compose_fragments":1}' --output results/fragmentation/candidate
-python -m experiments.fragmentation_compare \
+uv run python -m motion_tracking.experiments.fragmentation --config '{"compose_fragments":0}' --output results/fragmentation/baseline
+uv run python -m motion_tracking.experiments.fragmentation --config '{"compose_fragments":1}' --output results/fragmentation/candidate
+uv run python -m motion_tracking.experiments.fragmentation_compare \
   --baseline results/fragmentation/baseline --candidate results/fragmentation/candidate \
   --output results/fragmentation/comparison
-python -m experiments.fragmentation_benchmark --output results/fragmentation/benchmark
+uv run python -m motion_tracking.experiments.fragmentation_benchmark --output results/fragmentation/benchmark
 # 개발 세트에서 기각한 OPEN 제거 실험
-python -m experiments.fragmentation --videos 02 10 18 \
+uv run python -m motion_tracking.experiments.fragmentation --videos 02 10 18 \
   --config '{"open_kernel_size":1,"compose_fragments":0}' --output results/fragmentation/open-ablation
 ```
 
@@ -114,10 +114,10 @@ GT 없는 고해상도 영상은 정량 정확도와 분리해 수동 검토한�
 아래는 이번 환경의 실제 원본 파일명이다. 원본 경로가 다르면 `--manual-source`를 바꾼다.
 
 ```bash
-python -m experiments.fragmentation \
+uv run python -m motion_tracking.experiments.fragmentation \
   --manual-source data/detection/raw/TownCentreXVID.mp4 --max-frames 300 --speed-repeats 1 \
   --config '{"compose_fragments":0}' --output results/detection/fragmentation-baseline
-python -m experiments.fragmentation \
+uv run python -m motion_tracking.experiments.fragmentation \
   --manual-source data/detection/raw/TownCentreXVID.mp4 --max-frames 300 --speed-repeats 1 \
   --config '{"compose_fragments":1}' --output results/detection/fragmentation-candidate
 ```

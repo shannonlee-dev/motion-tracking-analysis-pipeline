@@ -6,9 +6,9 @@ import json
 import cv2
 import pytest
 
-from datasets.paths import ROOT, TRACKER_REFERENCE
-from experiments.measurements import measure_application_matcher
-from experiments.tracker_metrics import associate, count_runs
+from motion_tracking.datasets.paths import ROOT, TRACKER_REFERENCE
+from motion_tracking.experiments.measurements import measure_application_matcher
+from motion_tracking.experiments.tracker_metrics import associate, count_runs
 from motion_tracking.matching import TargetMatcher
 
 OUT = ROOT / "docs/evidence/tracking"

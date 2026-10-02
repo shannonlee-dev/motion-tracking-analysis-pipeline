@@ -14,9 +14,9 @@ from tempfile import TemporaryDirectory
 import cv2
 import numpy as np
 
-from datasets.paths import RESULTS, ROOT
-from datasets.storage import sha256
 from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.datasets.paths import RESULTS, ROOT
+from motion_tracking.datasets.storage import sha256
 
 
 def initialize_reproducibility() -> None:

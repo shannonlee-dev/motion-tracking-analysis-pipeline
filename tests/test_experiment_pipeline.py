@@ -3,8 +3,8 @@
 import cv2
 import numpy as np
 
-from experiments import learning_rate, measurements
 from motion_tracking import runner
+from motion_tracking.experiments import learning_rate, measurements
 from motion_tracking.matching import MatchResult
 
 

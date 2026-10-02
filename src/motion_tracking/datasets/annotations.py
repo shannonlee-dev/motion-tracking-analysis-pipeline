@@ -8,8 +8,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from datasets.paths import ROOT, TRACKER, TRACKER_REFERENCE
-from datasets.storage import write_json
+from motion_tracking.datasets.paths import ROOT, TRACKER, TRACKER_REFERENCE
+from motion_tracking.datasets.storage import write_json
 
 
 def parse(p: Path, offset: int = 0) -> dict[int, dict[str, list[float]]]:

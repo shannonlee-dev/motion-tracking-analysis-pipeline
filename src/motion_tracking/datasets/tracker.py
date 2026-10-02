@@ -7,9 +7,15 @@ from pathlib import Path
 
 import cv2
 
-from datasets.media import convert_bmps
-from datasets.paths import ROOT, TRACKER
-from datasets.storage import download, extract, sha256, verify, write_json
+from motion_tracking.datasets.media import convert_bmps
+from motion_tracking.datasets.paths import ROOT, TRACKER
+from motion_tracking.datasets.storage import (
+    download,
+    extract,
+    sha256,
+    verify,
+    write_json,
+)
 
 
 def records(name: str) -> list[dict]:

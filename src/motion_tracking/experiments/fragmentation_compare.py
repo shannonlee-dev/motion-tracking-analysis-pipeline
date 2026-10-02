@@ -8,8 +8,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from datasets.paths import TRACKER_REFERENCE, tracker_input
-from experiments.storage import write_csv
+from motion_tracking.datasets.paths import TRACKER_REFERENCE, tracker_input
+from motion_tracking.experiments.storage import write_csv
 
 
 def read_rows(path):

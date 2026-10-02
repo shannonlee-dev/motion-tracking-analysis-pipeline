@@ -6,9 +6,15 @@ from pathlib import Path
 
 import cv2
 
-from datasets import detection, jogging, tracker
-from datasets.paths import DETECTION, MATCHER, ROOT, TRACKER, tracker_input
-from datasets.storage import sha256, write_json
+from motion_tracking.datasets import detection, jogging, tracker
+from motion_tracking.datasets.paths import (
+    DETECTION,
+    MATCHER,
+    ROOT,
+    TRACKER,
+    tracker_input,
+)
+from motion_tracking.datasets.storage import sha256, write_json
 from motion_tracking.matching import TargetMatcher
 
 
@@ -107,7 +113,7 @@ def verify_data(*, purpose: str = "all") -> dict:
             (TRACKER / "raw/caviar" / r["gt_file"]).exists()
             for r in tracker.records("overlap")
         ):
-            from datasets.annotations import rebuild
+            from motion_tracking.datasets.annotations import rebuild
 
             rebuilt = TRACKER / "generated/annotations"
             rebuild(rebuilt)
@@ -154,8 +160,18 @@ def main(stage: str) -> None:
     try:
         if stage == "setup":
             setup(**args)
-            print("Data ready; run scripts/02_verify_data.py")
+            print("Data ready; run motion-data-verify")
         else:
             print(json.dumps(verify_data(**args), indent=2))
     except (OSError, ValueError, cv2.error) as error:
         parser.exit(2, f"Error: {error}\n")
+
+
+def setup_main() -> None:
+    """Run dataset preparation through the installed command."""
+    main("setup")
+
+
+def verify_main() -> None:
+    """Run dataset verification through the installed command."""
+    main("verify")

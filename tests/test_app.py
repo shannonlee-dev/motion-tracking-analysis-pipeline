@@ -2,6 +2,7 @@ import csv
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -262,7 +263,15 @@ def test_timeline_updates_an_adjacent_frame_while_paused(tmp_path, monkeypatch):
     assert run(str(source))["frames"] == 2
 
 
-@pytest.mark.parametrize("entrypoint", [None, ["app.py"], ["-m", "motion_tracking"]])
+@pytest.mark.parametrize(
+    "entrypoint",
+    [
+        None,
+        [str(Path(sys.executable).with_name("motion-tracking"))],
+        ["-m", "motion_tracking"],
+    ],
+)
+@pytest.mark.smoke
 def test_headless_video_roundtrip(tmp_path, entrypoint):
     source, output, trace = (
         tmp_path / "input.avi",
@@ -345,7 +354,13 @@ def test_export_paths_cannot_destroy_inputs_or_each_other(tmp_path):
     assert target.read_bytes() == b"original target"
 
 
-@pytest.mark.parametrize("entrypoint", [["app.py"], ["-m", "motion_tracking"]])
+@pytest.mark.parametrize(
+    "entrypoint",
+    [
+        [str(Path(sys.executable).with_name("motion-tracking"))],
+        ["-m", "motion_tracking"],
+    ],
+)
 @pytest.mark.parametrize("option", ["--snapshot-dir", "--predict-velocity"])
 def test_removed_cli_options_are_rejected(entrypoint, option):
     result = subprocess.run(
@@ -356,7 +371,13 @@ def test_removed_cli_options_are_rejected(entrypoint, option):
     assert "Traceback" not in result.stderr
 
 
-@pytest.mark.parametrize("entrypoint", [["app.py"], ["-m", "motion_tracking"]])
+@pytest.mark.parametrize(
+    "entrypoint",
+    [
+        [str(Path(sys.executable).with_name("motion-tracking"))],
+        ["-m", "motion_tracking"],
+    ],
+)
 def test_invalid_cli_config_returns_clean_error(entrypoint):
     result = subprocess.run(
         [sys.executable, *entrypoint, "--headless", "--learning-rate", "2"],

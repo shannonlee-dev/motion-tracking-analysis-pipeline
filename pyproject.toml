@@ -1,9 +1,34 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "motion-tracking-analysis-pipeline"
+version = "0.1.0"
+description = "영상 특징점 매칭·객체 추적·실험 측정을 재현하는 OpenCV 분석 파이프라인"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["numpy==2.4.3", "opencv-python==4.13.0.92", "libarchive-c==5.3"]
+
+[project.scripts]
+motion-tracking = "motion_tracking.cli:main"
+motion-data-setup = "motion_tracking.datasets.workflow:setup_main"
+motion-data-verify = "motion_tracking.datasets.workflow:verify_main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "ruff==0.16.8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/motion_tracking"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --import-mode=importlib"
+markers = ["smoke: 외부 서비스·원본 데이터 변경 없이 주요 실행 경로 검증"]
+
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I"]
-
-[tool.ruff.lint.per-file-ignores]
-"scripts/*.py" = ["E402"]

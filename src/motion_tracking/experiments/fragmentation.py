@@ -14,9 +14,13 @@ from statistics import median
 import cv2
 import numpy as np
 
-from datasets.paths import TRACKER_REFERENCE, tracker_input
-from experiments.storage import environment, initialize_reproducibility, write_csv
 from motion_tracking.config import Config
+from motion_tracking.datasets.paths import TRACKER_REFERENCE, tracker_input
+from motion_tracking.experiments.storage import (
+    environment,
+    initialize_reproducibility,
+    write_csv,
+)
 from motion_tracking.runner import run
 
 # Freeze at video level before experimenting. No adjacent-frame holdout.

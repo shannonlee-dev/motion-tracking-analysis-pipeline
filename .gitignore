@@ -41,3 +41,8 @@ data/detection/raw/*
 !data/detection/inputs/
 data/detection/inputs/*
 !data/detection/inputs/.gitkeep
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

@@ -110,7 +110,9 @@ def test_failed_startup_preserves_existing_csv(camera, tmp_path, source):
     assert trace.read_text() == "previous results\n"
 
 
-def test_failed_seek_does_not_export_incorrect_frame_numbers(camera, monkeypatch, tmp_path):
+def test_failed_seek_does_not_export_incorrect_frame_numbers(
+    camera, monkeypatch, tmp_path
+):
     capture = camera([np.zeros((24, 32, 3), np.uint8)] * 2)
     monkeypatch.setattr(capture, "set", lambda *_: False, raising=False)
     monkeypatch.setenv("DISPLAY", ":test")

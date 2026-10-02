@@ -27,7 +27,7 @@ def test_app_exposes_segmentation_stages(tmp_path):
 
 
 def test_quality_rejects_a_leg_and_counts_leftovers_and_merges():
-    from experiments.fragmentation import quality
+    from motion_tracking.experiments.fragmentation import quality
 
     gt = {"a": (0, 0, 20, 100), "b": (25, 0, 20, 100)}
     leg = quality(gt, {1: (0, 70, 20, 30)})

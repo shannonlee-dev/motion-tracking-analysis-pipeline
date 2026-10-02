@@ -10,16 +10,16 @@ import cv2
 import numpy as np
 import pytest
 
-from datasets import detection, tracker
-from datasets.paths import ROOT, tracker_input
-from datasets.storage import download, extract, sha256, verify
+from motion_tracking.datasets import detection, tracker
+from motion_tracking.datasets.paths import ROOT, tracker_input
+from motion_tracking.datasets.storage import download, extract, sha256, verify
 
 
 def test_download_uses_macos_ca_when_python_has_no_certificates(tmp_path, monkeypatch):
     from io import BytesIO
     from pathlib import Path
 
-    from datasets import storage
+    from motion_tracking.datasets import storage
 
     if not Path("/etc/ssl/cert.pem").is_file():
         pytest.skip("macOS system CA bundle is not available")
@@ -63,7 +63,7 @@ def test_cached_download_is_pinned_and_idempotent(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize("variable", ["SSL_CERT_FILE", "SSL_CERT_DIR"])
 def test_download_preserves_explicit_ca_configuration(monkeypatch, variable):
-    from datasets.storage import download_ssl_context
+    from motion_tracking.datasets.storage import download_ssl_context
 
     monkeypatch.setattr(sys, "platform", "darwin")
     monkeypatch.setenv(variable, "/custom/trust")
@@ -103,8 +103,10 @@ def test_zip_extraction_is_safe_and_idempotent(tmp_path):
 
 
 @pytest.mark.parametrize("offline", [False, True])
-def test_tracker_setup_prepares_gt_even_when_video_exists(tmp_path, monkeypatch, offline):
-    from datasets import workflow
+def test_tracker_setup_prepares_gt_even_when_video_exists(
+    tmp_path, monkeypatch, offline
+):
+    from motion_tracking.datasets import workflow
 
     directory = tmp_path / "data/tracker"
     video = directory / "inputs/17.mp4"
@@ -170,7 +172,7 @@ def test_detection_prepare_creates_only_placeholder_directories(tmp_path, monkey
 def test_detection_setup_succeeds_without_manually_supplied_files(
     tmp_path, monkeypatch
 ):
-    from datasets import workflow
+    from motion_tracking.datasets import workflow
 
     directory = tmp_path / "data/detection"
     monkeypatch.setattr(detection, "DETECTION", directory)
@@ -183,10 +185,8 @@ def test_detection_setup_succeeds_without_manually_supplied_files(
     assert prepared == []
 
 
-def test_detection_verify_explains_where_to_place_manual_inputs(
-    tmp_path, monkeypatch
-):
-    from datasets import workflow
+def test_detection_verify_explains_where_to_place_manual_inputs(tmp_path, monkeypatch):
+    from motion_tracking.datasets import workflow
 
     directory = tmp_path / "data/detection"
     monkeypatch.setattr(detection, "DETECTION", directory)
@@ -230,9 +230,7 @@ def test_detection_verify_rejects_changed_manual_inputs(tmp_path, monkeypatch):
         detection.verify_inputs()
 
 
-@pytest.mark.parametrize(
-    "script", ["01_setup_data.py", "02_verify_data.py"]
-)
+@pytest.mark.parametrize("script", ["01_setup_data.py", "02_verify_data.py"])
 def test_script_help_works_outside_repository(tmp_path, script):
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / script), "--help"],
@@ -243,8 +241,15 @@ def test_script_help_works_outside_repository(tmp_path, script):
     assert result.returncode == 0, result.stderr
 
 
+def test_explicit_workspace_selects_data_for_installed_package(tmp_path, monkeypatch):
+    from motion_tracking.datasets.paths import workspace_root
+
+    monkeypatch.setenv("MOTION_TRACKING_ROOT", str(tmp_path))
+    assert workspace_root() == tmp_path
+
+
 def test_workflow_rejects_unknown_stage():
-    from datasets.workflow import main
+    from motion_tracking.datasets.workflow import main
 
     with pytest.raises(ValueError, match="Unknown workflow stage"):
         main("prepare")
@@ -253,7 +258,7 @@ def test_workflow_rejects_unknown_stage():
 def test_learning_rate_fails_before_output_without_raw_ground_truth(
     tmp_path, monkeypatch
 ):
-    from experiments import learning_rate
+    from motion_tracking.experiments import learning_rate
 
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(learning_rate, "TRACKER", tmp_path / "tracker")
@@ -273,7 +278,7 @@ def test_all_pinned_public_inputs_match_manifest():
 def test_missing_tracker_video_reconstructs_then_skips_writes(
     tmp_path, monkeypatch, same_encoder
 ):
-    from datasets.media import convert_bmps
+    from motion_tracking.datasets.media import convert_bmps
 
     root = tmp_path
     directory = root / "data/tracker"
@@ -324,7 +329,7 @@ def test_missing_tracker_video_reconstructs_then_skips_writes(
 
 
 def test_readiness_rejects_incomplete_known_sequence(tmp_path):
-    from datasets.workflow import check_video
+    from motion_tracking.datasets.workflow import check_video
 
     path = tmp_path / "short.avi"
     writer = cv2.VideoWriter(str(path), cv2.VideoWriter_fourcc(*"MJPG"), 25, (32, 24))

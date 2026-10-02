@@ -1,8 +1,8 @@
 """Measure full-frame SIFT matching through the application runner."""
 
-from datasets.paths import MATCHER
-from experiments.measurements import measure_application_matcher
-from experiments.storage import (
+from motion_tracking.datasets.paths import MATCHER
+from motion_tracking.experiments.measurements import measure_application_matcher
+from motion_tracking.experiments.storage import (
     environment,
     publish_results,
     result_arguments,

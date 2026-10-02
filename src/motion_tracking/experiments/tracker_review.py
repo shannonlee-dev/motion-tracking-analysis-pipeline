@@ -5,7 +5,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from datasets.paths import TRACKER
+from motion_tracking.datasets.paths import TRACKER
 
 
 def render_review(name, tracks, events, truth, counted, details: Path | None = None):

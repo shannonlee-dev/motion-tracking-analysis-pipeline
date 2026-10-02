@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 import pytest
 
-from experiments import storage
+from motion_tracking.experiments import storage
 
 
 def test_compact_export_and_details_replacement(tmp_path):
@@ -75,7 +75,7 @@ def test_comparison_keeps_tall_observation_sheets_readable(tmp_path):
 def test_matching_default_does_not_write_intermediate_files(tmp_path, monkeypatch):
     from pathlib import Path
 
-    from experiments import feature_matching
+    from motion_tracking.experiments import feature_matching
 
     written = []
     original = Path.open
@@ -109,7 +109,7 @@ def test_matching_default_does_not_write_intermediate_files(tmp_path, monkeypatc
 
 
 def test_matching_details_preserve_compact_measurements(tmp_path):
-    from experiments import feature_matching
+    from motion_tracking.experiments import feature_matching
 
     compact, detailed = tmp_path / "compact", tmp_path / "detailed"
     feature_matching.main(["--output", str(compact)])
@@ -123,7 +123,7 @@ def test_matching_details_preserve_compact_measurements(tmp_path):
 
 
 def test_missing_tracking_video_cannot_publish_partial_summary(tmp_path, monkeypatch):
-    from experiments import tracker_metrics
+    from motion_tracking.experiments import tracker_metrics
 
     # Other modules still point to the real dataset: validation must check the
     # declared tracker input root before starting any measurement.

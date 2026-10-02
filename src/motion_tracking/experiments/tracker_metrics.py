@@ -2,8 +2,8 @@
 
 import json
 
-from datasets.paths import TRACKER, TRACKER_REFERENCE
-from experiments.storage import write_csv
+from motion_tracking.datasets.paths import TRACKER, TRACKER_REFERENCE
+from motion_tracking.experiments.storage import write_csv
 
 
 def iou(a, b):
@@ -192,15 +192,15 @@ def summarize(events, all_results):
 
 
 def main(argv: list[str] | None = None) -> None:
-    from experiments.measurements import measure_tracks
-    from experiments.storage import (
+    from motion_tracking.experiments.measurements import measure_tracks
+    from motion_tracking.experiments.storage import (
         environment,
         initialize_reproducibility,
         publish_results,
         result_arguments,
         result_directory,
     )
-    from experiments.tracker_review import render_review
+    from motion_tracking.experiments.tracker_review import render_review
 
     args = result_arguments("tracking", argv)
     initialize_reproducibility()

@@ -4,9 +4,13 @@ import argparse
 import json
 from pathlib import Path
 
-from datasets.paths import tracker_input
-from experiments.storage import environment, initialize_reproducibility, write_csv
 from motion_tracking.config import Config
+from motion_tracking.datasets.paths import tracker_input
+from motion_tracking.experiments.storage import (
+    environment,
+    initialize_reproducibility,
+    write_csv,
+)
 from motion_tracking.runner import run
 
 

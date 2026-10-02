@@ -7,8 +7,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from datasets.paths import MATCHER
-from datasets.storage import atomic_bytes, download, extract, verify
+from motion_tracking.datasets.paths import MATCHER
+from motion_tracking.datasets.storage import atomic_bytes, download, extract, verify
 
 INPUTS = MATCHER / "inputs"
 SOURCE = MATCHER / "reference/Jogging"
@@ -88,7 +88,7 @@ def load_sequence() -> tuple[list[Path], np.ndarray, list[np.ndarray]]:
 
 
 def prepare(*, offline: bool = False) -> None:
-    from datasets.paths import ROOT
+    from motion_tracking.datasets.paths import ROOT
 
     integrity = json.loads((ASSETS / "input_integrity.json").read_text())
     source_records = [r for r in integrity if "/reference/Jogging/" in r["path"]]

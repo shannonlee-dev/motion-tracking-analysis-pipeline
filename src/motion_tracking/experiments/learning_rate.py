@@ -6,10 +6,14 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from datasets.paths import TRACKER
-from experiments.storage import environment, initialize_reproducibility, write_csv
 from motion_tracking import runner
 from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.datasets.paths import TRACKER
+from motion_tracking.experiments.storage import (
+    environment,
+    initialize_reproducibility,
+    write_csv,
+)
 
 
 def validate_inputs() -> None:
@@ -19,7 +23,7 @@ def validate_inputs() -> None:
         raise ValueError(
             "Learning-rate ground truth is missing.\n"
             "Run:\n"
-            "python scripts/01_setup_data.py --purpose tracker"
+            "uv run motion-data-setup --purpose tracker"
         )
     gt_paths = sorted(gt_directory.glob("*.png"))
     if len(gt_paths) != 525:
@@ -27,7 +31,7 @@ def validate_inputs() -> None:
             "Learning-rate ground truth must contain exactly 525 frames; "
             f"found {len(gt_paths)}.\n"
             "Run:\n"
-            "python scripts/01_setup_data.py --purpose tracker"
+            "uv run motion-data-setup --purpose tracker"
         )
     for path in (gt_paths[0], gt_paths[-1]):
         if cv2.imread(str(path)) is None:
@@ -141,7 +145,11 @@ def run(details: Path | None = None):
 
 
 def main(argv: list[str] | None = None) -> None:
-    from experiments.storage import publish_results, result_arguments, result_directory
+    from motion_tracking.experiments.storage import (
+        publish_results,
+        result_arguments,
+        result_directory,
+    )
 
     args = result_arguments("learning-rate", argv)
     validate_inputs()

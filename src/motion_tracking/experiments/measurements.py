@@ -4,11 +4,11 @@ import json
 from dataclasses import replace
 from pathlib import Path
 
-from datasets.jogging import SELECTIONS, write_image
-from datasets.paths import MATCHER
-from experiments.storage import initialize_reproducibility, write_csv
 from motion_tracking import runner
 from motion_tracking.config import DEFAULT_CONFIG
+from motion_tracking.datasets.jogging import SELECTIONS, write_image
+from motion_tracking.datasets.paths import MATCHER
+from motion_tracking.experiments.storage import initialize_reproducibility, write_csv
 
 
 def measure_application_matcher(details: Path | None = None):

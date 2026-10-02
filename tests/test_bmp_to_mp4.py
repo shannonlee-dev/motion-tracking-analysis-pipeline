@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pytest
 
-from datasets.media import convert_bmps
+from motion_tracking.datasets.media import convert_bmps
 
 
 def write_bmp(path, bgr):

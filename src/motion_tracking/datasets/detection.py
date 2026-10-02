@@ -2,8 +2,8 @@
 
 import json
 
-from datasets.paths import DETECTION
-from datasets.storage import verify
+from motion_tracking.datasets.paths import DETECTION
+from motion_tracking.datasets.storage import verify
 
 
 def prepare() -> None:
